@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.digikala.navigation.BottomNavigationBar
 import com.example.digikala.navigation.SetUpNavGraph
 import com.example.digikala.ui.theme.DigikalaTheme
 
@@ -25,7 +26,12 @@ class MainActivity : ComponentActivity() {
 
                 Scaffold(
                     bottomBar = {
-                        // TODO
+                        BottomNavigationBar(
+                            navController = navController,
+                            onIconClick = {
+                                navController.navigate(it.route)
+                            }
+                        )
                     }
                 ) {
                     SetUpNavGraph(navController)

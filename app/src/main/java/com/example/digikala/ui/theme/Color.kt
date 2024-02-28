@@ -1,5 +1,8 @@
 package com.example.digikala.ui.theme
 
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.ColorScheme
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 val Purple80 = Color(0xFFD0BCFF)
@@ -11,4 +14,15 @@ val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
 
 
-val splashBg = Color(0xFFed1b34)
+val ColorScheme.splashBg: Color
+    @Composable
+    get() = Color(0xFFed1b34)
+
+val ColorScheme.selectedBottomBar: Color
+    @Composable
+    get() = if(isSystemInDarkTheme()) Color(0xFFCFD4DA) else Color(0xFF43474C)
+
+
+val ColorScheme.unSelectedBottomBar: Color
+    @Composable
+    get() = if(isSystemInDarkTheme()) Color(0xFF575A5E) else Color(0xFFA4A1A1)
