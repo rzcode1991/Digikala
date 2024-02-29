@@ -89,7 +89,7 @@ dependencies {
     /*ksp("com.google.dagger:hilt-android-compiler:2.48")
     ksp ("androidx.hilt:hilt-compiler:1.2.0")*/
     implementation ("androidx.hilt:hilt-navigation-compose:1.2.0")
-    ksp ("com.google.dagger:dagger-compiler:2.48") // Dagger compiler
+    /*ksp ("com.google.dagger:dagger-compiler:2.48") // Dagger compiler*/
     ksp ("com.google.dagger:hilt-compiler:2.48")   // Hilt compiler
 
     //compose navigation
