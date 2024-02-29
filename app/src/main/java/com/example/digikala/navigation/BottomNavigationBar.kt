@@ -1,5 +1,6 @@
 package com.example.digikala.navigation
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -14,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -36,28 +38,28 @@ fun BottomNavigationBar(
 
     val items = listOf(
         BottomNavItem(
-            name = "Home",
+            name = stringResource(id = R.string.home),
             route = Screen.Home.route,
-            selectedIcon = painterResource(id = R.drawable.digi_logo),
-            deSelectedIcon = painterResource(id = R.drawable.digi_logo)
+            selectedIcon = painterResource(id = R.drawable.home_fill),
+            deSelectedIcon = painterResource(id = R.drawable.home_outline)
         ),
         BottomNavItem(
-            name = "Category",
+            name = stringResource(id = R.string.category),
             route = Screen.Category.route,
-            selectedIcon = painterResource(id = R.drawable.digi_logo),
-            deSelectedIcon = painterResource(id = R.drawable.digi_logo)
+            selectedIcon = painterResource(id = R.drawable.category_fill),
+            deSelectedIcon = painterResource(id = R.drawable.category_outline)
         ),
         BottomNavItem(
-            name = "Basket",
+            name = stringResource(id = R.string.basket),
             route = Screen.Basket.route,
-            selectedIcon = painterResource(id = R.drawable.digi_logo),
-            deSelectedIcon = painterResource(id = R.drawable.digi_logo)
+            selectedIcon = painterResource(id = R.drawable.cart_fill),
+            deSelectedIcon = painterResource(id = R.drawable.cart_outline)
         ),
         BottomNavItem(
-            name = "Profile",
+            name = stringResource(id = R.string.my_digikala),
             route = Screen.Profile.route,
-            selectedIcon = painterResource(id = R.drawable.digi_logo),
-            deSelectedIcon = painterResource(id = R.drawable.digi_logo)
+            selectedIcon = painterResource(id = R.drawable.user_fill),
+            deSelectedIcon = painterResource(id = R.drawable.user_outline)
         )
     )
 
@@ -81,7 +83,8 @@ fun BottomNavigationBar(
                         selectedIconColor = MaterialTheme.colorScheme.selectedBottomBar,
                         selectedTextColor = MaterialTheme.colorScheme.selectedBottomBar,
                         unselectedIconColor = MaterialTheme.colorScheme.unSelectedBottomBar,
-                        unselectedTextColor = MaterialTheme.colorScheme.unSelectedBottomBar
+                        unselectedTextColor = MaterialTheme.colorScheme.unSelectedBottomBar,
+                        indicatorColor = Color.White
                     ),
                     icon = {
                         Column(
