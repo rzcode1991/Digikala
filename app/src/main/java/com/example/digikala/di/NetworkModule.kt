@@ -1,6 +1,6 @@
 package com.example.digikala.di
 
-import com.example.digikala.data.network.ApiInterface
+import com.example.digikala.data.network.HomeApiInterface
 import com.example.digikala.utils.Constants.BASE_URL
 import com.example.digikala.utils.Constants.TIMEOUT_SECONDS
 import dagger.Module
@@ -42,11 +42,6 @@ object NetworkModule {
         .addConverterFactory(GsonConverterFactory.create())
         .client(client)
         .build()
-
-    @Provides
-    @Singleton
-    fun provideApiInterface(retrofit: Retrofit): ApiInterface =
-        retrofit.create(ApiInterface::class.java)
 
 
 }
