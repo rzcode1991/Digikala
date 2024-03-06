@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
@@ -36,43 +37,48 @@ fun Home(
     viewModel: HomeViewModel = hiltViewModel()
 ){
 
-    Column(
-        modifier = Modifier
-            .background(Color.White)
-            .fillMaxSize()
+    LaunchedEffect(true){
+        getDataFromServer(viewModel)
+    }
+
+    SwipeRefreshSection(viewModel, navController)
+
+}
+
+
+@Composable
+fun SwipeRefreshSection(
+    viewModel: HomeViewModel,
+    navController: NavHostController
+){
+    val refreshState = rememberSwipeRefreshState(isRefreshing = false)
+    val refreshScope = rememberCoroutineScope()
+    SwipeRefresh(
+        state = refreshState,
+        onRefresh = {
+            refreshScope.launch {
+                getDataFromServer(viewModel)
+            }
+        }
     ) {
 
-        val refreshState = rememberSwipeRefreshState(isRefreshing = false)
-        val refreshScope = rememberCoroutineScope()
-        SwipeRefresh(
-            state = refreshState,
-            onRefresh = {
-                refreshScope.launch {
-                    Log.e("refresh scope:::", "::: is refreshing")
-                }
-            }
-        ) {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+        ){
 
-            Column(
-                modifier = Modifier
-                    .background(Color.White)
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-                    .padding(bottom = 60.dp)
-            ) {
-
-                LaunchedEffect(true){
-                    viewModel.getSlider()
-                }
-
+            item{
                 SearchBarSection()
-
+            }
+            item{
                 TopSliderSection()
-
             }
 
         }
 
     }
+}
 
+private suspend fun getDataFromServer(viewModel: HomeViewModel){
+    viewModel.getSlider()
 }
