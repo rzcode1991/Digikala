@@ -42,7 +42,7 @@ import kotlinx.coroutines.delay
 
 @Suppress("DEPRECATION")
 @Composable
-fun TopSlider(
+fun TopSliderSection(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
 
