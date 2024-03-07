@@ -13,4 +13,13 @@ object Constants {
 
     var USER_LANGUAGE = "USER_LANGUAGE"
 
+    const val DIGI_JET_URL = "https://www.digikalajet.com/user/address"
+    const val DIGI_STYLE_URL = "https://www.digistyle.com/sale-landing/?utm_source=digikala&utm_medium=circle_badge&utm_campaign=style&promo_name=style&promo_position=circle_badge"
+    const val DIGI_PAY_URL = "https://www.digikala.com/my-digipay/?promo_name=my-digipay&promo_position=circle_badge"
+    const val PINADO_URL = "https://www.pindo.ir/?utm_source=digikala&utm_medium=circle_badge&utm_campaign=pindo&promo_name=pindo&promo_position=circle_badge"
+    const val GIFT_CARD_URL = "https://www.digikala.com/landing/gift-card-landing/?promo_name=gift_landing&promo_position=circle_badge"
+    const val DIGI_PLUS_URL = "https://www.digikala.com/plus/landing/?promo_name=plus&promo_position=circle_badge"
+    const val SHOPPING_URL = "https://www.digikala.com/landings/village-businesses/?promo_name=boomi-landing&promo_position=circle_badge"
+    const val MORE_URL = "https://www.digikala.com/mehr/?promo_name=mehr&promo_position=circle_badge"
+
 }

@@ -13,9 +13,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.example.digikala.utils.Constants
+import com.example.digikala.utils.LocaleUtils
 import com.example.digikala.viewModel.HomeViewModel
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
@@ -36,6 +39,8 @@ fun Home(
     navController: NavHostController,
     viewModel: HomeViewModel = hiltViewModel()
 ){
+
+    LocaleUtils.setLocale(LocalContext.current, Constants.USER_LANGUAGE)
 
     LaunchedEffect(true){
         getDataFromServer(viewModel)
@@ -72,6 +77,9 @@ fun SwipeRefreshSection(
             }
             item{
                 TopSliderSection()
+            }
+            item{
+                ShowCaseSection(navController)
             }
 
         }
