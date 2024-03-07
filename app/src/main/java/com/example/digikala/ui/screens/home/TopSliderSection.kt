@@ -57,7 +57,6 @@ fun TopSliderSection(
     when (sliderResult) {
         is NetworkResult.Success -> {
             sliderList = sliderResult.data ?: emptyList()
-            Log.e(":::slider list image:::", sliderList[0].image)
             isLoading = false
         }
         is NetworkResult.Error -> {
