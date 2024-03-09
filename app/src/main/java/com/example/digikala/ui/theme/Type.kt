@@ -29,6 +29,14 @@ get() = TextStyle(
 )
 
 val Typography = Typography(
+
+    // extraSmall
+    labelSmall = TextStyle(
+        fontFamily = font_standard,
+        fontSize = 11.sp,
+        lineHeight = 25.sp
+    ),
+
     //body 1
     bodyMedium = TextStyle(
         fontFamily = font_medium,

@@ -71,6 +71,7 @@ fun SwipeRefreshSection(
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
+                .padding(bottom = 80.dp)
         ){
 
             item{

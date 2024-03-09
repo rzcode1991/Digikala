@@ -42,3 +42,19 @@ val ColorScheme.amber: Color
 val ColorScheme.grayCategory: Color
     @Composable
     get() = Color(0xFFF1F0EE)
+
+val ColorScheme.digikalaLightRed: Color
+    @Composable
+    get() = Color(0xffef4056)
+
+val ColorScheme.digikalaDarkRed: Color
+    @Composable
+    get() = Color(0xffe6123d)
+
+val ColorScheme.semiDarkText: Color
+    @Composable
+    get() = if(isSystemInDarkTheme()) Color(0xFFD8D8D8) else Color(0xFF5C5E61)
+
+val ColorScheme.darkCyan: Color
+    @Composable
+    get() = Color(0xFF0fabc6)

@@ -1,5 +1,6 @@
 package com.example.digikala.ui.screens.home
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -31,6 +32,7 @@ import com.example.digikala.ui.theme.LocalElevation
 import com.example.digikala.ui.theme.LocalShape
 import com.example.digikala.ui.theme.LocalSpacing
 import com.example.digikala.ui.theme.searchBarBg
+import com.example.digikala.ui.theme.spacing
 import com.example.digikala.ui.theme.unSelectedBottomBar
 import com.example.digikala.utils.Constants.PERSIAN_LANG
 import com.example.digikala.utils.Constants.USER_LANGUAGE
@@ -44,8 +46,7 @@ fun SearchBarSection(){
             .height(65.dp),
         colors = CardDefaults.cardColors(
             containerColor = Color.White
-        ),
-        elevation = CardDefaults.cardElevation(LocalElevation.current.extraSmall)
+        )
     ) {
 
         Box(

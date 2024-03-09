@@ -25,11 +25,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Scale
+import com.example.digikala.R
 import com.example.digikala.data.model.home.Slider
 import com.example.digikala.data.network.NetworkResult
 import com.example.digikala.ui.theme.LocalShape
@@ -107,18 +109,11 @@ fun TopSliderSection(
                     contentAlignment = Alignment.BottomCenter
                 ) {
 
-                    val painter = rememberAsyncImagePainter(
-                        ImageRequest.Builder(LocalContext.current)
-                            .data(imageUrl)
-                            .apply (
-                                block = fun ImageRequest.Builder.(){
-                                    scale(Scale.FILL)
-                                }
-                            )
-                            .build()
-                    )
                     Image(
-                        painter = painter,
+                        painter = rememberAsyncImagePainter(
+                            model = imageUrl,
+                            error = painterResource(id = R.drawable.loading_placeholder)
+                        ),
                         contentDescription = "",
                         modifier = Modifier
                             .padding(LocalSpacing.current.small)
