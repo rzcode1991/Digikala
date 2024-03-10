@@ -21,4 +21,9 @@ class HomeRepository @Inject constructor(
             api.getSpecialOffers()
         }
 
+    suspend fun getSpecialSupermarketOffers(): NetworkResult<List<SpecialOfferItem>> =
+        safeApiCall {
+            api.getSpecialSupermarketOffers()
+        }
+
 }
