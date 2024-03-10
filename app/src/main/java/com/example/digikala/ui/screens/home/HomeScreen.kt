@@ -87,6 +87,9 @@ fun SwipeRefreshSection(
                 SpecialOffersSection()
             }
             item{
+                ProposalCardsSection()
+            }
+            item{
                 SpecialSupermarketOffersSection()
             }
 

@@ -17,4 +17,8 @@ interface HomeApiInterface {
     @GET("v1/getSuperMarketAmazingProducts")
     suspend fun getSpecialSupermarketOffers(): Response<ResponseResult<List<SpecialOfferItem>>>
 
+    @GET("v1/get4Banners")
+    suspend fun getProposalCards(): Response<ResponseResult<List<Slider>>>
+
+
 }

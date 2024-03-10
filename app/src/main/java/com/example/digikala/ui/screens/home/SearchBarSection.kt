@@ -1,6 +1,5 @@
 package com.example.digikala.ui.screens.home
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -28,11 +27,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.digikala.R
-import com.example.digikala.ui.theme.LocalElevation
 import com.example.digikala.ui.theme.LocalShape
 import com.example.digikala.ui.theme.LocalSpacing
 import com.example.digikala.ui.theme.searchBarBg
-import com.example.digikala.ui.theme.spacing
 import com.example.digikala.ui.theme.unSelectedBottomBar
 import com.example.digikala.utils.Constants.PERSIAN_LANG
 import com.example.digikala.utils.Constants.USER_LANGUAGE
@@ -53,7 +50,7 @@ fun SearchBarSection(){
             modifier = Modifier
                 .fillMaxSize()
                 .padding(LocalSpacing.current.small)
-                .clip(LocalShape.current.semiMedium)
+                .clip(LocalShape.current.biggerSmall)
                 .background(MaterialTheme.colorScheme.searchBarBg)
         ) {
 
