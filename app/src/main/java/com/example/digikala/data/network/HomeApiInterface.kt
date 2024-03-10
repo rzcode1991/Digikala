@@ -1,6 +1,7 @@
 package com.example.digikala.data.network
 
 import com.example.digikala.data.model.ResponseResult
+import com.example.digikala.data.model.home.MainCategory
 import com.example.digikala.data.model.home.Slider
 import com.example.digikala.data.model.home.SpecialOfferItem
 import retrofit2.Response
@@ -19,6 +20,9 @@ interface HomeApiInterface {
 
     @GET("v1/get4Banners")
     suspend fun getProposalCards(): Response<ResponseResult<List<Slider>>>
+
+    @GET("v1/getCategories")
+    suspend fun getCategories(): Response<ResponseResult<List<MainCategory>>>
 
 
 }

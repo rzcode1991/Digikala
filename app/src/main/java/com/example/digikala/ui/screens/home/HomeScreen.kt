@@ -92,6 +92,9 @@ fun SwipeRefreshSection(
             item{
                 SpecialSupermarketOffersSection()
             }
+            item {
+                MainCategoriesSection()
+            }
 
         }
 

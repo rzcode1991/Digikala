@@ -66,7 +66,7 @@ fun ProposalCardsSection(
     ) {
 
         for (item in proposalCardsList){
-            ProposalCard(item)
+            ProposalCardItemView(item)
         }
 
     }
@@ -75,7 +75,7 @@ fun ProposalCardsSection(
 }
 
 @Composable
-fun ProposalCard(proposalCard: Slider){
+fun ProposalCardItemView(proposalCard: Slider){
 
     Card(
         modifier = Modifier
