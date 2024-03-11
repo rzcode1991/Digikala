@@ -19,5 +19,6 @@
     <string name="buy_based_on_category">Buy based on category</string>
     <string name="best_seller_products">Best seller products</string>
     <string name="most_visited_products">Most visited products</string>
+    <string name="most_favorite_products">Most favorite products</string>
 
 </resources>

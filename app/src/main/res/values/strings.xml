@@ -18,5 +18,6 @@
     <string name="buy_based_on_category">خرید بر اساس دسته‌بندی</string>
     <string name="best_seller_products">پرفروش‌ترین کالاها</string>
     <string name="most_visited_products">پربازدیدترین محصولات</string>
+    <string name="most_favorite_products">محبوب‌ترین محصولات</string>
 
 </resources>
