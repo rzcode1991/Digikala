@@ -29,29 +29,29 @@ import com.example.digikala.data.model.home.StoreProduct
 import com.example.digikala.data.network.NetworkResult
 import com.example.digikala.ui.theme.darkText
 import com.example.digikala.ui.theme.spacing
-import com.example.digikala.utils.DigitHelper.engToFa
+import com.example.digikala.utils.DigitHelper
 import com.example.digikala.viewModel.HomeViewModel
 
 @Composable
-fun BestSellerProductsSection(
+fun MostVisitedProductsSection(
     viewModel: HomeViewModel = hiltViewModel()
 ){
 
-    var bestSellerProducts by remember {
+    var mostVisitedProducts by remember {
         mutableStateOf<List<StoreProduct>>(emptyList())
     }
     var isLoading by remember {
         mutableStateOf(false)
     }
 
-    val bestSellerProductsResult by viewModel.bestSellerProducts.collectAsState()
-    when(bestSellerProductsResult){
+    val mostVisitedProductsResult by viewModel.mostVisitedProducts.collectAsState()
+    when(mostVisitedProductsResult){
         is NetworkResult.Success -> {
-            bestSellerProducts = bestSellerProductsResult.data ?: emptyList()
+            mostVisitedProducts = mostVisitedProductsResult.data ?: emptyList()
             isLoading = false
         }
         is NetworkResult.Error -> {
-            Log.e("bestSellerProductsResult Error", bestSellerProductsResult.message.toString())
+            Log.e("mostVisitedProducts Error", mostVisitedProductsResult.message.toString())
             isLoading = false
         }
         is NetworkResult.Loading -> {
@@ -66,7 +66,7 @@ fun BestSellerProductsSection(
     ) {
 
         Text(
-            text = stringResource(id = R.string.best_seller_products),
+            text = stringResource(id = R.string.most_visited_products),
             style = MaterialTheme.typography.displaySmall,
             fontWeight = FontWeight.SemiBold,
             color = MaterialTheme.colorScheme.darkText,
@@ -86,11 +86,11 @@ fun BestSellerProductsSection(
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ){
 
-            itemsIndexed(bestSellerProducts){index, item ->
+            itemsIndexed(mostVisitedProducts){index, item ->
 
                 ProductsHorizontalItemView(
                     name = item.name,
-                    id = engToFa((index+1).toString()),
+                    id = DigitHelper.engToFa((index+1).toString()),
                     imageUrl = item.image
                 )
 
