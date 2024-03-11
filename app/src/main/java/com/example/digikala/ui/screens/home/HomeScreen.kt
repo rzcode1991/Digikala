@@ -98,7 +98,9 @@ fun SwipeRefreshSection(
             item {
                 CenterBannerSection(1)
             }
-            //
+            item {
+                BestSellerProductsSection()
+            }
             item {
                 CenterBannerSection(2)
             }
