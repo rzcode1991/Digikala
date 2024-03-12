@@ -37,6 +37,7 @@ import com.example.digikala.ui.theme.darkCyan
 import com.example.digikala.ui.theme.darkText
 import com.example.digikala.ui.theme.digikalaDarkRed
 import com.example.digikala.ui.theme.digikalaLightRed
+import com.example.digikala.ui.theme.digikalaLightRedText
 import com.example.digikala.ui.theme.roundedShape
 import com.example.digikala.ui.theme.semiDarkText
 import com.example.digikala.ui.theme.spacing
@@ -80,7 +81,7 @@ fun AmazingItem(item: SpecialOfferItem){
                     text = stringResource(id = R.string.amazing_for_app),
                     style = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.SemiBold,
-                    color = MaterialTheme.colorScheme.digikalaLightRed,
+                    color = MaterialTheme.colorScheme.digikalaLightRedText,
                     modifier = Modifier
                         .padding(
                             start = MaterialTheme.spacing.small
@@ -205,7 +206,7 @@ fun AmazingItem(item: SpecialOfferItem){
                                 fontWeight = FontWeight.SemiBold
                             )
 
-                            Image(
+                            Icon(
                                 painter = painterResource(id = R.drawable.toman),
                                 contentDescription = "",
                                 modifier = Modifier

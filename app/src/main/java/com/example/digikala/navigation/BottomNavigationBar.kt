@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.digikala.R
+import com.example.digikala.ui.theme.bottomBarColor
 import com.example.digikala.ui.theme.extraBoldNumber
 import com.example.digikala.ui.theme.selectedBottomBar
 import com.example.digikala.ui.theme.unSelectedBottomBar
@@ -34,7 +35,6 @@ import com.example.digikala.utils.LocaleUtils
 @Composable
 fun BottomNavigationBar(
     navController: NavController,
-    modifier: Modifier = Modifier,
     onIconClick: (BottomNavItem) -> Unit
 ){
 
@@ -72,8 +72,7 @@ fun BottomNavigationBar(
 
     if (showBottomBar){
         NavigationBar(
-            modifier = Modifier,
-            containerColor = Color.White,
+            containerColor = MaterialTheme.colorScheme.bottomBarColor,
             tonalElevation = 5.dp
         ) {
             items.forEachIndexed { index, item ->

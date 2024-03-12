@@ -89,10 +89,6 @@ fun SpecialOffersSection(
                 }
             }
 
-            /*items(specialOffers){item ->
-                AmazingItem(item)
-            }*/
-
             item {
                 AmazingShowMoreItem()
             }

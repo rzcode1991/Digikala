@@ -82,7 +82,6 @@ fun TopSliderSection(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(200.dp)
-                .background(Color.White)
         ) {
 
             Column(
