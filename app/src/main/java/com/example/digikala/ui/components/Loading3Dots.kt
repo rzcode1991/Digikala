@@ -10,17 +10,14 @@ import com.example.digikala.R
 
 @Composable
 fun Loading3Dots(isDark: Boolean){
-    if (isDark){
-        val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.loading3dotsdark))
-        LottieAnimation(
-            composition = composition,
-            iterations = LottieConstants.IterateForever
-            )
+    val composition by if (isDark){
+        rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.loading3dotsdark))
     }else{
-        val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.loading3dots))
-        LottieAnimation(
-            composition = composition,
-            iterations = LottieConstants.IterateForever
-        )
+        rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.loading3dots))
     }
+    LottieAnimation(
+        composition = composition,
+        iterations = LottieConstants.IterateForever
+    )
+
 }

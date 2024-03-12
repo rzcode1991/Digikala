@@ -27,6 +27,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.digikala.R
 import com.example.digikala.data.model.home.StoreProduct
 import com.example.digikala.data.network.NetworkResult
+import com.example.digikala.ui.components.MyLoading
 import com.example.digikala.ui.theme.darkText
 import com.example.digikala.ui.theme.spacing
 import com.example.digikala.utils.DigitHelper
@@ -75,27 +76,34 @@ fun MostVisitedProductsSection(
             textAlign = TextAlign.Start
         )
 
-        LazyHorizontalGrid(
-            rows = GridCells.Fixed(3),
-            modifier = Modifier
-                .padding(
-                    top = MaterialTheme.spacing.medium
-                )
-                .height(250.dp),
-            horizontalArrangement = Arrangement.spacedBy(4.dp),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
-        ){
+        if (isLoading){
+            MyLoading(
+                height = 250.dp,
+                isDark = true
+            )
+        }else{
+            LazyHorizontalGrid(
+                rows = GridCells.Fixed(3),
+                modifier = Modifier
+                    .padding(
+                        top = MaterialTheme.spacing.medium
+                    )
+                    .height(250.dp),
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ){
 
-            itemsIndexed(mostVisitedProducts){index, item ->
+                itemsIndexed(mostVisitedProducts){index, item ->
 
-                ProductsHorizontalItemView(
-                    name = item.name,
-                    id = DigitHelper.engToFa((index+1).toString()),
-                    imageUrl = item.image
-                )
+                    ProductsHorizontalItemView(
+                        name = item.name,
+                        id = DigitHelper.engToFa((index+1).toString()),
+                        imageUrl = item.image
+                    )
+
+                }
 
             }
-
         }
 
     }

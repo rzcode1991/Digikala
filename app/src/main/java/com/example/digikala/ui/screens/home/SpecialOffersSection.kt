@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
@@ -19,10 +20,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.digikala.R
 import com.example.digikala.data.model.home.SpecialOfferItem
 import com.example.digikala.data.network.NetworkResult
+import com.example.digikala.ui.components.MyLoading
 import com.example.digikala.ui.theme.digikalaLightRed
 import com.example.digikala.viewModel.HomeViewModel
 
@@ -71,9 +74,24 @@ fun SpecialOffersSection(
                 )
             }
 
-            items(specialOffers){item ->
-                AmazingItem(item)
+            if (isLoading){
+                item {
+                    MyLoading(
+                        height = 375.dp,
+                        isDark = true,
+                        modifier = Modifier
+                            .width(170.dp)
+                    )
+                }
+            }else{
+                items(specialOffers){item ->
+                    AmazingItem(item)
+                }
             }
+
+            /*items(specialOffers){item ->
+                AmazingItem(item)
+            }*/
 
             item {
                 AmazingShowMoreItem()

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
@@ -20,10 +21,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.digikala.R
 import com.example.digikala.data.model.home.StoreProduct
 import com.example.digikala.data.network.NetworkResult
+import com.example.digikala.ui.components.MyLoading
 import com.example.digikala.ui.theme.darkCyan
 import com.example.digikala.ui.theme.darkText
 import com.example.digikala.ui.theme.spacing
@@ -90,8 +93,19 @@ fun MostFavoriteProductsSection(
 
         LazyRow{
 
-            items(mostFavoriteProducts){item ->
-                MostFavoriteProductsItem(item)
+            if (isLoading){
+                item {
+                    MyLoading(
+                        height = 320.dp,
+                        isDark = true,
+                        modifier = Modifier
+                            .width(170.dp)
+                    )
+                }
+            }else{
+                items(mostFavoriteProducts){item ->
+                    MostFavoriteProductsItem(item)
+                }
             }
 
             item {

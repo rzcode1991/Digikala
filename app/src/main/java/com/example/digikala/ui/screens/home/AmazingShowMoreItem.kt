@@ -31,7 +31,10 @@ fun AmazingShowMoreItem(){
 
     Card(
         modifier = Modifier
-            .size(180.dp, 375.dp)
+            .size(
+                width = 180.dp,
+                height = 375.dp
+            )
             .padding(
                 end = MaterialTheme.spacing.medium,
                 start = MaterialTheme.spacing.semiSmall,

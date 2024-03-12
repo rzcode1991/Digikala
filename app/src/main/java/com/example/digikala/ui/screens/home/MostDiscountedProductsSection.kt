@@ -20,10 +20,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.digikala.R
 import com.example.digikala.data.model.home.StoreProduct
 import com.example.digikala.data.network.NetworkResult
+import com.example.digikala.ui.components.MyLoading
 import com.example.digikala.ui.theme.darkText
 import com.example.digikala.ui.theme.spacing
 import com.example.digikala.viewModel.HomeViewModel
@@ -73,18 +75,25 @@ fun MostDiscountedProductsSection(
             textAlign = TextAlign.Start
         )
 
-        FlowRow(
-            maxItemsInEachRow = 2,
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight(),
-            horizontalArrangement = Arrangement.Center
-        ) {
+        if (isLoading){
+            MyLoading(
+                height = 120.dp,
+                isDark = true
+            )
+        }else{
+            FlowRow(
+                maxItemsInEachRow = 2,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight(),
+                horizontalArrangement = Arrangement.Center
+            ) {
 
-            for (item in mostDiscountedProducts){
-                MostDiscountedProductsItem(item)
+                for (item in mostDiscountedProducts){
+                    MostDiscountedProductsItem(item)
+                }
+
             }
-
         }
 
     }

@@ -7,10 +7,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.digikala.data.model.home.Slider
 import com.example.digikala.data.network.NetworkResult
 import com.example.digikala.ui.components.CenterBannerItem
+import com.example.digikala.ui.components.MyLoading
 import com.example.digikala.viewModel.HomeViewModel
 
 @Composable
@@ -41,9 +43,14 @@ fun CenterBannerSection(
         }
     }
 
-    if (centerBannersList.isNotEmpty()){
+    if (centerBannersList.isNotEmpty() && !isLoading){
         val bannerItem = centerBannersList[bannerNumber - 1]
         CenterBannerItem(bannerItem.image)
+    }else{
+        MyLoading(
+            height = 170.dp,
+            isDark = true
+        )
     }
 
 

@@ -32,6 +32,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.digikala.R
 import com.example.digikala.data.model.home.MainCategory
 import com.example.digikala.data.network.NetworkResult
+import com.example.digikala.ui.components.MyLoading
 import com.example.digikala.ui.theme.darkText
 import com.example.digikala.ui.theme.spacing
 import com.example.digikala.viewModel.HomeViewModel
@@ -83,17 +84,24 @@ fun MainCategoriesSection(
                 )
         )
 
-        FlowRow(
-            modifier = Modifier
-                .fillMaxWidth(),
-            maxItemsInEachRow = 3,
-            horizontalArrangement = Arrangement.SpaceAround
-        ) {
+        if (isLoading){
+            MyLoading(
+                height = 160.dp,
+                isDark = true
+            )
+        }else{
+            FlowRow(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                maxItemsInEachRow = 3,
+                horizontalArrangement = Arrangement.SpaceAround
+            ) {
 
-            for (item in mainCategoriesList){
-                MainCategoryItemView(item)
+                for (item in mainCategoriesList){
+                    MainCategoryItemView(item)
+                }
+
             }
-
         }
 
     }
@@ -106,7 +114,10 @@ fun MainCategoryItemView(item: MainCategory){
 
     Column(
         modifier = Modifier
-            .size(100.dp, 160.dp),
+            .size(
+                width = 100.dp,
+                height = 160.dp
+            ),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {

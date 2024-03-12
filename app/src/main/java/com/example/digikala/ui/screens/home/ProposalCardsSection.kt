@@ -25,6 +25,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.digikala.R
 import com.example.digikala.data.model.home.Slider
 import com.example.digikala.data.network.NetworkResult
+import com.example.digikala.ui.components.MyLoading
 import com.example.digikala.ui.theme.roundedShape
 import com.example.digikala.ui.theme.spacing
 import com.example.digikala.viewModel.HomeViewModel
@@ -57,18 +58,25 @@ fun ProposalCardsSection(
         }
     }
 
-    FlowRow(
-        maxItemsInEachRow = 2,
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(290.dp)
-            .padding(MaterialTheme.spacing.small)
-    ) {
+    if (isLoading){
+        MyLoading(
+            height = 290.dp,
+            isDark = true
+        )
+    }else{
+        FlowRow(
+            maxItemsInEachRow = 2,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(290.dp)
+                .padding(MaterialTheme.spacing.small)
+        ) {
 
-        for (item in proposalCardsList){
-            ProposalCardItemView(item)
+            for (item in proposalCardsList){
+                ProposalCardItemView(item)
+            }
+
         }
-
     }
 
 

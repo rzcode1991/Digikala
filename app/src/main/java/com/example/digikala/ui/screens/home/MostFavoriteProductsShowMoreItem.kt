@@ -26,7 +26,10 @@ fun MostFavoriteProductsShowMoreItem(){
 
     Column(
         modifier = Modifier
-            .size(170.dp, 320.dp)
+            .size(
+                width = 170.dp,
+                height = 320.dp
+            )
             .padding(
                 end = MaterialTheme.spacing.medium,
                 start = MaterialTheme.spacing.semiSmall,
