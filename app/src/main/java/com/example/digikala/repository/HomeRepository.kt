@@ -58,4 +58,9 @@ class HomeRepository @Inject constructor(
             api.getMostFavoriteProducts()
         }
 
+    suspend fun getMostDiscountedProducts(): NetworkResult<List<StoreProduct>> =
+        safeApiCall {
+            api.getMostDiscountedProducts()
+        }
+
 }
