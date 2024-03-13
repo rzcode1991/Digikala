@@ -98,7 +98,7 @@ private fun SearchBarElements(){
         )
         
         Image(
-            painter = DigiKalaLogoInSearchBar(),
+            painter = DigiKalaLogoByLang(),
             contentDescription = "",
             modifier = Modifier.width(80.dp)
         )
@@ -109,7 +109,7 @@ private fun SearchBarElements(){
 
 
 @Composable
-private fun DigiKalaLogoInSearchBar(): Painter{
+private fun DigiKalaLogoByLang(): Painter{
     return if (USER_LANGUAGE == PERSIAN_LANG){
         painterResource(id = R.drawable.digi_red_persian)
     }else{

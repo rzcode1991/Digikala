@@ -19,6 +19,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -27,6 +28,7 @@ import com.example.digikala.data.model.home.SpecialOfferItem
 import com.example.digikala.data.network.NetworkResult
 import com.example.digikala.ui.components.MyLoading
 import com.example.digikala.ui.theme.digikalaLightRed
+import com.example.digikala.utils.Constants
 import com.example.digikala.viewModel.HomeViewModel
 
 @Composable
@@ -69,7 +71,7 @@ fun SpecialOffersSection(
 
             item {
                 AmazingOfferCard(
-                    topImage = painterResource(id = R.drawable.amazings),
+                    topImage = AmazingOfferLogoByLang(),
                     bottomImage = painterResource(id = R.drawable.box)
                 )
             }
@@ -99,4 +101,13 @@ fun SpecialOffersSection(
 
 
 
+}
+
+@Composable
+private fun AmazingOfferLogoByLang(): Painter {
+    return if (Constants.USER_LANGUAGE == Constants.PERSIAN_LANG){
+        painterResource(id = R.drawable.amazings)
+    }else{
+        painterResource(id = R.drawable.amazing_en)
+    }
 }

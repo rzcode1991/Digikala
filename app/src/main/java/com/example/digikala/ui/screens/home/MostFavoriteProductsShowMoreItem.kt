@@ -17,6 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.digikala.R
+import com.example.digikala.ui.components.IconInverter
 import com.example.digikala.ui.theme.darkCyan
 import com.example.digikala.ui.theme.darkText
 import com.example.digikala.ui.theme.spacing
@@ -39,12 +40,9 @@ fun MostFavoriteProductsShowMoreItem(){
         verticalArrangement = Arrangement.Center
     ) {
 
-        Icon(
+        IconInverter(
             painter = painterResource(id = R.drawable.show_more),
-            contentDescription = "",
-            tint = MaterialTheme.colorScheme.darkCyan,
-            modifier = Modifier
-                .size(40.dp)
+            tint = MaterialTheme.colorScheme.darkCyan
         )
 
         Spacer(modifier = Modifier.height(20.dp))

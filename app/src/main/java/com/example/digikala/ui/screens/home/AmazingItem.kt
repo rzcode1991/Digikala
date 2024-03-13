@@ -36,13 +36,11 @@ import com.example.digikala.data.model.home.SpecialOfferItem
 import com.example.digikala.ui.theme.darkCyan
 import com.example.digikala.ui.theme.darkText
 import com.example.digikala.ui.theme.digikalaDarkRed
-import com.example.digikala.ui.theme.digikalaLightRed
 import com.example.digikala.ui.theme.digikalaLightRedText
 import com.example.digikala.ui.theme.roundedShape
 import com.example.digikala.ui.theme.semiDarkText
 import com.example.digikala.ui.theme.spacing
 import com.example.digikala.utils.DigitHelper.applyDiscount
-import com.example.digikala.utils.DigitHelper.engToFa
 import com.example.digikala.utils.DigitHelper.engToFaAndSeparateByComma
 
 @Composable

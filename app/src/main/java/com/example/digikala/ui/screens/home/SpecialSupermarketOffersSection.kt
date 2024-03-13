@@ -15,6 +15,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -24,6 +25,7 @@ import com.example.digikala.data.network.NetworkResult
 import com.example.digikala.ui.components.MyLoading
 import com.example.digikala.ui.theme.digikalaLightGreen
 import com.example.digikala.ui.theme.digikalaLightRed
+import com.example.digikala.utils.Constants
 import com.example.digikala.viewModel.HomeViewModel
 
 @Composable
@@ -66,7 +68,7 @@ fun SpecialSupermarketOffersSection(
 
             item {
                 AmazingOfferCard(
-                    topImage = painterResource(id = R.drawable.supermarketamazings),
+                    topImage = AmazingSupermarketOfferLogoByLang(),
                     bottomImage = painterResource(id = R.drawable.fresh)
                 )
             }
@@ -95,4 +97,13 @@ fun SpecialSupermarketOffersSection(
     }
 
 
+}
+
+@Composable
+private fun AmazingSupermarketOfferLogoByLang(): Painter {
+    return if (Constants.USER_LANGUAGE == Constants.PERSIAN_LANG){
+        painterResource(id = R.drawable.supermarketamazings)
+    }else{
+        painterResource(id = R.drawable.amazing_en)
+    }
 }

@@ -1,9 +1,5 @@
 package com.example.digikala.utils
 
-import com.example.digikala.utils.DigitHelper.applyDiscount
-import com.example.digikala.utils.DigitHelper.engToFa
-import com.example.digikala.utils.DigitHelper.engToFaAndSeparateByComma
-import com.example.digikala.utils.DigitHelper.separateByComma
 import java.text.DecimalFormat
 
 object DigitHelper {
@@ -30,7 +26,7 @@ object DigitHelper {
         return result
     }
 
-    fun separateByComma(price: String): String{
+    private fun separateByComma(price: String): String{
         val priceFormat = DecimalFormat("###,###")
         return priceFormat.format(Integer.valueOf(price))
     }

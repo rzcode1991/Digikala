@@ -21,6 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.digikala.R
+import com.example.digikala.ui.components.IconInverter
 import com.example.digikala.ui.theme.darkText
 import com.example.digikala.ui.theme.digikalaLightRed
 import com.example.digikala.ui.theme.roundedShape
@@ -54,12 +55,9 @@ fun AmazingShowMoreItem(){
             verticalArrangement = Arrangement.Center
         ) {
 
-            Icon(
+            IconInverter(
                 painter = painterResource(id = R.drawable.show_more),
-                contentDescription = "",
-                tint = MaterialTheme.colorScheme.digikalaLightRed,
-                modifier = Modifier
-                    .size(40.dp)
+                tint = MaterialTheme.colorScheme.digikalaLightRed
             )
             
             Spacer(modifier = Modifier.height(20.dp))
