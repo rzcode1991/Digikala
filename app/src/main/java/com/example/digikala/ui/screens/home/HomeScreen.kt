@@ -11,6 +11,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.example.digikala.ui.components.SearchBarSection
 import com.example.digikala.utils.Constants
 import com.example.digikala.utils.LocaleUtils
 import com.example.digikala.viewModel.HomeViewModel
@@ -29,7 +30,7 @@ fun HomeScreen(
 
 
 @Composable
-fun Home(
+private fun Home(
     navController: NavHostController,
     viewModel: HomeViewModel = hiltViewModel()
 ){
@@ -46,7 +47,7 @@ fun Home(
 
 
 @Composable
-fun SwipeRefreshSection(
+private fun SwipeRefreshSection(
     viewModel: HomeViewModel,
     navController: NavHostController
 ){

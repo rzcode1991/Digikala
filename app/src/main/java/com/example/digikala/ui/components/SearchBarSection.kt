@@ -1,4 +1,4 @@
-package com.example.digikala.ui.screens.home
+package com.example.digikala.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

@@ -63,6 +63,10 @@ val ColorScheme.darkCyan: Color
     @Composable
     get() = Color(0xFF0fabc6)
 
+val ColorScheme.lightCyan: Color
+    @Composable
+    get() = Color(0xFF17BFD3)
+
 val ColorScheme.digikalaLightGreen: Color
     @Composable
     get() = if(isSystemInDarkTheme()) Color(0xFF0C6810) else Color(0xff86bf3c)

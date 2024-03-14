@@ -1,6 +1,5 @@
 package com.example.digikala.navigation
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -17,8 +16,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -26,7 +23,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.digikala.R
 import com.example.digikala.ui.theme.bottomBarColor
-import com.example.digikala.ui.theme.extraBoldNumber
 import com.example.digikala.ui.theme.selectedBottomBar
 import com.example.digikala.ui.theme.unSelectedBottomBar
 import com.example.digikala.utils.Constants
