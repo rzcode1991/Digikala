@@ -10,6 +10,8 @@ object Constants {
     const val TIMEOUT_SECONDS: Long = 60
     const val BASE_URL = "https://dig-za0p.onrender.com/api/"
     const val API_KEY = BuildConfig.X_API_KEY
+    const val SHOPPING_CART_TABLE = "shopping_cart"
+    const val DATABASE_NAME = "digikala_database"
 
     var USER_LANGUAGE = "USER_LANGUAGE"
 

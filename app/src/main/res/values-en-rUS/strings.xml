@@ -35,6 +35,9 @@
     <string name="sports_and_travel">Sports and Travel</string>
     <string name="cart">Cart</string>
     <string name="next_cart_list">Next cart list</string>
+    <string name="cart_is_empty">Your cart is empty!</string>
+    <string name="suggestion_for_you">suggestion for you</string>
+
 
 
 </resources>
