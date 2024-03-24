@@ -30,6 +30,12 @@ get() = TextStyle(
 
 val Typography = Typography(
 
+    // very extra small
+    titleSmall = TextStyle(
+        fontFamily = font_standard,
+        fontSize = 10.sp
+    ),
+
     // extraSmall
     labelSmall = TextStyle(
         fontFamily = font_standard,

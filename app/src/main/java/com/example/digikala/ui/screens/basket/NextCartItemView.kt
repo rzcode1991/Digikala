@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -28,7 +27,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -53,17 +51,18 @@ import com.example.digikala.ui.theme.digikalaRed
 import com.example.digikala.ui.theme.roundedShape
 import com.example.digikala.ui.theme.semiDarkText
 import com.example.digikala.ui.theme.spacing
+import com.example.digikala.utils.DigitHelper.applyDiscount
 import com.example.digikala.utils.DigitHelper.engToFa
 import com.example.digikala.utils.DigitHelper.engToFaAndSeparateByComma
 import com.example.digikala.viewModel.BasketViewModel
 
 @Composable
-fun CartItemView(
+fun NextCartItemView(
     item: CartItem,
     viewModel: BasketViewModel = hiltViewModel()
 ){
 
-    var counter by remember {
+    val counter by remember {
         mutableStateOf(item.count)
     }
 
@@ -94,7 +93,7 @@ fun CartItemView(
                 Column {
                     
                     Text(
-                        text = stringResource(id = R.string.your_shopping_list),
+                        text = stringResource(id = R.string.your_next_shopping_list),
                         style = MaterialTheme.typography.headlineLarge,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.darkText
@@ -285,89 +284,67 @@ fun CartItemView(
                             width = 1.dp,
                             color = Color.LightGray.copy(alpha = 0.6f),
                             shape = MaterialTheme.roundedShape.semiSmall
+                        )
+                        .padding(
+                            horizontal = MaterialTheme.spacing.large
                         ),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
 
                     Icon(
-                        painter = painterResource(id = R.drawable.ic_increase_24),
+                        painter = painterResource(id = R.drawable.ic_baseline_shopping_cart_checkout),
                         contentDescription = "",
                         tint = MaterialTheme.colorScheme.digikalaRed,
                         modifier = Modifier
+                            .size(38.dp)
                             .padding(
                                 vertical = MaterialTheme.spacing.extraSmall,
                                 horizontal = MaterialTheme.spacing.small
                             )
                             .clickable {
-                                counter++
-                                viewModel.updateCartItem(item.copy(count = counter))
+                                viewModel.changeCartItemStatus(
+                                    newStatus = CartStatus.CURRENT_CART,
+                                    id = item.itemId
+                                )
                             }
                     )
-
-                    Text(
-                        text = engToFa(counter.toString()),
-                        color = MaterialTheme.colorScheme.digikalaRed,
-                        style = MaterialTheme.typography.bodySmall,
-                        fontWeight = FontWeight.SemiBold,
-                        modifier = Modifier
-                            .padding(
-                                vertical = MaterialTheme.spacing.extraSmall,
-                                horizontal = MaterialTheme.spacing.small
-                            )
-                    )
-
-                    if (counter == 1){
-                        Icon(
-                            imageVector = Icons.Default.Delete,
-                            contentDescription = "",
-                            tint = MaterialTheme.colorScheme.digikalaRed,
-                            modifier = Modifier
-                                .padding(
-                                    vertical = MaterialTheme.spacing.extraSmall,
-                                    horizontal = MaterialTheme.spacing.small
-                                )
-                                .clickable {
-                                    viewModel.deleteCartItem(item)
-                                }
-                        )
-                    }else{
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_decrease_24),
-                            contentDescription = "",
-                            tint = MaterialTheme.colorScheme.digikalaRed,
-                            modifier = Modifier
-                                .padding(
-                                    vertical = MaterialTheme.spacing.extraSmall,
-                                    horizontal = MaterialTheme.spacing.small
-                                )
-                                .clickable {
-                                    counter--
-                                    viewModel.updateCartItem(item.copy(count = counter))
-                                }
-                        )
-                    }
 
                 }
                 
                 Spacer(modifier = Modifier.width(MaterialTheme.spacing.semiLarge))
-                
-                Row {
 
-                   Text(
-                       text = engToFaAndSeparateByComma(item.price.toString()),
-                       style = MaterialTheme.typography.displaySmall,
-                       fontWeight = FontWeight.SemiBold,
-                       color = MaterialTheme.colorScheme.darkText
-                   )
+                Column {
 
-                    Icon(
-                        painter = painterResource(id = R.drawable.toman),
-                        contentDescription = "",
-                        modifier = Modifier
-                            .size(24.dp)
-                            .padding(MaterialTheme.spacing.extraSmall)
+                    val priceAfterDiscount = applyDiscount(item.price.toLong(), item.discountPercent)
+                    val discountAmount = (item.price.toLong()) - (priceAfterDiscount)
+                    Text(
+                        text = "${engToFaAndSeparateByComma(discountAmount.toString())} ${stringResource(
+                            id = R.string.tooman_off
+                        )} ",
+                        style = MaterialTheme.typography.headlineSmall,
+                        color = MaterialTheme.colorScheme.digikalaLightRed,
+                        fontWeight = FontWeight.Light
                     )
+
+                    Row {
+
+                        Text(
+                            text = engToFaAndSeparateByComma(item.price.toString()),
+                            style = MaterialTheme.typography.displaySmall,
+                            fontWeight = FontWeight.SemiBold,
+                            color = MaterialTheme.colorScheme.darkText
+                        )
+
+                        Icon(
+                            painter = painterResource(id = R.drawable.toman),
+                            contentDescription = "",
+                            modifier = Modifier
+                                .size(24.dp)
+                                .padding(MaterialTheme.spacing.extraSmall)
+                        )
+
+                    }
 
                 }
 
@@ -379,26 +356,23 @@ fun CartItemView(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable {
-                        viewModel.changeCartItemStatus(
-                            newStatus = CartStatus.NEXT_CART,
-                            id = item.itemId
-                        )
+                        viewModel.deleteCartItem(item)
                     },
                 horizontalArrangement = Arrangement.End,
                 verticalAlignment = Alignment.CenterVertically
             ) {
 
                 Text(
-                    text = stringResource(id = R.string.save_into_next_cart),
+                    text = stringResource(id = R.string.remove_item_from_list),
                     style = MaterialTheme.typography.headlineSmall,
-                    color = MaterialTheme.colorScheme.darkCyan,
+                    color = MaterialTheme.colorScheme.digikalaLightRed,
                     fontWeight = FontWeight.Light
                 )
 
                 Icon(
                     Icons.AutoMirrored.Filled.KeyboardArrowRight,
                     contentDescription = "",
-                    tint = MaterialTheme.colorScheme.darkCyan
+                    tint = MaterialTheme.colorScheme.digikalaLightRed
                 )
 
             }

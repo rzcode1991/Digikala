@@ -25,4 +25,18 @@ class BasketRepository @Inject constructor(
 
     val allCurrentCartItems = dao.getAllCartItems(CartStatus.CURRENT_CART)
 
+    val allNextCartItems = dao.getAllCartItems(CartStatus.NEXT_CART)
+
+    suspend fun deleteCartItem(cart: CartItem){
+        dao.deleteCartItem(cart)
+    }
+
+    suspend fun updateCartItem(cart: CartItem){
+        dao.updateCartItem(cart)
+    }
+
+    suspend fun changeCartItemStatus(newStatus: CartStatus, id: String){
+        dao.changeCartItemStatus(newStatus, id)
+    }
+
 }
