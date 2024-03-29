@@ -16,6 +16,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
 import com.example.digikala.R
 import com.example.digikala.ui.components.IconInverter
 import com.example.digikala.ui.theme.darkCyan
@@ -41,7 +42,7 @@ fun MostFavoriteProductsShowMoreItem(){
     ) {
 
         IconInverter(
-            painter = painterResource(id = R.drawable.show_more),
+            painter = rememberAsyncImagePainter(R.drawable.show_more),
             tint = MaterialTheme.colorScheme.darkCyan
         )
 

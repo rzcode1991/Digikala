@@ -12,6 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
+import coil.compose.rememberAsyncImagePainter
+import coil.compose.rememberImagePainter
 import com.example.digikala.R
 import com.example.digikala.navigation.Screen
 import com.example.digikala.ui.components.RoundedItem
@@ -50,7 +52,7 @@ fun ShowCaseSection(
 
             RoundedItem(
                 title = stringResource(id = R.string.digikala_jet),
-                image = painterResource(id = R.drawable.digijet),
+                image = rememberAsyncImagePainter(R.drawable.digijet),
                 onClick = onItemClick(
                     navController = navController,
                     url = DIGI_JET_URL
@@ -59,7 +61,7 @@ fun ShowCaseSection(
 
             RoundedItem(
                 title = stringResource(id = R.string.digi_style),
-                image = painterResource(id = R.drawable.auction),
+                image = rememberAsyncImagePainter(R.drawable.auction),
                 onClick = onItemClick(
                     navController = navController,
                     url = DIGI_STYLE_URL
@@ -68,7 +70,7 @@ fun ShowCaseSection(
 
             RoundedItem(
                 title = stringResource(id = R.string.digi_pay),
-                image = painterResource(id = R.drawable.digipay),
+                image = rememberAsyncImagePainter(R.drawable.digipay),
                 onClick = onItemClick(
                     navController = navController,
                     url = DIGI_PAY_URL
@@ -77,7 +79,7 @@ fun ShowCaseSection(
 
             RoundedItem(
                 title = stringResource(id = R.string.pindo),
-                image = painterResource(id = R.drawable.pindo),
+                image = rememberAsyncImagePainter(R.drawable.pindo),
                 backGround = MaterialTheme.colorScheme.amber,
                 onClick = onItemClick(
                     navController = navController,
@@ -96,7 +98,7 @@ fun ShowCaseSection(
 
             RoundedItem(
                 title = stringResource(id = R.string.digi_shopping),
-                image = painterResource(id = R.drawable.shopping),
+                image = rememberAsyncImagePainter(R.drawable.shopping),
                 onClick = onItemClick(
                     navController = navController,
                     url = SHOPPING_URL
@@ -105,7 +107,7 @@ fun ShowCaseSection(
 
             RoundedItem(
                 title = stringResource(id = R.string.gift_card),
-                image = painterResource(id = R.drawable.giftcard),
+                image = rememberAsyncImagePainter(R.drawable.giftcard),
                 onClick = onItemClick(
                     navController = navController,
                     url = GIFT_CARD_URL
@@ -114,7 +116,7 @@ fun ShowCaseSection(
 
             RoundedItem(
                 title = stringResource(id = R.string.digi_plus),
-                image = painterResource(id = R.drawable.digiplus),
+                image = rememberAsyncImagePainter(R.drawable.digiplus),
                 onClick = onItemClick(
                     navController = navController,
                     url = DIGI_PLUS_URL
@@ -123,7 +125,7 @@ fun ShowCaseSection(
 
             RoundedItem(
                 title = stringResource(id = R.string.more),
-                image = painterResource(id = R.drawable.more),
+                image = rememberAsyncImagePainter(R.drawable.more),
                 backGround = MaterialTheme.colorScheme.grayCategory,
                 onClick = onItemClick(
                     navController = navController,

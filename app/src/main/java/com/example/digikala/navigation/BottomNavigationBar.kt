@@ -86,30 +86,28 @@ fun BottomNavigationBar(
                         indicatorColor = Color.White
                     ),
                     icon = {
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            if (selected){
-                                Icon(
-                                    modifier = Modifier.height(24.dp),
-                                    painter = item.selectedIcon,
-                                    contentDescription = item.name
-                                )
-                            }else{
-                                Icon(
-                                    modifier = Modifier.height(24.dp),
-                                    painter = item.deSelectedIcon,
-                                    contentDescription = item.name
-                                )
-                            }
-                            Text(
-                                text = item.name,
-                                textAlign = TextAlign.Center,
-                                style = MaterialTheme.typography.headlineSmall,
-                                fontWeight = FontWeight.Bold,
-                                modifier = Modifier.padding(top = 5.dp)
+                        if (selected){
+                            Icon(
+                                modifier = Modifier.height(22.dp),
+                                painter = item.selectedIcon,
+                                contentDescription = item.name
+                            )
+                        }else{
+                            Icon(
+                                modifier = Modifier.height(22.dp),
+                                painter = item.deSelectedIcon,
+                                contentDescription = item.name
                             )
                         }
+                    },
+                    label = {
+                        Text(
+                            text = item.name,
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.headlineSmall,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.padding(top = 5.dp)
+                        )
                     }
                 )
             }

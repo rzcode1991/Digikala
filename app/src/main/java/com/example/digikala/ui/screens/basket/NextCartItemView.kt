@@ -319,7 +319,7 @@ fun NextCartItemView(
                     val priceAfterDiscount = applyDiscount(item.price.toLong(), item.discountPercent)
                     val discountAmount = (item.price.toLong()) - (priceAfterDiscount)
                     Text(
-                        text = "${engToFaAndSeparateByComma(discountAmount.toString())} ${stringResource(
+                        text = "${engToFaAndSeparateByComma((discountAmount * item.count).toString())} ${stringResource(
                             id = R.string.tooman_off
                         )} ",
                         style = MaterialTheme.typography.headlineSmall,
@@ -327,10 +327,12 @@ fun NextCartItemView(
                         fontWeight = FontWeight.Light
                     )
 
+                    Spacer(modifier = Modifier.height(4.dp))
+
                     Row {
 
                         Text(
-                            text = engToFaAndSeparateByComma(item.price.toString()),
+                            text = engToFaAndSeparateByComma((priceAfterDiscount * item.count).toString()),
                             style = MaterialTheme.typography.displaySmall,
                             fontWeight = FontWeight.SemiBold,
                             color = MaterialTheme.colorScheme.darkText

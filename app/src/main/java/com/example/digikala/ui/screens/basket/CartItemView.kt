@@ -53,6 +53,7 @@ import com.example.digikala.ui.theme.digikalaRed
 import com.example.digikala.ui.theme.roundedShape
 import com.example.digikala.ui.theme.semiDarkText
 import com.example.digikala.ui.theme.spacing
+import com.example.digikala.utils.DigitHelper.applyDiscount
 import com.example.digikala.utils.DigitHelper.engToFa
 import com.example.digikala.utils.DigitHelper.engToFaAndSeparateByComma
 import com.example.digikala.viewModel.BasketViewModel
@@ -351,23 +352,40 @@ fun CartItemView(
                 }
                 
                 Spacer(modifier = Modifier.width(MaterialTheme.spacing.semiLarge))
-                
-                Row {
 
-                   Text(
-                       text = engToFaAndSeparateByComma(item.price.toString()),
-                       style = MaterialTheme.typography.displaySmall,
-                       fontWeight = FontWeight.SemiBold,
-                       color = MaterialTheme.colorScheme.darkText
-                   )
+                Column {
 
-                    Icon(
-                        painter = painterResource(id = R.drawable.toman),
-                        contentDescription = "",
-                        modifier = Modifier
-                            .size(24.dp)
-                            .padding(MaterialTheme.spacing.extraSmall)
+                    val priceAfterDiscount = applyDiscount(item.price.toLong(), item.discountPercent)
+                    val discountAmount = (item.price.toLong()) - (priceAfterDiscount)
+                    Text(
+                        text = "${engToFaAndSeparateByComma((discountAmount * counter).toString())} ${stringResource(
+                            id = R.string.tooman_off
+                        )}",
+                        style = MaterialTheme.typography.headlineSmall,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.digikalaLightRed
                     )
+
+                    Spacer(modifier = Modifier.height(4.dp))
+
+                    Row {
+
+                        Text(
+                            text = engToFaAndSeparateByComma((priceAfterDiscount * counter).toString()),
+                            style = MaterialTheme.typography.displaySmall,
+                            fontWeight = FontWeight.SemiBold,
+                            color = MaterialTheme.colorScheme.darkText
+                        )
+
+                        Icon(
+                            painter = painterResource(id = R.drawable.toman),
+                            contentDescription = "",
+                            modifier = Modifier
+                                .size(24.dp)
+                                .padding(MaterialTheme.spacing.extraSmall)
+                        )
+
+                    }
 
                 }
 
