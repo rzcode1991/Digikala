@@ -324,7 +324,7 @@ fun NextCartItemView(
                         )} ",
                         style = MaterialTheme.typography.headlineSmall,
                         color = MaterialTheme.colorScheme.digikalaLightRed,
-                        fontWeight = FontWeight.Light
+                        fontWeight = FontWeight.Bold
                     )
 
                     Spacer(modifier = Modifier.height(4.dp))
@@ -368,7 +368,7 @@ fun NextCartItemView(
                     text = stringResource(id = R.string.remove_item_from_list),
                     style = MaterialTheme.typography.headlineSmall,
                     color = MaterialTheme.colorScheme.digikalaLightRed,
-                    fontWeight = FontWeight.Light
+                    fontWeight = FontWeight.Bold
                 )
 
                 Icon(

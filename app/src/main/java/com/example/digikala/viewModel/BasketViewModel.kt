@@ -33,6 +33,9 @@ class BasketViewModel @Inject constructor(
 
     val currentCartPriceDetail = MutableStateFlow(CartPriceDetail(0, 0, 0, 0, 0))
 
+    val totalCountForCurrentCartItems = repository.totalCountForCurrentCartItems
+    val totalCountForNextCartItems = repository.totalCountForNextCartItems
+
     init {
         viewModelScope.launch(Dispatchers.IO) {
             launch {
@@ -110,6 +113,5 @@ class BasketViewModel @Inject constructor(
             repository.changeCartItemStatus(newStatus, id)
         }
     }
-
 
 }
