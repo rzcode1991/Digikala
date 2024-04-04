@@ -78,3 +78,7 @@ val ColorScheme.digikalaLightGreen: Color
 val ColorScheme.bottomBarColor: Color
     @Composable
     get() = if(isSystemInDarkTheme()) Color(0xFF303235) else Color(0xFFFFFFFF)
+
+val ColorScheme.cursorColor: Color
+    @Composable
+    get() = Color(0xFF018577)

@@ -59,5 +59,12 @@
     <string name="items_total_price">Goods total price</string>
     <string name="digiclub_description">After the return period, visit the club missions page to get points</string>
     <string name="continue_buy">Continue the purchase process</string>
+    <string name="login_text">Enter your mobile number or email to log in or register in Digikala</string>
+    <string name="phone_and_email">Mobile number or email</string>
+    <string name="enter_digikala">Login to Digikala</string>
+    <string name="terms_and_rules_full">By logging in or registering at DigiKala, you accept the terms and conditions of using DigiKala website services and its privacy rules.</string>
+    <string name="terms_and_rules">Terms and Rules</string>
+    <string name="privacy_and_rules">Privacy Rules</string>
+
 
 </resources>

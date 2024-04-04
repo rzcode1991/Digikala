@@ -58,6 +58,13 @@
     <string name="items_total_price">جمع سبد خرید</string>
     <string name="digiclub_description">بعد از پایان مهلت مرجوعی، برای دریافت امتیاز به صفحه ماموریت‌های کلابی سر بزنید</string>
     <string name="continue_buy">ادامه فرایند خرید</string>
+    <string name="login_text">برای ورود یا ثبت نام در دیجی کالا شماره موبایل یا پست الکترونیک خود را وارد نمایید</string>
+    <string name="phone_and_email">شماره موبایل یا پست الکترونیک</string>
+    <string name="enter_digikala">ورود به دیجی کالا</string>
+    <string name="terms_and_rules_full">با ورود و یا ثبت نام در دیجی کالا شما شرایط و قوانین استفاده از سرویس های سایت دیجی کالا و قوانین حریم خصوصی آن را می پذیرید.</string>
+    <string name="terms_and_rules">شرایط و قوانین</string>
+    <string name="privacy_and_rules">قوانین حریم خصوصی</string>
+
 
 
 </resources>

@@ -1,11 +1,7 @@
 package com.example.digikala.navigation
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Badge
-import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -28,13 +24,9 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.digikala.R
 import com.example.digikala.ui.theme.bottomBarColor
-import com.example.digikala.ui.theme.digikalaRed
-import com.example.digikala.ui.theme.roundedShape
 import com.example.digikala.ui.theme.selectedBottomBar
-import com.example.digikala.ui.theme.spacing
 import com.example.digikala.ui.theme.unSelectedBottomBar
 import com.example.digikala.utils.Constants
-import com.example.digikala.utils.DigitHelper.engToFa
 import com.example.digikala.utils.LocaleUtils
 import com.example.digikala.viewModel.BasketViewModel
 

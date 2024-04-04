@@ -9,8 +9,8 @@ import androidx.navigation.navArgument
 import com.example.digikala.ui.screens.basket.BasketScreen
 import com.example.digikala.ui.screens.category.CategoryScreen
 import com.example.digikala.ui.screens.home.HomeScreen
-import com.example.digikala.ui.screens.ProfileScreen
-import com.example.digikala.ui.screens.SplashScreen
+import com.example.digikala.ui.screens.profile.ProfileScreen
+import com.example.digikala.ui.screens.splash.SplashScreen
 import com.example.digikala.ui.screens.home.WebViewScreen
 
 @Composable
