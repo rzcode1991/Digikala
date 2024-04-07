@@ -137,7 +137,7 @@ fun LoginScreen(
                 onClick = {
                     if (phoneValidator(viewModel.phoneEmailInput)
                         || emailValidator(viewModel.phoneEmailInput)){
-                        viewModel.screenState = ProfileScreenState.PROFILE_SCREEN
+                        viewModel.screenState = ProfileScreenState.REGISTER_SCREEN
                     }else{
                         Toast.makeText(
                             context,

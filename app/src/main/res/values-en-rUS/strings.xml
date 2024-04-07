@@ -66,6 +66,12 @@
     <string name="terms_and_rules">Terms and Rules</string>
     <string name="privacy_and_rules">Privacy Rules</string>
     <string name="invalid_phone_or_email">Invalid phone or email format</string>
+    <string name="set_password_text">Please set a password for yourself or enter your password if you have already registered.</string>
+    <string name="set_password">Enter your password</string>
+    <string name="lets_go">Lets go!</string>
+    <string name="password_format_error">Password must be at least 6 digits</string>
+    <string name="login_error">The information entered is not correct</string>
+
 
 
 </resources>

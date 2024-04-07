@@ -16,4 +16,10 @@ object InputValidator {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 
+    fun passwordValidator(password: String): Boolean{
+        return password.isNotEmpty()
+                && password.isNotBlank()
+                && password.length > 5
+    }
+
 }

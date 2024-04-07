@@ -30,6 +30,7 @@ fun MyEditText(
         onValueChange = { newValue ->
             onValueChane(newValue)
         },
+        singleLine = true,
         modifier = Modifier
             .fillMaxWidth()
             .height(92.dp)

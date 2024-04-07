@@ -18,7 +18,8 @@ abstract class BaseApiResponse {
                     body?.let {
                         return@withContext NetworkResult.Success(
                             message = it.message,
-                            data = it.data
+                            data = it.data,
+                            success = it.success
                         )
                     }
                 }
