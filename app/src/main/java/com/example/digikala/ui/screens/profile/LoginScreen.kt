@@ -129,7 +129,8 @@ fun LoginScreen(
                 onValueChane = { newValue ->
                     viewModel.phoneEmailInput = newValue
                 },
-                hint = stringResource(id = R.string.phone_and_email)
+                hint = stringResource(id = R.string.phone_and_email),
+                enabled = true
             )
         }
         item {
@@ -146,7 +147,8 @@ fun LoginScreen(
                         ).show()
                     }
                 },
-                text = stringResource(id = R.string.enter_digikala)
+                text = stringResource(id = R.string.enter_digikala),
+                isLoading = false
             )
         }
         item {

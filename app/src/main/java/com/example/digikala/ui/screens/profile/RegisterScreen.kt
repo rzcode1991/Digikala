@@ -18,11 +18,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -37,14 +32,62 @@ import com.example.digikala.ui.screens.profile.InputValidator.passwordValidator
 import com.example.digikala.ui.theme.darkText
 import com.example.digikala.ui.theme.selectedBottomBar
 import com.example.digikala.ui.theme.spacing
+import com.example.digikala.viewModel.DataStoreViewModel
 import com.example.digikala.viewModel.ProfileViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun RegisterScreen(
-    viewModel: ProfileViewModel = hiltViewModel()
+    viewModel: ProfileViewModel = hiltViewModel(),
+    dataStore: DataStoreViewModel = hiltViewModel()
 ) {
 
     val context = LocalContext.current
+
+    LaunchedEffect(Dispatchers.Main){
+        viewModel.loginResponseResult.collectLatest { loginResponseResult ->
+            when(loginResponseResult){
+                is NetworkResult.Success -> {
+
+                    viewModel.loading = false
+                    if (loginResponseResult.success == true &&
+                        loginResponseResult.data?.token?.isNotBlank() == true
+                    ){
+                        loginResponseResult.data.let { loginResponse ->
+                            dataStore.saveUserId(loginResponse.id)
+                            dataStore.saveUserPassword(viewModel.passwordInputRegister)
+                            dataStore.saveUserPhone(loginResponse.phone)
+                            dataStore.saveUserToken(loginResponse.token)
+                        }
+
+                        viewModel.screenState = ProfileScreenState.PROFILE_SCREEN
+                        Toast.makeText(
+                            context,
+                            loginResponseResult.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }else{
+                        Toast.makeText(
+                            context,
+                            loginResponseResult.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+                }
+                is NetworkResult.Error -> {
+                    Toast.makeText(
+                        context,
+                        context.resources.getText(R.string.login_error),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    viewModel.loading = false
+                }
+                is NetworkResult.Loading -> {}
+            }
+        }
+    }
 
     LazyColumn(
         modifier = Modifier
@@ -116,7 +159,8 @@ fun RegisterScreen(
             MyEditText(
                 value = viewModel.phoneEmailInput,
                 onValueChane = {},
-                hint = stringResource(id = R.string.phone_and_email)
+                hint = stringResource(id = R.string.phone_and_email),
+                enabled = !viewModel.loading
             )
         }
         item {
@@ -125,7 +169,8 @@ fun RegisterScreen(
                 onValueChane = { newValue ->
                     viewModel.passwordInputRegister = newValue
                 },
-                hint = stringResource(id = R.string.set_password)
+                hint = stringResource(id = R.string.set_password),
+                enabled = !viewModel.loading
             )
         }
         item {
@@ -144,40 +189,11 @@ fun RegisterScreen(
                         ).show()
                     }
                 },
-                text = stringResource(id = R.string.lets_go)
+                text = stringResource(id = R.string.lets_go),
+                isLoading = viewModel.loading
             )
         }
 
-    }
-
-    val loginResponseResult by viewModel.loginResponseResult.collectAsState()
-    var loading by remember {
-        mutableStateOf(false)
-    }
-    when(loginResponseResult){
-        is NetworkResult.Success -> {
-            loading = false
-            if (loginResponseResult.success == true){
-                viewModel.screenState = ProfileScreenState.PROFILE_SCREEN
-            }else{
-                Toast.makeText(
-                    context,
-                    loginResponseResult.message,
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
-        is NetworkResult.Error -> {
-            Toast.makeText(
-                context,
-                context.resources.getText(R.string.login_error),
-                Toast.LENGTH_SHORT
-            ).show()
-            loading = false
-        }
-        is NetworkResult.Loading -> {
-            loading = true
-        }
     }
 
 

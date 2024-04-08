@@ -14,6 +14,10 @@ object Constants {
     const val DATABASE_NAME = "digikala_database"
 
     var USER_LANGUAGE = "USER_LANGUAGE"
+    var USER_PHONE = "USER_PHONE"
+    var USER_ID = "USER_ID"
+    var USER_TOKEN = "USER_TOKEN"
+    var USER_PASSWORD = "USER_PASSWORD"
 
     const val DIGI_JET_URL = "https://www.digikalajet.com/user/address"
     const val DIGI_STYLE_URL = "https://www.digistyle.com/sale-landing/?utm_source=digikala&utm_medium=circle_badge&utm_campaign=style&promo_name=style&promo_position=circle_badge"

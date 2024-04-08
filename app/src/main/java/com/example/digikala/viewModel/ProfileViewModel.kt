@@ -28,11 +28,24 @@ class ProfileViewModel @Inject constructor(
 
     val loginResponseResult = MutableStateFlow<NetworkResult<LoginResponse>>(NetworkResult.Loading())
 
+    var loading by mutableStateOf(false)
+
     fun login(){
         viewModelScope.launch {
+            loading = true
             val loginRequest = LoginRequest(
                 phone = phoneEmailInput,
                 password = passwordInputRegister
+            )
+            loginResponseResult.emit(repository.logIn(loginRequest))
+        }
+    }
+
+    fun refreshToken(phone: String, password: String){
+        viewModelScope.launch {
+            val loginRequest = LoginRequest(
+                phone = phone,
+                password = password
             )
             loginResponseResult.emit(repository.logIn(loginRequest))
         }

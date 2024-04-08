@@ -14,15 +14,19 @@ fun ProfileScreen(
     viewModel: ProfileViewModel = hiltViewModel()
 ){
 
-    when(viewModel.screenState){
-        ProfileScreenState.LOGIN_SCREEN -> {
-            LoginScreen()
-        }
-        ProfileScreenState.REGISTER_SCREEN -> {
-            RegisterScreen()
-        }
-        ProfileScreenState.PROFILE_SCREEN -> {
-            Profile()
+    if (!dataStoreViewModel.getUserToken().isNullOrBlank()){
+        Profile()
+    }else{
+        when(viewModel.screenState){
+            ProfileScreenState.LOGIN_SCREEN -> {
+                LoginScreen()
+            }
+            ProfileScreenState.REGISTER_SCREEN -> {
+                RegisterScreen()
+            }
+            ProfileScreenState.PROFILE_SCREEN -> {
+                Profile()
+            }
         }
     }
 

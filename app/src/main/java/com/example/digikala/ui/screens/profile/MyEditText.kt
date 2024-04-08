@@ -22,7 +22,8 @@ import com.example.digikala.ui.theme.spacing
 fun MyEditText(
     value: String,
     onValueChane: (String) -> Unit,
-    hint: String
+    hint: String,
+    enabled: Boolean
 ){
 
     TextField(
@@ -30,6 +31,7 @@ fun MyEditText(
         onValueChange = { newValue ->
             onValueChane(newValue)
         },
+        enabled = enabled,
         singleLine = true,
         modifier = Modifier
             .fillMaxWidth()
