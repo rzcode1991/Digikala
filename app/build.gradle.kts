@@ -23,6 +23,8 @@ android {
         versionName = "1.0"
 
         buildConfigField("String", "X_API_KEY", apiKeyProperties.getProperty("X_API_KEY"))
+        buildConfigField("String", "KEY", apiKeyProperties.getProperty("KEY"))
+        buildConfigField("String", "IV", apiKeyProperties.getProperty("IV"))
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
