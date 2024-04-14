@@ -2,7 +2,6 @@ package com.example.digikala
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.Scaffold
@@ -18,7 +17,6 @@ import com.example.digikala.navigation.SetUpNavGraph
 import com.example.digikala.ui.components.AppConfig
 import com.example.digikala.ui.components.SetStatusBarColor
 import com.example.digikala.ui.theme.DigikalaTheme
-import com.example.digikala.utils.AES
 import com.example.digikala.utils.Constants.PERSIAN_LANG
 import com.example.digikala.utils.Constants.USER_LANGUAGE
 import com.example.digikala.utils.LocaleUtils

@@ -32,6 +32,7 @@ import com.example.digikala.ui.screens.profile.InputValidator.passwordValidator
 import com.example.digikala.ui.theme.darkText
 import com.example.digikala.ui.theme.selectedBottomBar
 import com.example.digikala.ui.theme.spacing
+import com.example.digikala.utils.Constants.USER_PHONE
 import com.example.digikala.viewModel.DataStoreViewModel
 import com.example.digikala.viewModel.ProfileViewModel
 import kotlinx.coroutines.Dispatchers
@@ -58,6 +59,7 @@ fun RegisterScreen(
                             dataStore.saveUserId(loginResponse.id)
                             dataStore.saveUserPassword(viewModel.passwordInputRegister)
                             dataStore.saveUserPhone(loginResponse.phone)
+                            USER_PHONE = loginResponse.phone
                             dataStore.saveUserToken(loginResponse.token)
                         }
 

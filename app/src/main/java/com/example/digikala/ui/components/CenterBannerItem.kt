@@ -19,20 +19,22 @@ import com.example.digikala.ui.theme.spacing
 
 @Composable
 fun CenterBannerItem(
-    imageUrl: String
+    imageUrl: String = "",
+    imageId: Int? = null,
+    height: Int = 170
 ) {
 
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(170.dp)
+            .height(height.dp)
             .padding(MaterialTheme.spacing.medium),
         shape = MaterialTheme.roundedShape.semiMedium
     ) {
 
         Image(
             painter = rememberAsyncImagePainter(
-                model = imageUrl,
+                model = imageUrl.ifEmpty { imageId },
                 error = painterResource(id = R.drawable.loading_placeholder)
             ),
             contentDescription = "",

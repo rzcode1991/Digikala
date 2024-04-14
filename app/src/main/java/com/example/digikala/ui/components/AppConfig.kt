@@ -22,7 +22,9 @@ fun AppConfig(
 
     getDataStoreVariables(dataStoreViewModel)
 
-    profileViewModel.refreshToken(USER_PHONE, USER_PASSWORD)
+    if (USER_PHONE.isNotEmpty()){
+        profileViewModel.refreshToken(USER_PHONE, USER_PASSWORD)
+    }
 
     LaunchedEffect(Dispatchers.Main){
         profileViewModel.loginResponseResult.collectLatest { loginResponseResult->
@@ -54,8 +56,8 @@ private fun getDataStoreVariables(
     USER_LANGUAGE = dataStoreViewModel.getUserLanguage()
     dataStoreViewModel.saveUserLanguage(USER_LANGUAGE)
 
-    USER_PHONE = dataStoreViewModel.getUserPhone().toString()
-    USER_ID = dataStoreViewModel.getUserId().toString()
-    USER_TOKEN = dataStoreViewModel.getUserToken().toString()
-    USER_PASSWORD = dataStoreViewModel.getUserPassword().toString()
+    USER_PHONE = dataStoreViewModel.getUserPhone().orEmpty()
+    USER_ID = dataStoreViewModel.getUserId().orEmpty()
+    USER_TOKEN = dataStoreViewModel.getUserToken().orEmpty()
+    USER_PASSWORD = dataStoreViewModel.getUserPassword().orEmpty()
 }
