@@ -25,14 +25,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.example.digikala.R
 import com.example.digikala.data.model.basket.CartItem
 import com.example.digikala.ui.theme.darkText
+import com.example.digikala.utils.Constants.USER_TOKEN
 import com.example.digikala.viewModel.BasketViewModel
 
 @Composable
 fun CartTab(
-    viewModel: BasketViewModel = hiltViewModel()
+    viewModel: BasketViewModel = hiltViewModel(),
+    navController: NavHostController
 ){
 
     val allCurrentCartItemsState by viewModel.allCurrentCartItems.collectAsState(BasketScreenState.Loading)
@@ -58,6 +61,12 @@ fun CartTab(
                         .fillMaxWidth()
                         .weight(1f)
                 ){
+
+                    item {
+                        if (USER_TOKEN.isEmpty()){
+                            GoToLoginSection(navController)
+                        }
+                    }
 
                     if (allCurrentCartItems.isEmpty()){
                         item {

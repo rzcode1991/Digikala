@@ -131,10 +131,10 @@ fun Basket(
 
         when(selectedTab){
             0 -> {
-                CartTab()
+                CartTab(navController = navController)
             }
             1 -> {
-                NextCartTab()
+                NextCartTab(navController = navController)
             }
         }
 

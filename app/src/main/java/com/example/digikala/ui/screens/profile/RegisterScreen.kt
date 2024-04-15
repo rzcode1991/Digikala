@@ -33,6 +33,7 @@ import com.example.digikala.ui.theme.darkText
 import com.example.digikala.ui.theme.selectedBottomBar
 import com.example.digikala.ui.theme.spacing
 import com.example.digikala.utils.Constants.USER_PHONE
+import com.example.digikala.utils.Constants.USER_TOKEN
 import com.example.digikala.viewModel.DataStoreViewModel
 import com.example.digikala.viewModel.ProfileViewModel
 import kotlinx.coroutines.Dispatchers
@@ -61,6 +62,7 @@ fun RegisterScreen(
                             dataStore.saveUserPhone(loginResponse.phone)
                             USER_PHONE = loginResponse.phone
                             dataStore.saveUserToken(loginResponse.token)
+                            USER_TOKEN = loginResponse.token
                         }
 
                         viewModel.screenState = ProfileScreenState.PROFILE_SCREEN

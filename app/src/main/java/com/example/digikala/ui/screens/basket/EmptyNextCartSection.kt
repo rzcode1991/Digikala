@@ -4,7 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
@@ -23,14 +22,17 @@ import androidx.compose.ui.unit.dp
 import com.example.digikala.R
 import com.example.digikala.ui.theme.darkText
 import com.example.digikala.ui.theme.semiDarkText
+import com.example.digikala.utils.Constants.USER_TOKEN
 
 @Composable
 fun EmptyNextCartSection(){
 
+    val bottomEmptySpace = if (USER_TOKEN.isEmpty()) 280 else 80
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .height(LocalConfiguration.current.screenHeightDp.dp - 80.dp),
+            .height(LocalConfiguration.current.screenHeightDp.dp - bottomEmptySpace.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
