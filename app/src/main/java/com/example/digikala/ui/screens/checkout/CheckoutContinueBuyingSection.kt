@@ -1,5 +1,6 @@
-package com.example.digikala.ui.screens.basket
+package com.example.digikala.ui.screens.checkout
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,6 +17,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -26,26 +31,25 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.digikala.R
-import com.example.digikala.navigation.Screen
+import com.example.digikala.ui.theme.bottomBarColor
 import com.example.digikala.ui.theme.darkText
 import com.example.digikala.ui.theme.digikalaRed
 import com.example.digikala.ui.theme.roundedShape
-import com.example.digikala.ui.theme.searchBarBg
 import com.example.digikala.ui.theme.spacing
-import com.example.digikala.utils.Constants.USER_TOKEN
-import com.example.digikala.utils.DigitHelper
+import com.example.digikala.utils.DigitHelper.engToFaAndSeparateByComma
 
 @Composable
-fun ContinueBuyingSection(
-    totalFinalPrice: Long,
-    navHostController: NavHostController
+fun CheckoutContinueBuyingSection(
+    isTimeSelected: Boolean,
+    finalPrice: Long,
+    navController: NavHostController,
+    onClick: () -> Unit
 ){
+
     Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(
-                bottom = 80.dp
-            )
+            .fillMaxWidth(),
+        verticalArrangement = Arrangement.SpaceBetween
     ) {
 
         Divider(
@@ -53,7 +57,6 @@ fun ContinueBuyingSection(
                 .fillMaxWidth()
                 .height(1.dp)
                 .alpha(0.4f),
-            thickness = 1.dp,
             color = Color.LightGray
         )
 
@@ -70,23 +73,36 @@ fun ContinueBuyingSection(
 
             Button(
                 onClick = {
-                    if (USER_TOKEN.isNotEmpty()){
-                        navHostController.navigate(Screen.Checkout.route)
-                    }else{
-                        navHostController.navigate(Screen.Profile.route)
-                    }
+                    onClick()
                 },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.digikalaRed,
-                    contentColor = MaterialTheme.colorScheme.searchBarBg
-                ),
                 shape = MaterialTheme.roundedShape.small,
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = if (isTimeSelected){
+                        MaterialTheme.colorScheme.digikalaRed
+                    }else{
+                        MaterialTheme.colorScheme.bottomBarColor
+                    },
+                    contentColor = if (isTimeSelected){
+                        MaterialTheme.colorScheme.bottomBarColor
+                    }else{
+                        MaterialTheme.colorScheme.digikalaRed
+                    }
+                ),
+                border = if (isTimeSelected){
+                    BorderStroke(0.dp, Color.Transparent)
+                }else{
+                    BorderStroke(2.dp, MaterialTheme.colorScheme.digikalaRed)
+                },
                 modifier = Modifier
                     .padding(MaterialTheme.spacing.small)
             ) {
 
                 Text(
-                    text = stringResource(id = R.string.continue_buy),
+                    text = if (isTimeSelected){
+                        stringResource(id = R.string.continue_buy)
+                    }else{
+                        stringResource(id = R.string.select_date_to_send)
+                    },
                     style = MaterialTheme.typography.headlineLarge,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier
@@ -100,11 +116,12 @@ fun ContinueBuyingSection(
 
             Column(
                 modifier = Modifier
-                    .padding(MaterialTheme.spacing.small)
+                    .padding(MaterialTheme.spacing.small),
+                horizontalAlignment = Alignment.End
             ) {
 
                 Text(
-                    text = stringResource(id = R.string.items_total_price),
+                    text = stringResource(id = R.string.price_to_pay),
                     style = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.Bold,
                     color = Color.Gray,
@@ -115,7 +132,7 @@ fun ContinueBuyingSection(
                 Row {
 
                     Text(
-                        text = DigitHelper.engToFaAndSeparateByComma(totalFinalPrice.toString()),
+                        text = engToFaAndSeparateByComma(finalPrice.toString()),
                         style = MaterialTheme.typography.headlineSmall,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.darkText
@@ -141,9 +158,9 @@ fun ContinueBuyingSection(
                 .fillMaxWidth()
                 .height(1.dp)
                 .alpha(0.6f),
-            thickness = 1.dp,
             color = Color.LightGray
         )
 
     }
+
 }

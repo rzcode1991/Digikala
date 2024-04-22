@@ -29,6 +29,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.example.digikala.R
 import com.example.digikala.ui.screens.profile.InputValidator.emailValidator
 import com.example.digikala.ui.screens.profile.InputValidator.phoneValidator
@@ -41,6 +42,7 @@ import com.example.digikala.viewModel.ProfileViewModel
 
 @Composable
 fun LoginScreen(
+    navController: NavHostController,
     viewModel: ProfileViewModel = hiltViewModel()
 ){
 
@@ -82,7 +84,9 @@ fun LoginScreen(
                 }
 
                 IconButton(
-                    onClick = { /*TODO*/ }
+                    onClick = {
+                        navController.popBackStack()
+                    }
                 ) {
 
                     Icon(

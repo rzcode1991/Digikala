@@ -19,7 +19,7 @@ fun ProfileScreen(
     }else{
         when(viewModel.screenState){
             ProfileScreenState.LOGIN_SCREEN -> {
-                LoginScreen()
+                LoginScreen(navController = navController)
             }
             ProfileScreenState.REGISTER_SCREEN -> {
                 RegisterScreen()

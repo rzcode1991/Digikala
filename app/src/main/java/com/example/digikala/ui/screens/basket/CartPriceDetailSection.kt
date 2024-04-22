@@ -26,6 +26,8 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.example.digikala.R
 import com.example.digikala.data.model.basket.CartPriceDetail
+import com.example.digikala.ui.components.DigiClubScoreSection
+import com.example.digikala.ui.components.RowWithTextAndPrice
 import com.example.digikala.ui.theme.darkText
 import com.example.digikala.ui.theme.digikalaLightRed
 import com.example.digikala.ui.theme.lightCyan
@@ -154,7 +156,7 @@ fun CartPriceDetailSection(
             Spacer(modifier = Modifier.height(MaterialTheme.spacing.semiLarge))
 
             val digiScore = cartPriceDetail.totalFinalPrice / 100_000
-            DigiClubScore(
+            DigiClubScoreSection(
                 score = digiScore
             )
 
@@ -170,121 +172,5 @@ fun CartPriceDetailSection(
         )
 
     }
-
-}
-
-
-@Composable
-fun RowWithTextAndPrice(
-    title: String,
-    price: String,
-    color: Color,
-    discountPercent: Long
-){
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(
-                horizontal = MaterialTheme.spacing.semiMedium
-            ),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-
-        Text(
-            text = title,
-            style = MaterialTheme.typography.headlineSmall,
-            fontWeight = FontWeight.Bold,
-            color = Color.Gray
-        )
-
-        Row {
-
-            Text(
-                text = if (discountPercent > 0){
-                    "(${engToFa(discountPercent.toString())}%) ${engToFaAndSeparateByComma(price)}"
-                }else{
-                    engToFaAndSeparateByComma(price)
-                },
-                style = MaterialTheme.typography.headlineSmall,
-                fontWeight = FontWeight.Bold,
-                color = color
-            )
-
-            Spacer(modifier = Modifier.width(4.dp))
-
-            Icon(
-                painter = painterResource(id = R.drawable.toman),
-                tint = color,
-                contentDescription = "",
-                modifier = Modifier
-                    .size(16.dp)
-            )
-
-        }
-
-    }
-}
-
-@Composable
-fun DigiClubScore(
-    score: Long
-){
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(
-                horizontal = MaterialTheme.spacing.semiMedium
-            ),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-
-        Row(
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-
-            Image(
-                painter = rememberAsyncImagePainter(R.drawable.digi_score),
-                contentDescription = "",
-                modifier = Modifier
-                    .size(20.dp)
-                    .padding(
-                        end = MaterialTheme.spacing.extraSmall
-                    )
-            )
-
-            Text(
-                text = stringResource(id = R.string.digiclub_score),
-                style = MaterialTheme.typography.headlineSmall,
-                fontWeight = FontWeight.SemiBold,
-                color = Color.Gray
-            )
-
-        }
-
-        Text(
-            text = "${engToFa(score.toString())} ${stringResource(id = R.string.score)}",
-            style = MaterialTheme.typography.headlineSmall,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.darkText
-        )
-
-    }
-
-    Spacer(modifier = Modifier.height(18.dp))
-
-    Text(
-        text = stringResource(id = R.string.digiclub_description),
-        style = MaterialTheme.typography.headlineSmall,
-        fontWeight = FontWeight.Bold,
-        color = Color.Gray,
-        maxLines = 2,
-        modifier = Modifier
-            .padding(
-                vertical = MaterialTheme.spacing.semiMedium,
-                horizontal = MaterialTheme.spacing.semiLarge
-            )
-    )
 
 }

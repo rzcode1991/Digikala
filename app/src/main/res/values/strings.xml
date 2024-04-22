@@ -87,7 +87,45 @@
     <string name="profile_info">اطلاعات حساب کاربری</string>
     <string name="login_or_register">ورود یا ثبت نام</string>
     <string name="login_or_register_txt">برای تجربه بهتر خرید و بررسی روش ارسال کالاها لطفا وارد شوید.</string>
-
-
+    <string name="address_and_time_to_send">آدرس و زمان ارسال</string>
+    <string name="send_to">ارسال به</string>
+    <string name="edit_address">تغییر یا ویرایش آدرس</string>
+    <string name="time_and_how_to_send">شیوه و زمان ارسال</string>
+    <string name="consignment">مرسوله</string>
+    <string name="from">از</string>
+    <string name="ready_to_send">آماده ارسال</string>
+    <string name="time_to_send">زمان ارسال</string>
+    <string name="delivery_cost">هزینه ارسال</string>
+    <string name="select_date_to_send">انتخاب زمان ارسال</string>
+    <string name="change_date_to_send">تغییر زمان ارسال</string>
+    <string name="no_address">هنوز آدرسی اضافه نکرده اید!</string>
+    <string name="add_address">افزودن آدرس</string>
+    <string name="normal_shipping">ارسال عادی</string>
+    <string name="not_selected">انتخاب نشده</string>
+    <string name="factor_info_txt">شما می‌توانید فاکتور خرید خود را پس از تحویل سفارش از بخش جزییات سفارش در حساب کاربری خود دریافت نمایید.</string>
+    <string name="price_details">جزییات قیمت</string>
+    <string name="price_to_pay">مبلغ قابل پرداخت</string>
+    <string name="sat">شنبه</string>
+    <string name="sun">یکشنبه</string>
+    <string name="mon">دوشنبه</string>
+    <string name="tue">سه‌شنبه</string>
+    <string name="wed">چهارشنبه</string>
+    <string name="thu">پنج‌شنبه</string>
+    <string name="fri">جمعه</string>
+    <string name="clock_time">ساعت</string>
+    <string name="to">تا</string>
+    <string name="times_only_for_digiplus">بازه‌های دارای ظرفیت اختصاصی برای اعضای دیجی‌پلاس</string>
+    <string name="jan">ژانویه</string>
+    <string name="feb">فوریه</string>
+    <string name="mar">مارس</string>
+    <string name="apr">آپریل</string>
+    <string name="may">می</string>
+    <string name="jun">ژوئن</string>
+    <string name="jul">جولای</string>
+    <string name="aug">آگوست</string>
+    <string name="sep">سپتامبر</string>
+    <string name="oct">اکتبر</string>
+    <string name="nov">نوامبر</string>
+    <string name="dec">دسامبر</string>
 
 </resources>

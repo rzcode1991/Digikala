@@ -2,12 +2,13 @@ package com.example.digikala.navigation
 
 sealed class Screen(val route: String) {
 
-    object Splash: Screen("splash_screen")
-    object Home: Screen("home_screen")
-    object Category: Screen("category_screen")
-    object Basket: Screen("basket_screen")
-    object Profile: Screen("profile_screen")
-    object WebView: Screen("webView_screen")
+    data object Splash: Screen("splash_screen")
+    data object Home: Screen("home_screen")
+    data object Category: Screen("category_screen")
+    data object Basket: Screen("basket_screen")
+    data object Profile: Screen("profile_screen")
+    data object WebView: Screen("webView_screen")
+    data object Checkout: Screen("checkout_screen")
 
     fun withArgs(vararg args: Any): String{
         return buildString {
