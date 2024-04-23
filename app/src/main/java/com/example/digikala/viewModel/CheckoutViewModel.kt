@@ -1,19 +1,64 @@
 package com.example.digikala.viewModel
 
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModel
 import com.example.digikala.R
 import com.example.digikala.data.model.checkout.DayAndDate
 import com.example.digikala.repository.CheckoutRepository
+import com.example.digikala.ui.screens.checkout.CheckoutBottomSheetState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import java.util.Calendar
 import javax.inject.Inject
 
+@OptIn(ExperimentalMaterialApi::class)
 @HiltViewModel
 class CheckoutViewModel @Inject constructor(
     private val repository: CheckoutRepository
 ): ViewModel() {
+
+
+    var isTimeSelected by mutableStateOf(false)
+
+    var selectedDay by mutableStateOf<DayAndDate?>(null)
+
+    fun onEvent(state: CheckoutBottomSheetState){
+        when(state){
+            is CheckoutBottomSheetState.OnTimeSelect -> {
+                isTimeSelected = true
+                selectedDay = state.date
+            }
+            is CheckoutBottomSheetState.OnCloseOpenBottomSheet -> {
+                bottomSheetHandler(
+                    scope = state.scope,
+                    bottomSheetState = state.bottomSheetState
+                )
+            }
+        }
+    }
+
+    @OptIn(ExperimentalMaterialApi::class)
+    private fun bottomSheetHandler(
+        scope: CoroutineScope,
+        bottomSheetState: ModalBottomSheetState
+    ){
+
+        scope.launch {
+            if (bottomSheetState.isVisible){
+                bottomSheetState.hide()
+            }else{
+                bottomSheetState.show()
+            }
+        }
+
+    }
 
     @Composable
     fun getNextEvenDays(): List<DayAndDate> {

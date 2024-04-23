@@ -11,7 +11,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetLayout
-import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.Divider
@@ -30,31 +29,24 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.digikala.data.model.basket.CartItem
-import com.example.digikala.data.model.checkout.DayAndDate
 import com.example.digikala.navigation.Screen
 import com.example.digikala.ui.components.DigiClubScoreSection
 import com.example.digikala.ui.components.WaitText
 import com.example.digikala.ui.screens.basket.BasketScreenState
 import com.example.digikala.ui.theme.spacing
 import com.example.digikala.viewModel.BasketViewModel
-import kotlinx.coroutines.CoroutineScope
+import com.example.digikala.viewModel.CheckoutViewModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun CheckoutScreen(
     navController: NavHostController,
-    basketViewModel: BasketViewModel = hiltViewModel()
+    basketViewModel: BasketViewModel = hiltViewModel(),
+    checkoutViewModel: CheckoutViewModel = hiltViewModel()
 ){
 
     val shippingCost = 49000
-
-    var isTimeSelected by remember {
-        mutableStateOf(false)
-    }
-    var selectedDay by remember {
-        mutableStateOf<DayAndDate?>(null)
-    }
 
     val scope = rememberCoroutineScope()
 
@@ -87,24 +79,9 @@ fun CheckoutScreen(
                         topEnd = MaterialTheme.spacing.semiMedium
                     ),
                     sheetContent = {
-                        // TODO: move logics to viewModel States,
-                        // TODO: before that, push on github
                         DeliveryTimeBottomSheet(
                             scope = scope,
-                            onCloseBottomSheet = {
-                                bottomSheetHandler(
-                                    scope = scope,
-                                    bottomSheetState = modalBottomSheetState
-                                )
-                            },
-                            onTimeSelected = { selectedDayAndDate ->
-                                bottomSheetHandler(
-                                    scope = scope,
-                                    bottomSheetState = modalBottomSheetState
-                                )
-                                isTimeSelected = true
-                                selectedDay = selectedDayAndDate
-                            }
+                            bottomSheetState = modalBottomSheetState
                         )
                     }
                 ) {
@@ -133,11 +110,13 @@ fun CheckoutScreen(
                                     shippingCost = shippingCost.toString(),
                                     allCurrentCartItems = allCurrentCartItems,
                                     currentCartPriceDetail = currentCartPriceDetail,
-                                    selectedDay = selectedDay,
+                                    selectedDay = checkoutViewModel.selectedDay,
                                     onClick = {
-                                        bottomSheetHandler(
-                                            scope = scope,
-                                            bottomSheetState = modalBottomSheetState
+                                        checkoutViewModel.onEvent(
+                                            CheckoutBottomSheetState.OnCloseOpenBottomSheet(
+                                                scope = scope,
+                                                bottomSheetState = modalBottomSheetState
+                                            )
                                         )
                                     }
                                 )
@@ -174,14 +153,16 @@ fun CheckoutScreen(
                         }
 
                         CheckoutContinueBuyingSection(
-                            isTimeSelected = isTimeSelected,
+                            isTimeSelected = checkoutViewModel.isTimeSelected,
                             finalPrice = currentCartPriceDetail.totalFinalPrice + shippingCost.toLong(),
                             navController = navController,
                             onClick = {
-                                if(!isTimeSelected){
-                                    bottomSheetHandler(
-                                        scope = scope,
-                                        bottomSheetState = modalBottomSheetState
+                                if(!checkoutViewModel.isTimeSelected){
+                                    checkoutViewModel.onEvent(
+                                        CheckoutBottomSheetState.OnCloseOpenBottomSheet(
+                                            scope = scope,
+                                            bottomSheetState = modalBottomSheetState
+                                        )
                                     )
                                     scope.launch {
                                         listState.animateScrollToItem(index = 2)
@@ -212,21 +193,5 @@ fun CheckoutScreen(
         }
     }
 
-
-}
-
-@OptIn(ExperimentalMaterialApi::class)
-private fun bottomSheetHandler(
-    scope: CoroutineScope,
-    bottomSheetState: ModalBottomSheetState
-){
-
-    scope.launch {
-        if (bottomSheetState.isVisible){
-            bottomSheetState.hide()
-        }else{
-            bottomSheetState.show()
-        }
-    }
 
 }

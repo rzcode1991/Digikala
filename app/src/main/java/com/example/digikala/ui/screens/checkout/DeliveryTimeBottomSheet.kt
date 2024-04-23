@@ -15,6 +15,8 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.KeyboardArrowUp
@@ -55,11 +57,11 @@ import com.example.digikala.viewModel.CheckoutViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun DeliveryTimeBottomSheet(
     scope: CoroutineScope,
-    onCloseBottomSheet: () -> Unit,
-    onTimeSelected: (DayAndDate) -> Unit,
+    bottomSheetState: ModalBottomSheetState,
     viewModel: CheckoutViewModel = hiltViewModel()
 ) {
 
@@ -82,20 +84,24 @@ fun DeliveryTimeBottomSheet(
         ) {
 
             TopSection(
-                onClose = {
-                    onCloseBottomSheet()
-                }
+                checkoutViewModel = viewModel,
+                scope = scope,
+                bottomSheetState = bottomSheetState
             )
 
-            DateSection(availableDays){ selectedDay ->
-                scope.launch {
-                    lazyRowState.animateScrollToItem(selectedDay)
-                }
-            }
+            DateSection(
+                availableDays = availableDays,
+                lazyRowState = lazyRowState,
+                scope = scope
+            )
 
-            TimeSection(availableDays, lazyRowState){ selectedDayAndDate ->
-                onTimeSelected(selectedDayAndDate)
-            }
+            TimeSection(
+                availableDays = availableDays,
+                lazyRowState = lazyRowState,
+                scope = scope,
+                bottomSheetState = bottomSheetState,
+                checkoutViewModel = viewModel
+            )
 
             BottomSection()
 
@@ -105,9 +111,12 @@ fun DeliveryTimeBottomSheet(
 
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun TopSection(
-    onClose: () -> Unit
+    checkoutViewModel: CheckoutViewModel,
+    scope: CoroutineScope,
+    bottomSheetState: ModalBottomSheetState
 ) {
 
     Column(
@@ -161,7 +170,12 @@ private fun TopSection(
             }
 
             IconButton(onClick = {
-                onClose()
+                checkoutViewModel.onEvent(
+                    CheckoutBottomSheetState.OnCloseOpenBottomSheet(
+                        scope = scope,
+                        bottomSheetState = bottomSheetState
+                    )
+                )
             }) {
 
                 Icon(
@@ -195,7 +209,8 @@ private fun TopSection(
 @Composable
 private fun DateSection(
     availableDays: List<DayAndDate>,
-    onDaySelectedIndex: (Int) -> Unit
+    lazyRowState: LazyListState,
+    scope: CoroutineScope,
 ) {
 
     var selectedDate by remember {
@@ -214,7 +229,9 @@ private fun DateSection(
                 date = days.date,
                 onDateSelected = { date ->
                     selectedDate = date
-                    onDaySelectedIndex(index)
+                    scope.launch {
+                        lazyRowState.animateScrollToItem(index)
+                    }
                 },
                 isSelected = selectedDate == days.date
             )
@@ -279,16 +296,15 @@ private fun DayItem(
 }
 
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun TimeSection(
     availableDays: List<DayAndDate>,
     lazyRowState: LazyListState,
-    onTimeSelected: (DayAndDate) -> Unit
+    scope: CoroutineScope,
+    bottomSheetState: ModalBottomSheetState,
+    checkoutViewModel: CheckoutViewModel
 ){
-
-    var selectedDate by remember {
-        mutableStateOf(0)
-    }
 
     LazyRow(
         modifier = Modifier
@@ -301,11 +317,10 @@ private fun TimeSection(
 
             SelectedTimeItem(
                 dayAndDate = day,
-                onTimeSelected = { selectedDayAndDate ->
-                    selectedDate = selectedDayAndDate.date
-                    onTimeSelected(selectedDayAndDate)
-                },
-                isRadioButtonSelected = selectedDate == day.date
+                scope = scope,
+                bottomSheetState = bottomSheetState,
+                checkoutViewModel = checkoutViewModel,
+                isRadioButtonSelected = checkoutViewModel.selectedDay?.date == day.date
             )
 
         }
@@ -314,10 +329,13 @@ private fun TimeSection(
 
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun SelectedTimeItem(
     dayAndDate: DayAndDate,
-    onTimeSelected: (DayAndDate) -> Unit,
+    scope: CoroutineScope,
+    bottomSheetState: ModalBottomSheetState,
+    checkoutViewModel: CheckoutViewModel,
     isRadioButtonSelected: Boolean
 ){
 
@@ -354,8 +372,17 @@ private fun SelectedTimeItem(
             RadioButton(
                 selected = isRadioButtonSelected,
                 onClick = {
-                    onTimeSelected(dayAndDate)
-                    // TODO: close the bottom sheet
+                    checkoutViewModel.onEvent(
+                        CheckoutBottomSheetState.OnTimeSelect(
+                            date = dayAndDate
+                        )
+                    )
+                    checkoutViewModel.onEvent(
+                        CheckoutBottomSheetState.OnCloseOpenBottomSheet(
+                            scope = scope,
+                            bottomSheetState = bottomSheetState
+                        )
+                    )
                 },
                 colors = RadioButtonDefaults.colors(
                     selectedColor = MaterialTheme.colorScheme.darkCyan,
