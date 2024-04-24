@@ -11,6 +11,7 @@ import com.example.digikala.data.network.NetworkResult
 import com.example.digikala.repository.ProfileRepository
 import com.example.digikala.ui.screens.profile.ProfileScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -30,8 +31,8 @@ class ProfileViewModel @Inject constructor(
 
     var loading by mutableStateOf(false)
 
-    fun login(){
-        viewModelScope.launch {
+    suspend fun login(){
+        viewModelScope.launch(Dispatchers.IO) {
             loading = true
             val loginRequest = LoginRequest(
                 phone = phoneEmailInput,
@@ -41,8 +42,8 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun refreshToken(phone: String, password: String){
-        viewModelScope.launch {
+    suspend fun refreshToken(phone: String, password: String){
+        viewModelScope.launch(Dispatchers.IO) {
             val loginRequest = LoginRequest(
                 phone = phone,
                 password = password

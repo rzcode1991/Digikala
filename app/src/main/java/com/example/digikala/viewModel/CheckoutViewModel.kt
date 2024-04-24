@@ -8,12 +8,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.digikala.R
 import com.example.digikala.data.model.checkout.DayAndDate
+import com.example.digikala.data.model.checkout.OrderRequest
+import com.example.digikala.data.network.NetworkResult
 import com.example.digikala.repository.CheckoutRepository
 import com.example.digikala.ui.screens.checkout.CheckoutBottomSheetState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import java.util.Calendar
 import javax.inject.Inject
@@ -24,10 +29,17 @@ class CheckoutViewModel @Inject constructor(
     private val repository: CheckoutRepository
 ): ViewModel() {
 
-
     var isTimeSelected by mutableStateOf(false)
 
     var selectedDay by mutableStateOf<DayAndDate?>(null)
+
+    val newOrderResponseResult = MutableStateFlow<NetworkResult<String>>(NetworkResult.Loading())
+
+    suspend fun setNewOrder(orderRequest: OrderRequest){
+        viewModelScope.launch(Dispatchers.IO) {
+            newOrderResponseResult.emit(repository.setNewOrder(orderRequest))
+        }
+    }
 
     fun onEvent(state: CheckoutBottomSheetState){
         when(state){

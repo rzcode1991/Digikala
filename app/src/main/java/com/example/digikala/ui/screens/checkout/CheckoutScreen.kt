@@ -1,6 +1,7 @@
 package com.example.digikala.ui.screens.checkout
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,17 +26,26 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.example.digikala.R
 import com.example.digikala.data.model.basket.CartItem
+import com.example.digikala.data.model.checkout.OrderRequest
+import com.example.digikala.data.network.NetworkResult
 import com.example.digikala.navigation.Screen
 import com.example.digikala.ui.components.DigiClubScoreSection
 import com.example.digikala.ui.components.WaitText
 import com.example.digikala.ui.screens.basket.BasketScreenState
 import com.example.digikala.ui.theme.spacing
+import com.example.digikala.utils.Constants
+import com.example.digikala.utils.Constants.USER_ADDRESS
+import com.example.digikala.utils.Constants.USER_NAME
+import com.example.digikala.utils.Constants.USER_PHONE
 import com.example.digikala.viewModel.BasketViewModel
 import com.example.digikala.viewModel.CheckoutViewModel
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -46,9 +56,19 @@ fun CheckoutScreen(
     checkoutViewModel: CheckoutViewModel = hiltViewModel()
 ){
 
-    val shippingCost = 49000
+    val context = LocalContext.current
 
     val scope = rememberCoroutineScope()
+
+    val shippingCost = 49000
+
+    var isButtonLoading by remember {
+        mutableStateOf(false)
+    }
+
+    var orderId by remember {
+        mutableStateOf("")
+    }
 
     val listState = rememberLazyListState()
 
@@ -59,6 +79,17 @@ fun CheckoutScreen(
     }
 
     val allCurrentCartItemsState by basketViewModel.allCurrentCartItems.collectAsState()
+
+    val newOrderRequest = OrderRequest(
+        token = Constants.USER_TOKEN,
+        orderTotalPrice = currentCartPriceDetail.totalFinalPrice + shippingCost.toLong(),
+        orderTotalDiscount = currentCartPriceDetail.totalDiscountPrice,
+        orderAddress = USER_ADDRESS,
+        orderUserName = USER_NAME,
+        orderUserPhone = USER_PHONE,
+        orderDate = checkoutViewModel.selectedDay.toString(),
+        orderProducts = allCurrentCartItems
+    )
 
     when(allCurrentCartItemsState){
         is BasketScreenState.Success -> {
@@ -154,6 +185,7 @@ fun CheckoutScreen(
 
                         CheckoutContinueBuyingSection(
                             isTimeSelected = checkoutViewModel.isTimeSelected,
+                            isButtonLoading = isButtonLoading,
                             finalPrice = currentCartPriceDetail.totalFinalPrice + shippingCost.toLong(),
                             navController = navController,
                             onClick = {
@@ -168,7 +200,33 @@ fun CheckoutScreen(
                                         listState.animateScrollToItem(index = 2)
                                     }
                                 }else{
-                                   // TODO navigate to next screen
+                                    scope.launch {
+                                        checkoutViewModel.setNewOrder(newOrderRequest)
+
+                                        checkoutViewModel.newOrderResponseResult.collectLatest { newOrderResponseResult ->
+                                            when(newOrderResponseResult){
+                                                is NetworkResult.Success -> {
+                                                    orderId = newOrderResponseResult.data ?: ""
+                                                    if (orderId.isNotEmpty()){
+                                                        // TODO navigate to next screen
+                                                    }
+                                                    isButtonLoading = false
+                                                }
+                                                is NetworkResult.Loading -> {
+                                                    isButtonLoading = true
+                                                }
+                                                is NetworkResult.Error -> {
+                                                    Toast.makeText(
+                                                        context,
+                                                        context.resources.getText(R.string.network_error),
+                                                        Toast.LENGTH_SHORT
+                                                    ).show()
+                                                    Log.e("newOrderResponseResult err", newOrderResponseResult.message.toString())
+                                                    isButtonLoading = false
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         )

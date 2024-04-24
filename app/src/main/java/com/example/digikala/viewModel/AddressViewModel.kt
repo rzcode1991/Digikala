@@ -7,6 +7,7 @@ import com.example.digikala.data.network.NetworkResult
 import com.example.digikala.repository.AddressRepository
 import com.example.digikala.utils.Constants.USER_TOKEN
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -23,7 +24,7 @@ class AddressViewModel @Inject constructor(
     }
 
     private fun getUserAddressList(token: String){
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             userAddressList.emit(repository.getUserAddressList(token))
         }
     }

@@ -41,6 +41,8 @@ import com.example.digikala.ui.theme.darkText
 import com.example.digikala.ui.theme.searchBarBg
 import com.example.digikala.ui.theme.semiDarkText
 import com.example.digikala.ui.theme.spacing
+import com.example.digikala.utils.Constants.USER_ADDRESS
+import com.example.digikala.utils.Constants.USER_NAME
 import com.example.digikala.viewModel.AddressViewModel
 
 @Composable
@@ -66,7 +68,9 @@ fun CheckoutAddressSection(
             if (userAddressList.isNotEmpty()){
 
                 address = userAddressList[0].address
+                USER_ADDRESS = address
                 addressName = userAddressList[0].name
+                USER_NAME = addressName
                 addEditAddressTxt = stringResource(id = R.string.edit_address)
 
             }

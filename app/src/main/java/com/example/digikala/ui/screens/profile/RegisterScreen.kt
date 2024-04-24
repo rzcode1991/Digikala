@@ -18,6 +18,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -38,6 +39,7 @@ import com.example.digikala.viewModel.DataStoreViewModel
 import com.example.digikala.viewModel.ProfileViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @Composable
 fun RegisterScreen(
@@ -46,6 +48,8 @@ fun RegisterScreen(
 ) {
 
     val context = LocalContext.current
+
+    val scope = rememberCoroutineScope()
 
     LaunchedEffect(Dispatchers.Main){
         viewModel.loginResponseResult.collectLatest { loginResponseResult ->
@@ -184,7 +188,9 @@ fun RegisterScreen(
             MyButton(
                 onClick = {
                     if (passwordValidator(viewModel.passwordInputRegister)) {
-                        viewModel.login()
+                        scope.launch {
+                            viewModel.login()
+                        }
                     } else {
                         Toast.makeText(
                             context,

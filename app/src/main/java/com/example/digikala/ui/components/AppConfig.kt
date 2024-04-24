@@ -23,7 +23,9 @@ fun AppConfig(
     getDataStoreVariables(dataStoreViewModel)
 
     if (USER_PHONE.isNotEmpty()){
-        profileViewModel.refreshToken(USER_PHONE, USER_PASSWORD)
+        LaunchedEffect(true){
+            profileViewModel.refreshToken(USER_PHONE, USER_PASSWORD)
+        }
     }
 
     LaunchedEffect(Dispatchers.Main){

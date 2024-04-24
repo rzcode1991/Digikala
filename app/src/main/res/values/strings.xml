@@ -127,5 +127,6 @@
     <string name="oct">اکتبر</string>
     <string name="nov">نوامبر</string>
     <string name="dec">دسامبر</string>
+    <string name="network_error">اشکال در شبکه. اتصال اینترنت خود را چک کنید.</string>
 
 </resources>
