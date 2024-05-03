@@ -6,6 +6,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -14,7 +15,7 @@ object ProfileApiInterfaceModule {
 
     @Provides
     @Singleton
-    fun provideProfileApiInterface(retrofit: Retrofit): ProfileApiInterface =
+    fun provideProfileApiInterface(@Named("digiRetrofit") retrofit: Retrofit): ProfileApiInterface =
         retrofit.create(ProfileApiInterface::class.java)
 
 }

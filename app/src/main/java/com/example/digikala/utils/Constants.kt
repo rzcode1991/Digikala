@@ -9,6 +9,8 @@ object Constants {
     const val DATASTORE_NAME = "digiKala_dataStore"
     const val TIMEOUT_SECONDS: Long = 60
     const val BASE_URL = "https://dig-za0p.onrender.com/api/"
+    const val ZARIN_BASE_URL_SANDBOX = "https://sandbox.zarinpal.com/pg/"
+    const val ZARIN_BASE_URL = "https://api.zarinpal.com/pg/"
     const val API_KEY = BuildConfig.X_API_KEY
     const val KEY = BuildConfig.KEY
     const val IV = BuildConfig.IV
@@ -22,6 +24,8 @@ object Constants {
     var USER_PASSWORD = ""
     var USER_ADDRESS = ""
     var USER_NAME = ""
+    var ZARINPAL_MERCHANT_ID = BuildConfig.ZARIN_MERCHANT_ID
+    var ZARINPAL_PAYMENT_URL = "https://www.zarinpal.com/pg/StartPay/"
 
     const val DIGI_JET_URL = "https://www.digikalajet.com/user/address"
     const val DIGI_STYLE_URL = "https://www.digistyle.com/sale-landing/?utm_source=digikala&utm_medium=circle_badge&utm_campaign=style&promo_name=style&promo_position=circle_badge"

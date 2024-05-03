@@ -6,6 +6,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -14,7 +15,7 @@ object BasketApiInterfaceModule {
 
     @Provides
     @Singleton
-    fun provideBasketApiInterface(retrofit: Retrofit): BasketApiInterface =
+    fun provideBasketApiInterface(@Named("digiRetrofit") retrofit: Retrofit): BasketApiInterface =
         retrofit.create(BasketApiInterface::class.java)
 
 }

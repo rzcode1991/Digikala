@@ -6,6 +6,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -14,7 +15,7 @@ object HomeApiInterfaceModule {
 
     @Provides
     @Singleton
-    fun provideHomeApiInterface(retrofit: Retrofit): HomeApiInterface =
+    fun provideHomeApiInterface(@Named("digiRetrofit") retrofit: Retrofit): HomeApiInterface =
         retrofit.create(HomeApiInterface::class.java)
 
 }

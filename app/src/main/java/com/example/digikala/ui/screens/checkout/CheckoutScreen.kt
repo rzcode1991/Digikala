@@ -17,6 +17,7 @@ import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -45,6 +46,7 @@ import com.example.digikala.utils.Constants.USER_NAME
 import com.example.digikala.utils.Constants.USER_PHONE
 import com.example.digikala.viewModel.BasketViewModel
 import com.example.digikala.viewModel.CheckoutViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -90,6 +92,34 @@ fun CheckoutScreen(
         orderDate = checkoutViewModel.selectedDay.toString(),
         orderProducts = allCurrentCartItems
     )
+
+    LaunchedEffect(Dispatchers.Main){
+        checkoutViewModel.newOrderResponseResult.collectLatest { newOrderResponseResult ->
+            when(newOrderResponseResult){
+                is NetworkResult.Success -> {
+                    orderId = newOrderResponseResult.data ?: ""
+                    Log.e("my_tag", "order id is: $orderId")
+                    if (orderId.isNotEmpty()){
+                        val orderPrice = (currentCartPriceDetail.totalFinalPrice + shippingCost.toLong()).toString()
+                        navController.navigate(Screen.ConfirmPurchase.withArgs(orderId, orderPrice))
+                    }
+                    isButtonLoading = false
+                }
+                is NetworkResult.Loading -> {
+                    /*isButtonLoading = true*/
+                }
+                is NetworkResult.Error -> {
+                    Toast.makeText(
+                        context,
+                        context.resources.getText(R.string.network_error),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    Log.e("newOrderResponseResult err", newOrderResponseResult.message.toString())
+                    isButtonLoading = false
+                }
+            }
+        }
+    }
 
     when(allCurrentCartItemsState){
         is BasketScreenState.Success -> {
@@ -200,32 +230,9 @@ fun CheckoutScreen(
                                         listState.animateScrollToItem(index = 2)
                                     }
                                 }else{
+                                    isButtonLoading = true
                                     scope.launch {
                                         checkoutViewModel.setNewOrder(newOrderRequest)
-
-                                        checkoutViewModel.newOrderResponseResult.collectLatest { newOrderResponseResult ->
-                                            when(newOrderResponseResult){
-                                                is NetworkResult.Success -> {
-                                                    orderId = newOrderResponseResult.data ?: ""
-                                                    if (orderId.isNotEmpty()){
-                                                        // TODO navigate to next screen
-                                                    }
-                                                    isButtonLoading = false
-                                                }
-                                                is NetworkResult.Loading -> {
-                                                    isButtonLoading = true
-                                                }
-                                                is NetworkResult.Error -> {
-                                                    Toast.makeText(
-                                                        context,
-                                                        context.resources.getText(R.string.network_error),
-                                                        Toast.LENGTH_SHORT
-                                                    ).show()
-                                                    Log.e("newOrderResponseResult err", newOrderResponseResult.message.toString())
-                                                    isButtonLoading = false
-                                                }
-                                            }
-                                        }
                                     }
                                 }
                             }

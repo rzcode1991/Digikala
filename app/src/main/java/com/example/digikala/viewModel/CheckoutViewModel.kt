@@ -10,6 +10,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.digikala.R
+import com.example.digikala.data.model.checkout.ConfirmPurchaseRequest
 import com.example.digikala.data.model.checkout.DayAndDate
 import com.example.digikala.data.model.checkout.OrderRequest
 import com.example.digikala.data.network.NetworkResult
@@ -35,9 +36,17 @@ class CheckoutViewModel @Inject constructor(
 
     val newOrderResponseResult = MutableStateFlow<NetworkResult<String>>(NetworkResult.Loading())
 
+    val confirmPurchaseResult = MutableStateFlow<NetworkResult<String>>(NetworkResult.Loading())
+
     suspend fun setNewOrder(orderRequest: OrderRequest){
         viewModelScope.launch(Dispatchers.IO) {
             newOrderResponseResult.emit(repository.setNewOrder(orderRequest))
+        }
+    }
+
+    fun confirmPurchase(confirmPurchase: ConfirmPurchaseRequest){
+        viewModelScope.launch(Dispatchers.IO) {
+            confirmPurchaseResult.emit(repository.confirmPurchase(confirmPurchase))
         }
     }
 

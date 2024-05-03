@@ -129,5 +129,14 @@
     <string name="nov">November</string>
     <string name="dec">December</string>
     <string name="network_error">Network error. Check your internet connection.</string>
+    <string name="pay">Pay</string>
+    <string name="order_state">Order state</string>
+    <string name="waiting_for_pay">Waiting for pay</string>
+    <string name="paid">Payment was successful</string>
+    <string name="pay_failed">Payment failed</string>
+    <string name="order_id">Order id</string>
+    <string name="go_to_home_screen">Go to home screen</string>
+    <string name="after_payment">Complete your payment</string>
+    <string name="ref_id">Transaction id</string>
 
 </resources>

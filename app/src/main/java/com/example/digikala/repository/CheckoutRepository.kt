@@ -1,5 +1,6 @@
 package com.example.digikala.repository
 
+import com.example.digikala.data.model.checkout.ConfirmPurchaseRequest
 import com.example.digikala.data.model.checkout.OrderRequest
 import com.example.digikala.data.network.BaseApiResponse
 import com.example.digikala.data.network.CheckoutApiInterface
@@ -13,6 +14,11 @@ class CheckoutRepository @Inject constructor(
     suspend fun setNewOrder(orderRequest: OrderRequest): NetworkResult<String> =
         safeApiCall {
             api.setNewOrder(orderRequest)
+        }
+
+    suspend fun confirmPurchase(confirmPurchase: ConfirmPurchaseRequest): NetworkResult<String> =
+        safeApiCall {
+            api.confirmPurchase(confirmPurchase)
         }
 
 }

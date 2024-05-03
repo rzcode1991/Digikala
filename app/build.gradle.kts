@@ -25,6 +25,7 @@ android {
         buildConfigField("String", "X_API_KEY", apiKeyProperties.getProperty("X_API_KEY"))
         buildConfigField("String", "KEY", apiKeyProperties.getProperty("KEY"))
         buildConfigField("String", "IV", apiKeyProperties.getProperty("IV"))
+        buildConfigField("String", "ZARIN_MERCHANT_ID", apiKeyProperties.getProperty("ZARIN_MERCHANT_ID"))
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -69,6 +70,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
     implementation("androidx.activity:activity-compose:1.8.2")
     implementation(platform("androidx.compose:compose-bom:2023.08.00"))
+    //noinspection GradleCompatible
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
@@ -126,6 +128,8 @@ dependencies {
     implementation ("com.google.accompanist:accompanist-pager:0.35.0-alpha")
     implementation ("com.google.accompanist:accompanist-pager-indicators:0.35.0-alpha")
 
+    //zarinpal
+    implementation("com.zarinpal:payment-provider-ktx:0.5.3")
 
 
 }

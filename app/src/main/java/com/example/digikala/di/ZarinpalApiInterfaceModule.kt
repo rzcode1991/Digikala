@@ -1,6 +1,6 @@
 package com.example.digikala.di
 
-import com.example.digikala.data.network.AddressApiInterface
+import com.example.digikala.data.network.ZarinpalApiInterface
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -11,11 +11,11 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AddressApiInterfaceModule {
+object ZarinpalApiInterfaceModule {
 
     @Provides
     @Singleton
-    fun provideAddressApiInterface(@Named("digiRetrofit") retrofit: Retrofit): AddressApiInterface =
-        retrofit.create(AddressApiInterface::class.java)
+    fun provideZarinpalApiInterface(@Named("zarinRetrofit") retrofit: Retrofit): ZarinpalApiInterface =
+        retrofit.create(ZarinpalApiInterface::class.java)
 
 }

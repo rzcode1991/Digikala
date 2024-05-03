@@ -128,5 +128,14 @@
     <string name="nov">نوامبر</string>
     <string name="dec">دسامبر</string>
     <string name="network_error">اشکال در شبکه. اتصال اینترنت خود را چک کنید.</string>
+    <string name="pay">پرداخت</string>
+    <string name="order_state">وضعیت سفارش</string>
+    <string name="waiting_for_pay">در انتظار پرداخت</string>
+    <string name="paid">پرداخت موفقیت آمیز بود</string>
+    <string name="pay_failed">پرداخت ناموفق</string>
+    <string name="order_id">کد سفارش</string>
+    <string name="go_to_home_screen">بازگشت به صفحه اصلی</string>
+    <string name="after_payment">تکمیل فرایند پرداخت</string>
+    <string name="ref_id">شماره تراکنش</string>
 
 </resources>
