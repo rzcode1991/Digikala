@@ -23,17 +23,24 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.example.digikala.R
 import com.example.digikala.data.model.home.StoreProduct
 import com.example.digikala.data.network.NetworkResult
+import com.example.digikala.navigation.Screen
 import com.example.digikala.ui.components.MyLoading
+import com.example.digikala.ui.components.NetworkErrorLoading
 import com.example.digikala.ui.theme.darkCyan
 import com.example.digikala.ui.theme.darkText
 import com.example.digikala.ui.theme.spacing
 import com.example.digikala.viewModel.HomeViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 @Composable
 fun MostFavoriteProductsSection(
+    scope: CoroutineScope,
+    navController: NavHostController,
     viewModel: HomeViewModel = hiltViewModel()
 ){
 
@@ -43,19 +50,25 @@ fun MostFavoriteProductsSection(
     var isLoading by remember {
         mutableStateOf(false)
     }
+    var isError by remember {
+        mutableStateOf(false)
+    }
 
     val mostFavoriteProductsResult by viewModel.mostFavoriteProducts.collectAsState()
     when(mostFavoriteProductsResult){
         is NetworkResult.Success -> {
             mostFavoriteProducts = mostFavoriteProductsResult.data ?: emptyList()
             isLoading = false
+            isError = false
         }
         is NetworkResult.Error -> {
             Log.e("mostFavoriteProductsResult Error", mostFavoriteProductsResult.message.toString())
             isLoading = false
+            isError = true
         }
         is NetworkResult.Loading -> {
             isLoading = true
+            isError = false
         }
     }
 
@@ -102,9 +115,19 @@ fun MostFavoriteProductsSection(
                             .width(170.dp)
                     )
                 }
+            }else if (isError){
+                item {
+                    NetworkErrorLoading(height = 320.dp) {
+                        scope.launch {
+                            viewModel.getAllDataFromServer()
+                        }
+                    }
+                }
             }else{
                 items(mostFavoriteProducts){item ->
-                    MostFavoriteProductsItem(item)
+                    MostFavoriteProductsItem(item){
+                        navController.navigate(Screen.ProductDetail.withArgs(item._id))
+                    }
                 }
             }
 

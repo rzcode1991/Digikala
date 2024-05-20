@@ -50,8 +50,9 @@ import com.example.digikala.utils.DigitHelper
 @Composable
 fun SuggestedProductItemView(
     item: StoreProduct,
-    onAddClick: (StoreProduct) -> Unit
-){
+    onAddClick: (StoreProduct) -> Unit,
+    onItemClick: () -> Unit
+) {
 
     Card(
         modifier = Modifier
@@ -81,6 +82,9 @@ fun SuggestedProductItemView(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(120.dp)
+                        .clickable {
+                            onItemClick()
+                        }
                 )
 
                 Box(
@@ -88,7 +92,7 @@ fun SuggestedProductItemView(
                         .fillMaxWidth()
                         .height(120.dp),
                     contentAlignment = Alignment.BottomStart
-                ){
+                ) {
 
                     Surface(
                         color = MaterialTheme.colorScheme.bottomBarColor,
@@ -181,9 +185,10 @@ fun SuggestedProductItemView(
                             shape = CircleShape
                         ),
                     contentAlignment = Alignment.Center
-                ){
+                ) {
 
-                    val discountPersian = DigitHelper.engToFaAndSeparateByComma(item.discountPercent.toString())
+                    val discountPersian =
+                        DigitHelper.engToFaAndSeparateByComma(item.discountPercent.toString())
                     Text(
                         text = "$discountPersian%",
                         color = Color.White,

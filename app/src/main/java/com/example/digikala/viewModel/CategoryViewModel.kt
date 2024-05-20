@@ -17,13 +17,10 @@ class CategoryViewModel @Inject constructor(
 
     val subCategories = MutableStateFlow<NetworkResult<SubCategory>>(NetworkResult.Loading())
 
-    suspend fun getAllDataFromServer(){
+    fun getAllDataFromServer(){
         viewModelScope.launch {
 
-            // fire and forget
-            launch {
-                subCategories.emit(repository.getSubCategories())
-            }
+            subCategories.emit(repository.getSubCategories())
 
         }
     }

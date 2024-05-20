@@ -1,6 +1,7 @@
 package com.example.digikala.ui.screens.home
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -29,15 +30,19 @@ import com.example.digikala.ui.theme.spacing
 fun ProductsHorizontalItemView(
     name: String,
     id: String,
-    imageUrl: String
-){
+    imageUrl: String,
+    onItemClick: () -> Unit
+) {
 
     Row(
         modifier = Modifier
             .width(320.dp)
             .padding(
                 bottom = MaterialTheme.spacing.extraSmall
-            ),
+            )
+            .clickable {
+                onItemClick()
+            },
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {

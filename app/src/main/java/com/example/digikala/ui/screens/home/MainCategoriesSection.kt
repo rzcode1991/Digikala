@@ -33,13 +33,17 @@ import com.example.digikala.R
 import com.example.digikala.data.model.home.MainCategory
 import com.example.digikala.data.network.NetworkResult
 import com.example.digikala.ui.components.MyLoading
+import com.example.digikala.ui.components.NetworkErrorLoading
 import com.example.digikala.ui.theme.darkText
 import com.example.digikala.ui.theme.spacing
 import com.example.digikala.viewModel.HomeViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun MainCategoriesSection(
+    scope: CoroutineScope,
     viewModel: HomeViewModel = hiltViewModel()
 ){
 
@@ -49,19 +53,25 @@ fun MainCategoriesSection(
     var isLoading by remember {
         mutableStateOf(false)
     }
+    var isError by remember {
+        mutableStateOf(false)
+    }
 
     val mainCategoriesResult by viewModel.mainCategories.collectAsState()
     when (mainCategoriesResult) {
         is NetworkResult.Success -> {
             mainCategoriesList = mainCategoriesResult.data ?: emptyList()
             isLoading = false
+            isError = false
         }
         is NetworkResult.Error -> {
             Log.e(":::mainCategoriesResult error:::", mainCategoriesResult.message.toString())
             isLoading = false
+            isError = true
         }
         is NetworkResult.Loading -> {
             isLoading = true
+            isError = false
         }
     }
 
@@ -89,6 +99,12 @@ fun MainCategoriesSection(
                 height = 160.dp,
                 isDark = true
             )
+        }else if (isError){
+            NetworkErrorLoading(height = 160.dp) {
+                scope.launch {
+                    viewModel.getAllDataFromServer()
+                }
+            }
         }else{
             FlowRow(
                 modifier = Modifier

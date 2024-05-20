@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
@@ -33,10 +32,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -44,6 +41,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.digikala.R
 import com.example.digikala.data.model.basket.CartItem
 import com.example.digikala.data.model.basket.CartStatus
+import com.example.digikala.ui.components.TextAndIconInRow
 import com.example.digikala.ui.theme.bottomBarColor
 import com.example.digikala.ui.theme.darkCyan
 import com.example.digikala.ui.theme.darkText
@@ -61,6 +59,7 @@ import com.example.digikala.viewModel.BasketViewModel
 @Composable
 fun CartItemView(
     item: CartItem,
+    onItemClick: () -> Unit,
     viewModel: BasketViewModel = hiltViewModel()
 ){
 
@@ -88,40 +87,6 @@ fun CartItemView(
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-
-                Column {
-                    
-                    Text(
-                        text = stringResource(id = R.string.your_shopping_list),
-                        style = MaterialTheme.typography.headlineLarge,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.darkText
-                    )
-
-                    Text(
-                        text = "${engToFa(counter.toString())} ${stringResource(id = R.string.item)} ",
-                        style = MaterialTheme.typography.headlineSmall,
-                        color = Color.Gray
-                    )
-                    
-                }
-
-                Icon(
-                    Icons.Filled.MoreVert,
-                    contentDescription = "",
-                    tint = MaterialTheme.colorScheme.darkText
-                )
-
-            }
-
-            Spacer(modifier = Modifier.height(12.dp))
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
 
@@ -135,6 +100,9 @@ fun CartItemView(
                         .width(130.dp)
                         .height(90.dp)
                         .weight(0.3f)
+                        .clickable {
+                            onItemClick()
+                        }
                 )
 
                 Column(
@@ -422,44 +390,6 @@ fun CartItemView(
             }
 
         }
-
-    }
-
-}
-
-
-@Composable
-private fun TextAndIconInRow(
-    text: String,
-    painter: Painter,
-    iconTint: Color,
-    textStyle: TextStyle
-){
-
-    Row(
-        modifier = Modifier
-            .padding(
-                vertical = MaterialTheme.spacing.extraSmall
-            ),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-
-        Icon(
-            painter = painter,
-            contentDescription = "",
-            tint = iconTint,
-            modifier = Modifier
-                .size(14.dp)
-        )
-
-        Spacer(modifier = Modifier.width(MaterialTheme.spacing.small))
-
-        Text(
-            text = text,
-            style = textStyle,
-            fontWeight = FontWeight.SemiBold,
-            color = MaterialTheme.colorScheme.semiDarkText
-        )
 
     }
 

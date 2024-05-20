@@ -141,7 +141,7 @@ fun ShowCaseSection(
 
 
 @Composable
-fun onItemClick(
+private fun onItemClick(
     navController: NavHostController,
     url: String
 ): () -> Unit =

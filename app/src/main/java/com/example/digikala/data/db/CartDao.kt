@@ -19,6 +19,9 @@ interface CartDao {
     @Query("select * from shopping_cart where cartStatus=:status")
     fun getAllCartItems(status: CartStatus): Flow<List<CartItem>>
 
+    @Query("select * from shopping_cart")
+    fun getWholeCartItems(): Flow<List<CartItem>>
+
     @Delete
     suspend fun deleteCartItem(cart: CartItem)
 

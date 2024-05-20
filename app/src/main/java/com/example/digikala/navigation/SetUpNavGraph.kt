@@ -6,7 +6,6 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.digikala.data.model.basket.CartItem
 import com.example.digikala.ui.screens.basket.BasketScreen
 import com.example.digikala.ui.screens.category.CategoryScreen
 import com.example.digikala.ui.screens.checkout.CheckoutScreen
@@ -15,8 +14,8 @@ import com.example.digikala.ui.screens.home.HomeScreen
 import com.example.digikala.ui.screens.profile.ProfileScreen
 import com.example.digikala.ui.screens.splash.SplashScreen
 import com.example.digikala.ui.screens.home.WebViewScreen
-import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
+import com.example.digikala.ui.screens.productDetails.ProductDescriptionScreen
+import com.example.digikala.ui.screens.productDetails.ProductDetailsScreen
 
 @Composable
 fun SetUpNavGraph(
@@ -79,6 +78,40 @@ fun SetUpNavGraph(
                         orderPrice = orderPrice
                     )
                 }
+            }
+        }
+        composable(
+            route = Screen.ProductDetail.route + "/{productId}",
+            arguments = listOf(
+                navArgument("productId"){
+                    type = NavType.StringType
+                    defaultValue = ""
+                    nullable = true
+                }
+            )
+        ){navBackStackEntry ->
+            navBackStackEntry.arguments!!.getString("productId")?.let { id ->
+                ProductDetailsScreen(
+                    navController = navController,
+                    productId = id
+                )
+            }
+        }
+        composable(
+            route = Screen.ProductDescription.route + "/{productName}",
+            arguments = listOf(
+                navArgument("productName"){
+                    type = NavType.StringType
+                    defaultValue = ""
+                    nullable = true
+                }
+            )
+        ){navBackStackEntry ->
+            navBackStackEntry.arguments!!.getString("productName")?.let { name ->
+                ProductDescriptionScreen(
+                    productName = name,
+                    navController = navController
+                )
             }
         }
     }

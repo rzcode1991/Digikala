@@ -86,3 +86,15 @@ val ColorScheme.cursorColor: Color
 val ColorScheme.settingArrow: Color
     @Composable
     get() = if(isSystemInDarkTheme()) Color(0xFFD8D8D8) else Color(0xFF9E9FB1)
+
+val ColorScheme.golden: Color
+    @Composable
+    get() = Color(0xFFE4BC2F)
+
+val ColorScheme.darkGreen: Color
+    @Composable
+    get() = Color(0xFF1E7721)
+
+val ColorScheme.orange: Color
+    @Composable
+    get() = Color(0xFFFF5722)

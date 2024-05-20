@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
@@ -24,9 +23,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -52,19 +48,15 @@ import com.example.digikala.ui.theme.roundedShape
 import com.example.digikala.ui.theme.semiDarkText
 import com.example.digikala.ui.theme.spacing
 import com.example.digikala.utils.DigitHelper.applyDiscount
-import com.example.digikala.utils.DigitHelper.engToFa
 import com.example.digikala.utils.DigitHelper.engToFaAndSeparateByComma
 import com.example.digikala.viewModel.BasketViewModel
 
 @Composable
 fun NextCartItemView(
     item: CartItem,
+    onItemClick: () -> Unit,
     viewModel: BasketViewModel = hiltViewModel()
 ){
-
-    val counter by remember {
-        mutableStateOf(item.count)
-    }
 
     Card(
         modifier = Modifier
@@ -86,40 +78,6 @@ fun NextCartItemView(
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-
-                Column {
-                    
-                    Text(
-                        text = stringResource(id = R.string.your_next_shopping_list),
-                        style = MaterialTheme.typography.headlineLarge,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.darkText
-                    )
-
-                    Text(
-                        text = "${engToFa(counter.toString())} ${stringResource(id = R.string.item)} ",
-                        style = MaterialTheme.typography.headlineSmall,
-                        color = Color.Gray
-                    )
-                    
-                }
-
-                Icon(
-                    Icons.Filled.MoreVert,
-                    contentDescription = "",
-                    tint = MaterialTheme.colorScheme.darkText
-                )
-
-            }
-
-            Spacer(modifier = Modifier.height(12.dp))
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
 
@@ -133,6 +91,9 @@ fun NextCartItemView(
                         .width(130.dp)
                         .height(90.dp)
                         .weight(0.3f)
+                        .clickable {
+                            onItemClick()
+                        }
                 )
 
                 Column(

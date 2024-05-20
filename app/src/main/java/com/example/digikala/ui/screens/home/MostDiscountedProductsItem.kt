@@ -2,6 +2,7 @@ package com.example.digikala.ui.screens.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -41,12 +42,18 @@ import com.example.digikala.utils.DigitHelper.applyDiscount
 import com.example.digikala.utils.DigitHelper.engToFaAndSeparateByComma
 
 @Composable
-fun MostDiscountedProductsItem(item: StoreProduct){
+fun MostDiscountedProductsItem(
+    item: StoreProduct,
+    onItemClick: () -> Unit
+) {
 
     Card(
         modifier = Modifier
             .fillMaxWidth(0.5f)
-            .padding(MaterialTheme.spacing.extraSmall),
+            .padding(MaterialTheme.spacing.extraSmall)
+            .clickable {
+                onItemClick()
+            },
         elevation = CardDefaults.cardElevation(1.dp),
         colors = CardDefaults.cardColors(
             containerColor = Color.White
@@ -138,7 +145,7 @@ fun MostDiscountedProductsItem(item: StoreProduct){
                             shape = CircleShape
                         ),
                     contentAlignment = Alignment.Center
-                ){
+                ) {
 
                     val discountPersian = engToFaAndSeparateByComma(item.discountPercent.toString())
                     Text(

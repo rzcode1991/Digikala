@@ -137,5 +137,36 @@
     <string name="go_to_home_screen">بازگشت به صفحه اصلی</string>
     <string name="after_payment">تکمیل فرایند پرداخت</string>
     <string name="ref_id">شماره تراکنش</string>
+    <string name="buyer">خریدار</string>
+    <string name="users_comments">دیدگاه کاربران</string>
+    <string name="q_and_a">پرسش و پاسخ</string>
+    <string name="color">رنگ</string>
+    <string name="seller">فروشنده</string>
+    <string name="function">عملکرد</string>
+    <string name="perfect">عالی</string>
+    <string name="warranty_txt">گارانتی دیجی‌کالا</string>
+    <string name="buyers_satisfaction">رضایت خریداران</string>
+    <string name="you_will_get_digiclub_score">امتیاز در دیجی‌کلاب دریافت می‌کنید</string>
+    <string name="technical_details">مشخصات فنی</string>
+    <string name="brief_description">معرفی اجمالی محصول</string>
+    <string name="add_to_basket">افزودن به سبد خرید</string>
+    <string name="go_to_basket">برو به سبد خرید</string>
+    <string name="item_added_to_basket">کالا به سبد خرید شما اضافه شد</string>
+    <string name="person">نفر</string>
+    <string name="buyers_have_suggested">از خریداران این کالا را پیشنهاد کرده‌اند.</string>
+    <string name="review">نقد و بررسی</string>
+    <string name="describe">معرفی اجمالی</string>
+    <string name="no_description_yet">هنوز هیچ نقد و بررسی برای این آیتم ثبت نشده است</string>
+    <string name="comment">نظر</string>
+    <string name="i_suggest">پیشنهاد میکنم</string>
+    <string name="i_dont_suggest">پیشنهاد نمیکنم</string>
+    <string name="years_ago">سال پیش</string>
+    <string name="months_ago">ماه پیش</string>
+    <string name="days_ago">روز پیش</string>
+    <string name="hours_ago">ساعت پیش</string>
+    <string name="minutes_ago">دقیقه پیش</string>
+    <string name="just_now">اکنون</string>
+    <string name="add_your_comment_about_this_item">دیدگاه خود را درباره این کالا بنویسید</string>
+    <string name="add_comment_get_score_txt">با ثبت دیدگاه بر روی کالاهای خریداری شده 5 امتیاز در دیجی‌کلاب دریافت کنید</string>
 
 </resources>

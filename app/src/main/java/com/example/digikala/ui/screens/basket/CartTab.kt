@@ -17,10 +17,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.example.digikala.R
 import com.example.digikala.data.model.basket.CartItem
+import com.example.digikala.navigation.Screen
 import com.example.digikala.ui.components.WaitText
 import com.example.digikala.utils.Constants.USER_TOKEN
 import com.example.digikala.viewModel.BasketViewModel
@@ -66,10 +69,19 @@ fun CartTab(
                             EmptyCartSection()
                         }
                     }else{
+                        item {
+                            TopRowInBasketScreen(
+                                title = stringResource(id = R.string.your_shopping_list),
+                                counter = currentCartPriceDetail.totalCount
+                            )
+                        }
                         items(allCurrentCartItems){item ->
                             key(item.itemId) {
                                 CartItemView(
-                                    item = item
+                                    item = item,
+                                    onItemClick = {
+                                        navController.navigate(Screen.ProductDetail.withArgs(item.itemId))
+                                    }
                                 )
                             }
                         }
@@ -82,12 +94,12 @@ fun CartTab(
                     }
 
                     item {
-                        SuggestionForYouSection()
+                        SuggestionForYouSection(navController = navController)
                     }
                 }
 
                 if (allCurrentCartItems.isNotEmpty()){
-                    ContinueBuyingSection(
+                    BasketContinueBuyingSection(
                         totalFinalPrice = currentCartPriceDetail.totalFinalPrice,
                         navHostController = navController
                     )

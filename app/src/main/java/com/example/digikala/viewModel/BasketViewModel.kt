@@ -30,6 +30,7 @@ class BasketViewModel @Inject constructor(
 
     private val _allNextCartItems = MutableStateFlow<BasketScreenState<List<CartItem>>>(BasketScreenState.Loading)
     val allNextCartItems : StateFlow<BasketScreenState<List<CartItem>>> = _allNextCartItems
+    val nextCartCounter = MutableStateFlow(0)
 
     val currentCartPriceDetail = MutableStateFlow(CartPriceDetail(0, 0, 0, 0, 0))
 
@@ -49,11 +50,24 @@ class BasketViewModel @Inject constructor(
                 }
             }
             launch {
+                repository.allNextCartItems.collectLatest { items ->
+                    nextCartItemsCounter(items)
+                }
+            }
+            launch {
                 repository.allCurrentCartItems.collectLatest { items ->
                     calculateCartPriceDetail(items)
                 }
             }
         }
+    }
+
+    private suspend fun nextCartItemsCounter(items: List<CartItem>){
+        var totalCount = 0
+        items.forEach { item ->
+            totalCount += item.count
+        }
+        nextCartCounter.emit(totalCount)
     }
 
     private suspend fun calculateCartPriceDetail(items: List<CartItem>){

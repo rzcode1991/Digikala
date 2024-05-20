@@ -28,15 +28,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import com.example.digikala.R
 import com.example.digikala.data.model.basket.CartItem
 import com.example.digikala.data.model.basket.CartPriceDetail
 import com.example.digikala.data.model.checkout.DayAndDate
+import com.example.digikala.navigation.Screen
 import com.example.digikala.ui.theme.bottomBarColor
 import com.example.digikala.ui.theme.darkCyan
 import com.example.digikala.ui.theme.darkText
-import com.example.digikala.ui.theme.digikalaLightRed
+import com.example.digikala.ui.theme.digikalaLightGreen
 import com.example.digikala.ui.theme.roundedShape
 import com.example.digikala.ui.theme.semiDarkText
 import com.example.digikala.ui.theme.spacing
@@ -49,7 +51,8 @@ fun CheckoutSendingTimeSection(
     allCurrentCartItems: List<CartItem>,
     currentCartPriceDetail: CartPriceDetail,
     selectedDay: DayAndDate?,
-    onClick: () -> Unit
+    navController: NavHostController,
+    onSelectTimeTxtClick: () -> Unit
 ){
 
     Column(
@@ -116,16 +119,16 @@ fun CheckoutSendingTimeSection(
                 ) {
 
                     Image(
-                        painter = rememberAsyncImagePainter(model = R.drawable.k1),
+                        painter = rememberAsyncImagePainter(model = R.drawable.k2),
                         contentDescription = "",
                         modifier = Modifier
                             .size(20.dp)
                     )
 
                     Text(
-                        text = stringResource(id = R.string.normal_shipping),
+                        text = stringResource(id = R.string.fast_send),
                         style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.digikalaLightRed,
+                        color = MaterialTheme.colorScheme.digikalaLightGreen,
                         fontWeight = FontWeight.SemiBold,
                         modifier = Modifier
                             .padding(
@@ -161,7 +164,10 @@ fun CheckoutSendingTimeSection(
                         key(cartItem.itemId){
                             FinalSelectedItemView(
                                 item = cartItem,
-                                isLastItem = isLastItem
+                                isLastItem = isLastItem,
+                                onItemClick = {
+                                    navController.navigate(Screen.ProductDetail.withArgs(cartItem.itemId))
+                                }
                             )
                         }
                     }
@@ -262,7 +268,7 @@ fun CheckoutSendingTimeSection(
                             start = MaterialTheme.spacing.semiMedium
                         )
                         .clickable {
-                            onClick()
+                            onSelectTimeTxtClick()
                         },
                     horizontalArrangement = Arrangement.Start,
                     verticalAlignment = Alignment.CenterVertically

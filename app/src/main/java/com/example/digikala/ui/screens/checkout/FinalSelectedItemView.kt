@@ -44,6 +44,7 @@ import com.example.digikala.viewModel.BasketViewModel
 fun FinalSelectedItemView(
     item: CartItem,
     isLastItem: Boolean,
+    onItemClick: () -> Unit,
     basketViewModel: BasketViewModel = hiltViewModel()
 ){
 
@@ -90,6 +91,9 @@ fun FinalSelectedItemView(
                         .padding(
                             horizontal = MaterialTheme.spacing.extraSmall
                         )
+                        .clickable {
+                            onItemClick()
+                        }
                 )
 
                 Spacer(modifier = Modifier.height(MaterialTheme.spacing.small))

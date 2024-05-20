@@ -11,30 +11,24 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Divider
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import com.example.digikala.R
 import com.example.digikala.ui.components.Loading3Dots
-import com.example.digikala.ui.components.MyLoading
 import com.example.digikala.ui.theme.bottomBarColor
 import com.example.digikala.ui.theme.darkText
 import com.example.digikala.ui.theme.digikalaRed
@@ -47,139 +41,136 @@ fun CheckoutContinueBuyingSection(
     isTimeSelected: Boolean,
     isButtonLoading: Boolean,
     finalPrice: Long,
-    navController: NavHostController,
     onClick: () -> Unit
 ){
 
-    Column(
+    Card(
         modifier = Modifier
             .fillMaxWidth(),
-        verticalArrangement = Arrangement.SpaceBetween
-    ) {
-
-        Divider(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(1.dp)
-                .alpha(0.4f),
-            color = Color.LightGray
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 3.dp
+        ),
+        shape = RectangleShape,
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.bottomBarColor
         )
+    ){
 
-        Row(
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    horizontal = MaterialTheme.spacing.small,
-                    vertical = MaterialTheme.spacing.extraSmall
-                ),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ){
+                .fillMaxWidth(),
+            verticalArrangement = Arrangement.SpaceBetween
+        ) {
 
-            Button(
-                onClick = {
-                    onClick()
-                },
-                shape = MaterialTheme.roundedShape.small,
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = if (isTimeSelected){
-                        MaterialTheme.colorScheme.digikalaRed
-                    }else{
-                        MaterialTheme.colorScheme.bottomBarColor
-                    },
-                    contentColor = if (isTimeSelected){
-                        MaterialTheme.colorScheme.bottomBarColor
-                    }else{
-                        MaterialTheme.colorScheme.digikalaRed
-                    }
-                ),
-                border = if (isTimeSelected){
-                    BorderStroke(0.dp, Color.Transparent)
-                }else{
-                    BorderStroke(2.dp, MaterialTheme.colorScheme.digikalaRed)
-                },
+            Row(
                 modifier = Modifier
-                    .padding(MaterialTheme.spacing.small)
-            ) {
+                    .fillMaxWidth()
+                    .padding(
+                        horizontal = MaterialTheme.spacing.small,
+                        vertical = MaterialTheme.spacing.extraSmall
+                    ),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ){
 
-                if (isButtonLoading){
-                    Row(
-                        modifier = Modifier
-                            .width(120.dp)
-                            .padding(
-                                horizontal = MaterialTheme.spacing.small,
-                                vertical = MaterialTheme.spacing.semiSmall
-                            ),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        Loading3Dots(isDark = isSystemInDarkTheme())
-                    }
-                }else{
-                    Text(
-                        text = if (isTimeSelected){
-                            stringResource(id = R.string.continue_buy)
+                Button(
+                    onClick = {
+                        onClick()
+                    },
+                    shape = MaterialTheme.roundedShape.small,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = if (isTimeSelected){
+                            MaterialTheme.colorScheme.digikalaRed
                         }else{
-                            stringResource(id = R.string.select_date_to_send)
+                            MaterialTheme.colorScheme.bottomBarColor
                         },
-                        style = MaterialTheme.typography.headlineLarge,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier
-                            .padding(
-                                horizontal = MaterialTheme.spacing.small,
-                                vertical = MaterialTheme.spacing.extraSmall
-                            )
-                    )
+                        contentColor = if (isTimeSelected){
+                            MaterialTheme.colorScheme.bottomBarColor
+                        }else{
+                            MaterialTheme.colorScheme.digikalaRed
+                        }
+                    ),
+                    border = if (isTimeSelected){
+                        BorderStroke(0.dp, Color.Transparent)
+                    }else{
+                        BorderStroke(2.dp, MaterialTheme.colorScheme.digikalaRed)
+                    },
+                    modifier = Modifier
+                        .padding(MaterialTheme.spacing.small)
+                ) {
+
+                    if (isButtonLoading){
+                        Row(
+                            modifier = Modifier
+                                .width(120.dp)
+                                .padding(
+                                    horizontal = MaterialTheme.spacing.small,
+                                    vertical = MaterialTheme.spacing.semiSmall
+                                ),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            Loading3Dots(isDark = isSystemInDarkTheme())
+                        }
+                    }else{
+                        Text(
+                            text = if (isTimeSelected){
+                                stringResource(id = R.string.continue_buy)
+                            }else{
+                                stringResource(id = R.string.select_date_to_send)
+                            },
+                            style = MaterialTheme.typography.headlineLarge,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier
+                                .padding(
+                                    horizontal = MaterialTheme.spacing.small,
+                                    vertical = MaterialTheme.spacing.extraSmall
+                                )
+                        )
+                    }
+
                 }
 
-            }
-
-            Column(
-                modifier = Modifier
-                    .padding(MaterialTheme.spacing.small),
-                horizontalAlignment = Alignment.End
-            ) {
-
-                Text(
-                    text = stringResource(id = R.string.price_to_pay),
-                    style = MaterialTheme.typography.headlineSmall,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Gray,
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Row {
+                Column(
+                    modifier = Modifier
+                        .padding(MaterialTheme.spacing.small),
+                    horizontalAlignment = Alignment.End
+                ) {
 
                     Text(
-                        text = engToFaAndSeparateByComma(finalPrice.toString()),
+                        text = stringResource(id = R.string.price_to_pay),
                         style = MaterialTheme.typography.headlineSmall,
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.darkText
+                        color = Color.Gray,
                     )
 
-                    Spacer(modifier = Modifier.width(4.dp))
+                    Spacer(modifier = Modifier.height(8.dp))
 
-                    Icon(
-                        painter = painterResource(id = R.drawable.toman),
-                        contentDescription = "",
-                        modifier = Modifier
-                            .size(16.dp)
-                    )
+                    Row {
+
+                        Text(
+                            text = engToFaAndSeparateByComma(finalPrice.toString()),
+                            style = MaterialTheme.typography.headlineSmall,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.darkText
+                        )
+
+                        Spacer(modifier = Modifier.width(4.dp))
+
+                        Icon(
+                            painter = painterResource(id = R.drawable.toman),
+                            contentDescription = "",
+                            modifier = Modifier
+                                .size(16.dp)
+                        )
+
+                    }
 
                 }
 
             }
 
         }
-
-        Divider(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(1.dp)
-                .alpha(0.6f),
-            color = Color.LightGray
-        )
 
     }
 

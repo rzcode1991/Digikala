@@ -2,6 +2,7 @@ package com.example.digikala.ui.screens.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -41,7 +42,10 @@ import com.example.digikala.utils.DigitHelper.applyDiscount
 import com.example.digikala.utils.DigitHelper.engToFaAndSeparateByComma
 
 @Composable
-fun MostFavoriteProductsItem(item: StoreProduct){
+fun MostFavoriteProductsItem(
+    item: StoreProduct,
+    onItemClick: () -> Unit
+){
 
     Column(
         modifier = Modifier
@@ -50,6 +54,9 @@ fun MostFavoriteProductsItem(item: StoreProduct){
                 vertical = MaterialTheme.spacing.semiLarge,
                 horizontal = MaterialTheme.spacing.semiSmall
             )
+            .clickable {
+                onItemClick()
+            }
     ) {
 
         Row {

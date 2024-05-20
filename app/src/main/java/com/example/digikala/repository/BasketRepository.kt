@@ -25,6 +25,7 @@ class BasketRepository @Inject constructor(
 
     val allCurrentCartItems = dao.getAllCartItems(CartStatus.CURRENT_CART)
     val allNextCartItems = dao.getAllCartItems(CartStatus.NEXT_CART)
+    val wholeCartItems = dao.getWholeCartItems()
 
     val totalCountForCurrentCartItems = dao.getTotalCountForCartItems(CartStatus.CURRENT_CART)
     val totalCountForNextCartItems = dao.getTotalCountForCartItems(CartStatus.NEXT_CART)

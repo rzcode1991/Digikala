@@ -36,10 +36,11 @@ import com.example.digikala.utils.Constants.USER_TOKEN
 import com.example.digikala.utils.DigitHelper
 
 @Composable
-fun ContinueBuyingSection(
+fun BasketContinueBuyingSection(
     totalFinalPrice: Long,
     navHostController: NavHostController
 ){
+
     Column(
         modifier = Modifier
             .fillMaxWidth()

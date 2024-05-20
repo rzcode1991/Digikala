@@ -98,7 +98,6 @@ fun CheckoutScreen(
             when(newOrderResponseResult){
                 is NetworkResult.Success -> {
                     orderId = newOrderResponseResult.data ?: ""
-                    Log.e("my_tag", "order id is: $orderId")
                     if (orderId.isNotEmpty()){
                         val orderPrice = (currentCartPriceDetail.totalFinalPrice + shippingCost.toLong()).toString()
                         navController.navigate(Screen.ConfirmPurchase.withArgs(orderId, orderPrice))
@@ -106,7 +105,6 @@ fun CheckoutScreen(
                     isButtonLoading = false
                 }
                 is NetworkResult.Loading -> {
-                    /*isButtonLoading = true*/
                 }
                 is NetworkResult.Error -> {
                     Toast.makeText(
@@ -172,7 +170,8 @@ fun CheckoutScreen(
                                     allCurrentCartItems = allCurrentCartItems,
                                     currentCartPriceDetail = currentCartPriceDetail,
                                     selectedDay = checkoutViewModel.selectedDay,
-                                    onClick = {
+                                    navController = navController,
+                                    onSelectTimeTxtClick = {
                                         checkoutViewModel.onEvent(
                                             CheckoutBottomSheetState.OnCloseOpenBottomSheet(
                                                 scope = scope,
@@ -217,7 +216,6 @@ fun CheckoutScreen(
                             isTimeSelected = checkoutViewModel.isTimeSelected,
                             isButtonLoading = isButtonLoading,
                             finalPrice = currentCartPriceDetail.totalFinalPrice + shippingCost.toLong(),
-                            navController = navController,
                             onClick = {
                                 if(!checkoutViewModel.isTimeSelected){
                                     checkoutViewModel.onEvent(

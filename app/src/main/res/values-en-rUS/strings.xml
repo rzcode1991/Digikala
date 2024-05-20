@@ -138,5 +138,37 @@
     <string name="go_to_home_screen">Go to home screen</string>
     <string name="after_payment">Complete your payment</string>
     <string name="ref_id">Transaction id</string>
+    <string name="buyer">Buyer</string>
+    <string name="users_comments">Users comments</string>
+    <string name="q_and_a">Question and answer</string>
+    <string name="color">Color</string>
+    <string name="seller">Seller</string>
+    <string name="function">Function</string>
+    <string name="perfect">Perfect</string>
+    <string name="warranty_txt">Digikala warranty</string>
+    <string name="buyers_satisfaction">Buyers satisfaction</string>
+    <string name="you_will_get_digiclub_score">Digiclub scores you will get</string>
+    <string name="technical_details">Technical details</string>
+    <string name="brief_description">Brief description</string>
+    <string name="add_to_basket">Add to your basket</string>
+    <string name="go_to_basket">Go to basket</string>
+    <string name="item_added_to_basket">Item successfully added to your basket</string>
+    <string name="person">Person</string>
+    <string name="buyers_have_suggested">From buyers have suggested this item.</string>
+    <string name="review">Review</string>
+    <string name="describe">Brief description</string>
+    <string name="no_description_yet">There is no description written for this item yet</string>
+    <string name="comment">Comments</string>
+    <string name="i_suggest">I suggest</string>
+    <string name="i_dont_suggest">I dont suggest</string>
+    <string name="years_ago">Years ago</string>
+    <string name="months_ago">Months ago</string>
+    <string name="days_ago">Days ago</string>
+    <string name="hours_ago">Hours ago</string>
+    <string name="minutes_ago">Minutes ago</string>
+    <string name="just_now">Just now</string>
+    <string name="add_your_comment_about_this_item">Add your comment about this item</string>
+    <string name="add_comment_get_score_txt">By adding your comment on bought items get 5 Digiclub scores.</string>
+
 
 </resources>

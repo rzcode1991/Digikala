@@ -22,17 +22,24 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.example.digikala.R
 import com.example.digikala.data.model.home.StoreProduct
 import com.example.digikala.data.network.NetworkResult
+import com.example.digikala.navigation.Screen
 import com.example.digikala.ui.components.MyLoading
+import com.example.digikala.ui.components.NetworkErrorLoading
 import com.example.digikala.ui.theme.darkText
 import com.example.digikala.ui.theme.spacing
 import com.example.digikala.viewModel.HomeViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun MostDiscountedProductsSection(
+    scope: CoroutineScope,
+    navController: NavHostController,
     viewModel: HomeViewModel = hiltViewModel()
 ){
 
@@ -42,19 +49,25 @@ fun MostDiscountedProductsSection(
     var isLoading by remember {
         mutableStateOf(false)
     }
+    var isError by remember {
+        mutableStateOf(false)
+    }
 
     val mostDiscountedProductsResult by viewModel.mostDiscountedProducts.collectAsState()
     when(mostDiscountedProductsResult){
         is NetworkResult.Success -> {
             mostDiscountedProducts = mostDiscountedProductsResult.data ?: emptyList()
             isLoading = false
+            isError = false
         }
         is NetworkResult.Error -> {
             Log.e("mostDiscountedProductsResult Error", mostDiscountedProductsResult.message.toString())
             isLoading = false
+            isError = true
         }
         is NetworkResult.Loading -> {
             isLoading = true
+            isError = false
         }
     }
 
@@ -80,6 +93,12 @@ fun MostDiscountedProductsSection(
                 height = 120.dp,
                 isDark = true
             )
+        }else if (isError){
+            NetworkErrorLoading(height = 200.dp) {
+                scope.launch {
+                    viewModel.getAllDataFromServer()
+                }
+            }
         }else{
             FlowRow(
                 maxItemsInEachRow = 2,
@@ -90,7 +109,9 @@ fun MostDiscountedProductsSection(
             ) {
 
                 for (item in mostDiscountedProducts){
-                    MostDiscountedProductsItem(item)
+                    MostDiscountedProductsItem(item){
+                        navController.navigate(Screen.ProductDetail.withArgs(item._id))
+                    }
                 }
 
             }

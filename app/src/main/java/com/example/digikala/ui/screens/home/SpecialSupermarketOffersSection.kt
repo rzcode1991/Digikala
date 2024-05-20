@@ -19,17 +19,23 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.example.digikala.R
 import com.example.digikala.data.model.home.SpecialOfferItem
 import com.example.digikala.data.network.NetworkResult
 import com.example.digikala.ui.components.MyLoading
+import com.example.digikala.ui.components.NetworkErrorLoading
 import com.example.digikala.ui.theme.digikalaLightGreen
 import com.example.digikala.ui.theme.digikalaLightRed
 import com.example.digikala.utils.Constants
 import com.example.digikala.viewModel.HomeViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 @Composable
 fun SpecialSupermarketOffersSection(
+    scope: CoroutineScope,
+    navController: NavHostController,
     viewModel: HomeViewModel = hiltViewModel()
 ){
 
@@ -39,18 +45,24 @@ fun SpecialSupermarketOffersSection(
     var isLoading by remember {
         mutableStateOf(false)
     }
+    var isError by remember {
+        mutableStateOf(false)
+    }
 
     val specialSupermarketResult by viewModel.specialSupermarketOffers.collectAsState()
     when(specialSupermarketResult){
         is NetworkResult.Success -> {
             specialSuperMarketList = specialSupermarketResult.data ?: emptyList()
             isLoading = false
+            isError = false
         }
         is NetworkResult.Loading -> {
             isLoading = true
+            isError = false
         }
         is NetworkResult.Error -> {
             isLoading = false
+            isError = true
             Log.e(":::specialSupermarketResult err:::", specialSupermarketResult.message.toString())
         }
     }
@@ -82,9 +94,17 @@ fun SpecialSupermarketOffersSection(
                             .width(170.dp)
                     )
                 }
+            }else if (isError){
+                item {
+                    NetworkErrorLoading(height = 375.dp) {
+                        scope.launch {
+                            viewModel.getAllDataFromServer()
+                        }
+                    }
+                }
             }else{
                 items(specialSuperMarketList){item ->
-                    AmazingItem(item)
+                    AmazingItem(item, navController)
                 }
             }
 

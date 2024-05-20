@@ -73,7 +73,7 @@ private fun SwipeRefreshSection(
                 SearchBarSection()
             }
             item {
-                SubCategorySection()
+                SubCategorySection(scope = refreshScope)
             }
 
         }
@@ -83,7 +83,7 @@ private fun SwipeRefreshSection(
 }
 
 
-private suspend fun getAllDataFromServer(
+private fun getAllDataFromServer(
     viewModel: CategoryViewModel
 ){
     viewModel.getAllDataFromServer()

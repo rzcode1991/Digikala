@@ -72,49 +72,49 @@ private fun SwipeRefreshSection(
                 SearchBarSection()
             }
             item{
-                TopSliderSection()
+                TopPagerSection(scope = refreshScope)
             }
             item{
                 ShowCaseSection(navController)
             }
             item{
-                SpecialOffersSection()
+                SpecialOffersSection(scope = refreshScope, navController = navController)
             }
             item{
-                ProposalCardsSection()
+                ProposalCardsSection(scope = refreshScope)
             }
             item{
-                SpecialSupermarketOffersSection()
+                SpecialSupermarketOffersSection(scope = refreshScope, navController = navController)
             }
             item {
-                MainCategoriesSection()
+                MainCategoriesSection(scope = refreshScope)
             }
             item {
-                CenterBannerSection(1)
+                CenterBannerSection(scope = refreshScope, bannerNumber = 1)
             }
             item {
-                BestSellerProductsSection()
+                BestSellerProductsSection(scope = refreshScope, navController = navController)
             }
             item {
-                CenterBannerSection(2)
+                CenterBannerSection(scope = refreshScope, bannerNumber = 2)
             }
             item {
-                MostVisitedProductsSection()
+                MostVisitedProductsSection(scope = refreshScope, navController = navController)
             }
             item {
-                CenterBannerSection(3)
+                CenterBannerSection(scope = refreshScope, bannerNumber = 3)
             }
             item {
-                MostFavoriteProductsSection()
+                MostFavoriteProductsSection(scope = refreshScope, navController = navController)
             }
             item {
-                CenterBannerSection(4)
+                CenterBannerSection(scope = refreshScope, bannerNumber = 4)
             }
             item {
-                MostDiscountedProductsSection()
+                MostDiscountedProductsSection(scope = refreshScope, navController = navController)
             }
             item {
-                CenterBannerSection(5)
+                CenterBannerSection(scope = refreshScope, bannerNumber = 5)
             }
 
         }

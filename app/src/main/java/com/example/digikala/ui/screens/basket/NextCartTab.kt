@@ -27,6 +27,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.digikala.R
 import com.example.digikala.data.model.basket.CartItem
+import com.example.digikala.navigation.Screen
 import com.example.digikala.ui.theme.darkText
 import com.example.digikala.utils.Constants.USER_TOKEN
 import com.example.digikala.viewModel.BasketViewModel
@@ -41,6 +42,7 @@ fun NextCartTab(
     var allNextCartItems by remember {
         mutableStateOf<List<CartItem>>(emptyList())
     }
+    val totalCount by viewModel.nextCartCounter.collectAsState()
 
     LazyColumn(
         modifier = Modifier
@@ -65,9 +67,18 @@ fun NextCartTab(
                         EmptyNextCartSection()
                     }
                 }else{
+                    item {
+                        TopRowInBasketScreen(
+                            title = stringResource(id = R.string.your_next_shopping_list),
+                            counter = totalCount
+                        )
+                    }
                     items(allNextCartItems){item ->
                         NextCartItemView(
-                            item = item
+                            item = item,
+                            onItemClick = {
+                                navController.navigate(Screen.ProductDetail.withArgs(item.itemId))
+                            }
                         )
                     }
                 }

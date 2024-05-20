@@ -1,8 +1,6 @@
 package com.example.digikala.ui.screens.basket
 
-import android.content.Context
 import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -20,28 +18,27 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.example.digikala.R
 import com.example.digikala.data.model.basket.CartItem
 import com.example.digikala.data.model.basket.CartStatus
 import com.example.digikala.data.model.home.StoreProduct
 import com.example.digikala.data.network.NetworkResult
+import com.example.digikala.navigation.Screen
 import com.example.digikala.ui.components.MyLoading
-import com.example.digikala.ui.screens.home.MostDiscountedProductsItem
 import com.example.digikala.ui.theme.darkText
 import com.example.digikala.ui.theme.spacing
 import com.example.digikala.viewModel.BasketViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlin.math.log
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun SuggestionForYouSection(
+    navController: NavHostController,
     viewModel: BasketViewModel = hiltViewModel()
 ){
 
@@ -117,6 +114,9 @@ fun SuggestionForYouSection(
                                     CartStatus.CURRENT_CART
                                 )
                             )
+                        },
+                        onItemClick = {
+                            navController.navigate(Screen.ProductDetail.withArgs(item._id))
                         }
                     )
                 }

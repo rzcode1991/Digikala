@@ -19,15 +19,22 @@ import com.example.digikala.R
 import com.example.digikala.data.model.category.CategoryDataItem
 import com.example.digikala.data.network.NetworkResult
 import com.example.digikala.ui.components.MyLoading
+import com.example.digikala.ui.components.NetworkErrorLoading
 import com.example.digikala.ui.theme.spacing
 import com.example.digikala.viewModel.CategoryViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 @Composable
 fun SubCategorySection(
+    scope: CoroutineScope,
     viewModel: CategoryViewModel = hiltViewModel()
 ){
 
     var isLoading by remember {
+        mutableStateOf(false)
+    }
+    var isError by remember {
         mutableStateOf(false)
     }
 
@@ -82,14 +89,17 @@ fun SubCategorySection(
             sportList = subCategoriesResult.data?.sport ?: emptyList()
 
             isLoading = false
+            isError = false
         }
 
         is NetworkResult.Loading -> {
             isLoading = true
+            isError = false
         }
 
         is NetworkResult.Error -> {
             isLoading = false
+            isError = true
         }
 
     }
@@ -97,6 +107,12 @@ fun SubCategorySection(
     if (isLoading){
         val config = LocalConfiguration.current
         MyLoading(config.screenHeightDp.dp, true)
+    }else if (isError){
+        NetworkErrorLoading(height = 300.dp) {
+            scope.launch {
+                viewModel.getAllDataFromServer()
+            }
+        }
     }else{
         Column(
             modifier = Modifier
