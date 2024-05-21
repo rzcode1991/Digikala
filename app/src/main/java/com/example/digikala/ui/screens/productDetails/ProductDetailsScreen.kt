@@ -1,5 +1,6 @@
 package com.example.digikala.ui.screens.productDetails
 
+import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -190,8 +191,10 @@ private fun MyProductsDetailsScreen(
                     ProductDetailsCommentsSection(productDetails = productDetails)
                 }
                 item {
+                    val productName = productDetails.name
+                    val productImage = Uri.encode(productDetails.imageSlider[0].image)
                     ProductDetailsAddCommentSection(){
-                        // TODO onClick
+                        navController.navigate(Screen.NewComment.withArgs(productName, productImage))
                     }
                 }
                 item {
