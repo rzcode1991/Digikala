@@ -50,7 +50,7 @@ fun ProductDetailPager(
                     .fillMaxSize()
             ) {index ->
 
-                val imageUrl = productDetails.imageSlider[index]
+                val imageUrl = productDetails.imageSlider[index].image
                 Box(
                     modifier = Modifier
                         .fillMaxSize(),

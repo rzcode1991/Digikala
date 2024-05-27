@@ -41,6 +41,7 @@ import com.example.digikala.navigation.Screen
 import com.example.digikala.ui.components.MyLoading
 import com.example.digikala.ui.components.NetworkErrorLoading
 import com.example.digikala.ui.theme.spacing
+import com.example.digikala.utils.Constants.USER_TOKEN
 import com.example.digikala.viewModel.ProductDetailsViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -191,14 +192,21 @@ private fun MyProductsDetailsScreen(
                     ProductDetailsCommentsSection(productDetails = productDetails)
                 }
                 item {
+                    val productId = productDetails._id
                     val productName = productDetails.name
                     val productImage = Uri.encode(productDetails.imageSlider[0].image)
-                    ProductDetailsAddCommentSection(){
-                        navController.navigate(Screen.NewComment.withArgs(productName, productImage))
+                    ProductDetailsAddCommentSection {
+                        if (USER_TOKEN.isNotEmpty()){
+                            navController.navigate(
+                                Screen.NewComment.withArgs(productId, productName, productImage)
+                            )
+                        }else{
+                            navController.navigate(Screen.Profile.route)
+                        }
                     }
                 }
                 item {
-                    // q&a
+                    // TODO: q&a
                 }
 
             }

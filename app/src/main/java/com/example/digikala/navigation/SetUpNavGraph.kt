@@ -116,8 +116,13 @@ fun SetUpNavGraph(
             }
         }
         composable(
-            route = Screen.NewComment.route + "/{productName}/{productImage}",
+            route = Screen.NewComment.route + "/{productId}/{productName}/{productImage}",
             arguments = listOf(
+                navArgument("productId"){
+                    type = NavType.StringType
+                    defaultValue = ""
+                    nullable = true
+                },
                 navArgument("productName"){
                     type = NavType.StringType
                     defaultValue = ""
@@ -130,13 +135,16 @@ fun SetUpNavGraph(
                 }
             )
         ){navBackStackEntry ->
-            navBackStackEntry.arguments!!.getString("productName")?.let { productName ->
-                navBackStackEntry.arguments!!.getString("productImage")?.let {  productImage ->
-                    NewCommentScreen(
-                        navController = navController,
-                        productName = productName,
-                        productImage = productImage
-                    )
+            navBackStackEntry.arguments!!.getString("productId")?.let { productId ->
+                navBackStackEntry.arguments!!.getString("productName")?.let { productName ->
+                    navBackStackEntry.arguments!!.getString("productImage")?.let {  productImage ->
+                        NewCommentScreen(
+                            navController = navController,
+                            productId = productId,
+                            productName = productName,
+                            productImage = productImage
+                        )
+                    }
                 }
             }
         }

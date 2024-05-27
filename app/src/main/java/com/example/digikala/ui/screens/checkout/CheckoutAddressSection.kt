@@ -33,7 +33,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.example.digikala.R
 import com.example.digikala.data.model.basket.Address
-import com.example.digikala.data.model.checkout.DayAndDate
 import com.example.digikala.data.network.NetworkResult
 import com.example.digikala.ui.components.MyLoading
 import com.example.digikala.ui.theme.darkCyan

@@ -169,6 +169,26 @@
     <string name="just_now">Just now</string>
     <string name="add_your_comment_about_this_item">Add your comment about this item</string>
     <string name="add_comment_get_score_txt">By adding your comment on bought items get 5 Digiclub scores.</string>
-
+    <string name="your_comment">Your comment</string>
+    <string name="select_score">Select score</string>
+    <string name="very_bad">Very bad</string>
+    <string name="bad">Bad</string>
+    <string name="normal">Normal</string>
+    <string name="good">Good</string>
+    <string name="excellent">Excellent</string>
+    <string name="describe_your_comment">Describe your comment</string>
+    <string name="comment_title">Comment title</string>
+    <string name="positive_points">Positive points</string>
+    <string name="negative_points">Negative points</string>
+    <string name="comment_main_txt">Comment main text *</string>
+    <string name="text_too_long">Text is too long</string>
+    <string name="private_comment">Send as private comment</string>
+    <string name="submit_comment">Submit comment</string>
+    <string name="please_select_score">Please select score</string>
+    <string name="please_write_comment">Please write your comment in more words</string>
+    <string name="submitting_comment_means"> Submitting comment means you agree to </string>
+    <string name="there_is">.</string>
+    <string name="digikala_publishing_rules">Digikala publishing rules</string>
+    <string name="comment_published_successfully">Comment published successfully</string>
 
 </resources>

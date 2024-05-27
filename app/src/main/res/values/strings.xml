@@ -168,5 +168,26 @@
     <string name="just_now">اکنون</string>
     <string name="add_your_comment_about_this_item">دیدگاه خود را درباره این کالا بنویسید</string>
     <string name="add_comment_get_score_txt">با ثبت دیدگاه بر روی کالاهای خریداری شده 5 امتیاز در دیجی‌کلاب دریافت کنید</string>
+    <string name="your_comment">دیدگاه شما</string>
+    <string name="select_score">امتیاز دهید</string>
+    <string name="very_bad">خیلی بد</string>
+    <string name="bad">بد</string>
+    <string name="normal">معمولی</string>
+    <string name="good">خوب</string>
+    <string name="excellent">عالی</string>
+    <string name="describe_your_comment">دیدگاه خود را شرح دهید</string>
+    <string name="comment_title">عنوان نظر</string>
+    <string name="positive_points">نکات مثبت</string>
+    <string name="negative_points">نکات منفی</string>
+    <string name="comment_main_txt">متن نظر *</string>
+    <string name="text_too_long">متن نظر بیش از حد طولانی است</string>
+    <string name="private_comment">ارسال دیدگاه به صورت ناشناس</string>
+    <string name="submit_comment">ثبت دیدگاه</string>
+    <string name="please_select_score">لطفا امتیاز خود را انتخاب کنید</string>
+    <string name="please_write_comment">لطفا نظر خود را کامل‌تر بیان کنید</string>
+    <string name="submitting_comment_means">ثبت دیدگاه به معنی موافقت با </string>
+    <string name="there_is">است.</string>
+    <string name="digikala_publishing_rules">قوانین انتشار دیجیکالا</string>
+    <string name="comment_published_successfully">نظر شما با موفقیت ثبت شد</string>
 
 </resources>

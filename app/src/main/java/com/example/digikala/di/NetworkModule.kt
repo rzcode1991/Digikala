@@ -5,7 +5,6 @@ import com.example.digikala.utils.Constants.BASE_URL
 import com.example.digikala.utils.Constants.TIMEOUT_SECONDS
 import com.example.digikala.utils.Constants.USER_LANGUAGE
 import com.example.digikala.utils.Constants.ZARIN_BASE_URL
-import com.example.digikala.utils.Constants.ZARIN_BASE_URL_SANDBOX
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
