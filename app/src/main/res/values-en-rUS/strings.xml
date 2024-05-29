@@ -190,5 +190,6 @@
     <string name="there_is">.</string>
     <string name="digikala_publishing_rules">Digikala publishing rules</string>
     <string name="comment_published_successfully">Comment published successfully</string>
+    <string name="comments">Comments</string>
 
 </resources>

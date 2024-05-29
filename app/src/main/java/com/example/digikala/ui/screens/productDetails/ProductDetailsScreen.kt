@@ -185,11 +185,16 @@ private fun MyProductsDetailsScreen(
                 }
                 item {
                     RowWithTextAndArrowIcon(title = stringResource(id = R.string.brief_description)){
-                        navController.navigate(Screen.ProductDescription.withArgs(productDetails.name))
+                        navController.navigate(
+                            Screen.ProductDescription.route + "?productName=${productDetails.name}?productDescription=${productDetails.description}"
+                        )
                     }
                 }
                 item {
-                    ProductDetailsCommentsSection(productDetails = productDetails)
+                    ProductDetailsCommentsSection(
+                        productDetails = productDetails,
+                        navHostController = navController
+                    )
                 }
                 item {
                     val productId = productDetails._id
@@ -198,7 +203,7 @@ private fun MyProductsDetailsScreen(
                     ProductDetailsAddCommentSection {
                         if (USER_TOKEN.isNotEmpty()){
                             navController.navigate(
-                                Screen.NewComment.withArgs(productId, productName, productImage)
+                                Screen.NewCommentScreen.withArgs(productId, productName, productImage)
                             )
                         }else{
                             navController.navigate(Screen.Profile.route)

@@ -65,7 +65,7 @@ fun NewCommentScreen(
     }
 
     when(validateCommentInputs(
-        sliderScore = sliderScore,
+        sliderScore = sliderScore.value,
         commentTxt = mainTxt
     )){
         CommentsValidatorErrors.SLIDER_SCORE_ERROR -> {
@@ -86,7 +86,10 @@ fun NewCommentScreen(
         viewModel.commentResponse.collectLatest { commentResult ->
             when(commentResult){
                 is NetworkResult.Success -> {
-                    if (commentResult.message.equals("کامنت با موفقیت ثبت شد")){ // bad backend
+                    if (
+                        commentResult.message.equals("کامنت با موفقیت ثبت شد")
+                        && commentResult.success == true
+                        ){ // bad backend
                         Toast.makeText(context, commentResult.message.toString(), Toast.LENGTH_SHORT).show()
                         navController.popBackStack()
                     }
@@ -165,7 +168,7 @@ fun NewCommentScreen(
                                 val newComment = NewComment(
                                     token = USER_TOKEN,
                                     productId = productId,
-                                    star = sliderScore,
+                                    star = sliderScore.value,
                                     title = viewModel.title.text,
                                     description = mainTxt,
                                     userName = USER_NAME

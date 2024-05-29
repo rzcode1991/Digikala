@@ -1,6 +1,7 @@
 package com.example.digikala.ui.screens.productDetails
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -30,10 +31,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import com.example.digikala.R
 import com.example.digikala.data.model.productDetails.Comment
 import com.example.digikala.data.model.productDetails.ProductDetails
+import com.example.digikala.navigation.Screen
 import com.example.digikala.ui.components.IconInverter
 import com.example.digikala.ui.theme.bottomBarColor
 import com.example.digikala.ui.theme.darkCyan
@@ -49,6 +52,7 @@ import com.example.digikala.viewModel.ProductDetailsViewModel
 @Composable
 fun ProductDetailsCommentsSection(
     productDetails: ProductDetails,
+    navHostController: NavHostController,
     viewModel: ProductDetailsViewModel = hiltViewModel()
 ){
 
@@ -102,7 +106,11 @@ fun ProductDetailsCommentsSection(
                 CommentItem(comment = comment, viewModel = viewModel)
             }
             item {
-                ShowMore()
+                val productId = productDetails._id
+                val commentsCount = productDetails.commentCount.toString()
+                ShowMore {
+                    navHostController.navigate(Screen.AllComments.withArgs(productId, commentsCount))
+                }
             }
 
         }
@@ -169,11 +177,11 @@ private fun CommentItem(
                         },
                         modifier = if (comment.star > 2.5){
                             Modifier
-                                .size(20.dp)
+                                .size(18.dp)
                         }else{
                             Modifier
                                 .graphicsLayer(scaleY = -1f)
-                                .size(20.dp)
+                                .size(18.dp)
                         }
                     )
 
@@ -255,7 +263,9 @@ private fun CommentItem(
 }
 
 @Composable
-private fun ShowMore(){
+private fun ShowMore(
+    onClick: () -> Unit
+){
     Column(
         modifier = Modifier
             .size(
@@ -266,7 +276,10 @@ private fun ShowMore(){
                 end = MaterialTheme.spacing.medium,
                 start = MaterialTheme.spacing.semiSmall,
                 top = MaterialTheme.spacing.semiLarge
-            ),
+            )
+            .clickable {
+                onClick()
+            },
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {

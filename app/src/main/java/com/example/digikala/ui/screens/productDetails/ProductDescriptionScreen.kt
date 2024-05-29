@@ -40,7 +40,8 @@ import com.example.digikala.ui.theme.spacing
 
 @Composable
 fun ProductDescriptionScreen(
-    productName: String,
+    productName: String?,
+    productDescription: String?,
     navController: NavHostController
 ){
 
@@ -151,7 +152,7 @@ fun ProductDescriptionScreen(
 
             item {
                 Text(
-                    text = productName,
+                    text = productName ?: "",
                     style = MaterialTheme.typography.headlineLarge,
                     color = MaterialTheme.colorScheme.darkText,
                     fontWeight = FontWeight.Bold
@@ -161,13 +162,23 @@ fun ProductDescriptionScreen(
             }
 
             item {
-                Text(
-                    text = stringResource(id = R.string.no_description_yet),
-                    style = MaterialTheme.typography.headlineSmall,
-                    color = MaterialTheme.colorScheme.semiDarkText,
-                    fontWeight = FontWeight.Bold,
-                    maxLines = 2
-                )
+                if (!productDescription.isNullOrEmpty()){
+                    Text(
+                        text = productDescription,
+                        style = MaterialTheme.typography.headlineSmall,
+                        color = MaterialTheme.colorScheme.semiDarkText,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
+                }else{
+                    Text(
+                        text = stringResource(id = R.string.no_description_yet),
+                        style = MaterialTheme.typography.headlineSmall,
+                        color = MaterialTheme.colorScheme.semiDarkText,
+                        fontWeight = FontWeight.Bold,
+                        maxLines = 2
+                    )
+                }
             }
 
         }

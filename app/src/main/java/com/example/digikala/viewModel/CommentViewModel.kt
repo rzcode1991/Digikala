@@ -6,12 +6,20 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.example.digikala.data.model.comment.NewComment
+import com.example.digikala.data.model.productDetails.Comment
 import com.example.digikala.data.network.NetworkResult
+import com.example.digikala.data.source.AllCommentsDataSource
 import com.example.digikala.repository.CommentRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,8 +28,8 @@ class CommentViewModel @Inject constructor(
     private val repository: CommentRepository
 ): ViewModel() {
 
-    var sliderValue by mutableStateOf(0f)
-    var sliderScore by mutableStateOf(0)
+    var sliderValue = MutableStateFlow(0f)
+    var sliderScore = MutableStateFlow(0)
     var title by mutableStateOf(TextFieldValue(""))
     var positivePointTxt by mutableStateOf(TextFieldValue(""))
     var positivePointsList by mutableStateOf(listOf<String>())
@@ -39,10 +47,14 @@ class CommentViewModel @Inject constructor(
     }
 
     fun onSliderValueChanged(newValue: Float){
-        sliderValue = newValue
+        viewModelScope.launch {
+            sliderValue.emit(newValue)
+        }
     }
     fun onSliderScoreChanged(newValue: Int){
-        sliderScore = newValue
+        viewModelScope.launch {
+            sliderScore.emit(newValue)
+        }
     }
     fun onTitleChanged(newValue: TextFieldValue){
         title = newValue
@@ -72,5 +84,14 @@ class CommentViewModel @Inject constructor(
         switchState = newState
     }
 
+    var allCommentsList: Flow<PagingData<Comment>> = flow { emit(PagingData.empty()) }
+
+    fun getAllCommentsList(productId: String){
+        allCommentsList = Pager(
+            PagingConfig(pageSize = 5)
+        ){
+            AllCommentsDataSource(repository, productId)
+        }.flow.cachedIn(viewModelScope)
+    }
 
 }

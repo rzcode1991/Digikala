@@ -1,6 +1,7 @@
 package com.example.digikala.repository
 
 import com.example.digikala.data.model.comment.NewComment
+import com.example.digikala.data.model.productDetails.Comment
 import com.example.digikala.data.network.BaseApiResponse
 import com.example.digikala.data.network.CommentApiInterface
 import com.example.digikala.data.network.NetworkResult
@@ -13,6 +14,16 @@ class CommentRepository @Inject constructor(
     suspend fun setNewComment(newComment: NewComment): NetworkResult<String> {
         return safeApiCall {
             api.setNewComment(newComment)
+        }
+    }
+
+    suspend fun getAllProductComments(
+        productId: String,
+        pageSize: String,
+        pageNumber: String
+    ): NetworkResult<List<Comment>> {
+        return safeApiCall {
+            api.getAllProductComments(productId, pageSize, pageNumber)
         }
     }
 

@@ -10,6 +10,7 @@ data class ProductDetails(
     val discountPercent: Int,
     val imageSlider: List<ImageSlider>,
     val name: String,
+    val description: String? = null,
     val price: Int,
     val questionCount: Int,
     val seller: String,

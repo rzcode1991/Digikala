@@ -135,5 +135,8 @@ dependencies {
     //desugaring
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
 
+    // paging
+    implementation("androidx.paging:paging-runtime:3.3.0")
+    implementation("androidx.paging:paging-compose:3.3.0")
 
 }
