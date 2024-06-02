@@ -191,5 +191,7 @@
     <string name="digikala_publishing_rules">Digikala publishing rules</string>
     <string name="comment_published_successfully">Comment published successfully</string>
     <string name="comments">Comments</string>
+    <string name="share_product">Share product</string>
+    <string name="price_chart">Price chart</string>
 
 </resources>

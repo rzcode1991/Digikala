@@ -3,8 +3,6 @@ package com.example.digikala.ui.screens.comment
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,11 +27,9 @@ import androidx.navigation.NavHostController
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.digikala.R
-import com.example.digikala.ui.components.Loading3Dots
 import com.example.digikala.ui.components.MyLoading
 import com.example.digikala.ui.theme.bottomBarColor
 import com.example.digikala.ui.theme.darkText
-import com.example.digikala.ui.theme.searchBarBg
 import com.example.digikala.ui.theme.spacing
 import com.example.digikala.utils.DigitHelper
 import com.example.digikala.viewModel.CommentViewModel
