@@ -8,8 +8,8 @@ object Constants {
     const val PERSIAN_LANG = "fa"
     const val DATASTORE_NAME = "digiKala_dataStore"
     const val TIMEOUT_SECONDS: Long = 60
-    const val BASE_URL = "https://dig-za0p.onrender.com/api/"
-    const val BASE_URL_2 = "https://truelearn-digikala.iran.liara.run/api/"
+    const val BASE_URL_2 = "https://dig-za0p.onrender.com/api/"
+    const val BASE_URL = "https://truelearn-digikala.iran.liara.run/api/"
     const val ZARIN_BASE_URL_SANDBOX = "https://sandbox.zarinpal.com/pg/"
     const val ZARIN_BASE_URL = "https://api.zarinpal.com/pg/"
     const val API_KEY = BuildConfig.X_API_KEY

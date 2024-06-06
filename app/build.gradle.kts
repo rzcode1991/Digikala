@@ -139,4 +139,7 @@ dependencies {
     implementation("androidx.paging:paging-runtime:3.3.0")
     implementation("androidx.paging:paging-compose:3.3.0")
 
+    // vico charts
+    implementation("com.patrykandpatrick.vico:compose:1.13.0")
+
 }

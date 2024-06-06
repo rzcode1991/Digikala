@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import com.example.digikala.R
+import com.example.digikala.data.model.productDetails.Price
 import com.example.digikala.navigation.Screen
 import com.example.digikala.ui.components.BasketIconWithCounterBadge
 import com.example.digikala.ui.theme.bottomBarColor
@@ -44,10 +45,12 @@ import com.example.digikala.ui.theme.darkText
 import com.example.digikala.ui.theme.digikalaRed
 import com.example.digikala.ui.theme.semiDarkText
 import com.example.digikala.ui.theme.spacing
+import com.google.gson.Gson
 
 @Composable
 fun ProductDetailsTopSection(
-    navController: NavHostController
+    navController: NavHostController,
+    priceList: List<Price>?
 ) {
 
     Card(
@@ -160,7 +163,12 @@ fun ProductDetailsTopSection(
                         },
                         onClick = {
                             isMenuOpen = false
-                            // TODO: navigate
+                            if (priceList != null){
+                                val jsonString = Gson().toJson(priceList)
+                                navController.navigate(
+                                    Screen.PriceChart.route + "?jsonString=${jsonString}"
+                                )
+                            }
                         },
                         leadingIcon = {
                             Icon(

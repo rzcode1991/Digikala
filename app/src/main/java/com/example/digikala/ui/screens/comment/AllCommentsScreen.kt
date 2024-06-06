@@ -28,6 +28,7 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.digikala.R
 import com.example.digikala.ui.components.MyLoading
+import com.example.digikala.ui.components.TopSectionWithBackArrowAndText
 import com.example.digikala.ui.theme.bottomBarColor
 import com.example.digikala.ui.theme.darkText
 import com.example.digikala.ui.theme.spacing
@@ -49,7 +50,10 @@ fun AllCommentsScreen(
 
     Scaffold(
         topBar = {
-            AllCommentsTopSection(navController)
+            TopSectionWithBackArrowAndText(
+                navController = navController,
+                title = stringResource(id = R.string.comments)
+            )
         }
     ) { paddingValues ->
 

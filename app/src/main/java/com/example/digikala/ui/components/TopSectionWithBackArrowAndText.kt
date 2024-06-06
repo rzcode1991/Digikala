@@ -1,4 +1,4 @@
-package com.example.digikala.ui.screens.comment
+package com.example.digikala.ui.components
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -18,18 +18,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.digikala.R
 import com.example.digikala.ui.theme.bottomBarColor
 import com.example.digikala.ui.theme.darkText
 import com.example.digikala.ui.theme.spacing
 
 @Composable
-fun AllCommentsTopSection(
-    navController: NavHostController
+fun TopSectionWithBackArrowAndText(
+    navController: NavHostController,
+    title: String
 ){
 
     Card(
@@ -65,7 +64,7 @@ fun AllCommentsTopSection(
             Spacer(modifier = Modifier.width(MaterialTheme.spacing.small2))
 
             Text(
-                text = stringResource(id = R.string.comments),
+                text = title,
                 style = MaterialTheme.typography.headlineLarge,
                 fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.darkText

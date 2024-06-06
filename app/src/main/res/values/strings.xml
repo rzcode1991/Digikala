@@ -192,6 +192,9 @@
     <string name="comments">دیدگاه‌ها</string>
     <string name="share_product">به اشتراک گذاری</string>
     <string name="price_chart">نمودار قیمت</string>
+    <string name="product_price_chart">نمودار قیمت محصول در 6 ماه اخیر</string>
+    <string name="product_price_chart_time">مشاهده تغییرات قیمت این محصول نسبت به زمان</string>
+
 
 
 </resources>

@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.digikala.R
+import com.example.digikala.data.model.productDetails.Price
 import com.example.digikala.data.model.productDetails.ProductDetails
 import com.example.digikala.data.network.NetworkResult
 import com.example.digikala.navigation.Screen
@@ -58,11 +59,17 @@ fun ProductDetailsScreen(
     var productDetails by remember {
         mutableStateOf<ProductDetails?>(null)
     }
+    var jsonString by remember {
+        mutableStateOf("")
+    }
     var isLoading by remember {
         mutableStateOf(false)
     }
     var isError by remember {
         mutableStateOf(false)
+    }
+    var priceList by remember {
+        mutableStateOf<List<Price>?>(null)
     }
 
     LaunchedEffect(true){
@@ -74,7 +81,12 @@ fun ProductDetailsScreen(
             when(productDetailsResult){
                 is NetworkResult.Success -> {
                     productDetails = productDetailsResult.data
-                    // TODO: check here
+                    productDetailsResult.data?.technicalFeatures?.let { jsonObject ->
+                        jsonString = jsonObject.toString()
+                    }
+                    productDetailsResult.data?.priceList?.let {
+                        priceList = it
+                    }
                     isLoading = false
                     isError = false
                 }
@@ -104,7 +116,9 @@ fun ProductDetailsScreen(
     }else{
         MyProductsDetailsScreen(
             navController = navController,
-            productDetails = productDetails
+            productDetails = productDetails,
+            jsonString = jsonString,
+            priceList = priceList
         )
     }
 
@@ -114,7 +128,9 @@ fun ProductDetailsScreen(
 @Composable
 private fun MyProductsDetailsScreen(
     navController: NavHostController,
-    productDetails: ProductDetails?
+    productDetails: ProductDetails?,
+    jsonString: String,
+    priceList: List<Price>?
 ){
 
     if (productDetails != null){
@@ -131,7 +147,7 @@ private fun MyProductsDetailsScreen(
             ){
 
                 item {
-                    ProductDetailsTopSection(navController = navController)
+                    ProductDetailsTopSection(navController = navController, priceList = priceList)
                 }
                 item {
                     ProductDetailPager(productDetails = productDetails)
@@ -179,8 +195,12 @@ private fun MyProductsDetailsScreen(
                     LargeSpacer()
                 }
                 item {
-                    RowWithTextAndArrowIcon(title = stringResource(id = R.string.technical_details)){
-                        // TODO onClick
+                    if (jsonString.isNotEmpty()){
+                        RowWithTextAndArrowIcon(title = stringResource(id = R.string.technical_details)){
+                            navController.navigate(
+                                Screen.ProductTechnicalFeatures.route + "?jsonString=${jsonString}"
+                            )
+                        }
                     }
                 }
                 item {

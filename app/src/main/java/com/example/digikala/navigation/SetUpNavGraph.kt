@@ -16,8 +16,10 @@ import com.example.digikala.ui.screens.home.HomeScreen
 import com.example.digikala.ui.screens.profile.ProfileScreen
 import com.example.digikala.ui.screens.splash.SplashScreen
 import com.example.digikala.ui.screens.home.WebViewScreen
+import com.example.digikala.ui.screens.productDetails.PriceChart
 import com.example.digikala.ui.screens.productDetails.ProductDescriptionScreen
 import com.example.digikala.ui.screens.productDetails.ProductDetailsScreen
+import com.example.digikala.ui.screens.productDetails.ProductTechnicalFeatures
 
 @Composable
 fun SetUpNavGraph(
@@ -123,6 +125,22 @@ fun SetUpNavGraph(
             )
         }
         composable(
+            route = Screen.ProductTechnicalFeatures.route + "?jsonString={jsonString}",
+            arguments = listOf(
+                navArgument("jsonString") {
+                    type = NavType.StringType
+                    defaultValue = ""
+                    nullable = true
+                }
+            )
+        ) { navBackStackEntry ->
+            val jsonString = navBackStackEntry.arguments?.getString("jsonString")
+            ProductTechnicalFeatures(
+                navController = navController,
+                jsonString = jsonString
+            )
+        }
+        composable(
             route = Screen.NewCommentScreen.route + "/{productId}/{productName}/{productImage}",
             arguments = listOf(
                 navArgument("productId") {
@@ -179,6 +197,22 @@ fun SetUpNavGraph(
                     )
                 }
             }
+        }
+        composable(
+            route = Screen.PriceChart.route + "?jsonString={jsonString}",
+            arguments = listOf(
+                navArgument("jsonString") {
+                    type = NavType.StringType
+                    defaultValue = ""
+                    nullable = true
+                }
+            )
+        ) { navBackStackEntry ->
+            val jsonString = navBackStackEntry.arguments?.getString("jsonString")
+            PriceChart(
+                navController = navController,
+                jsonString = jsonString
+            )
         }
     }
 }
