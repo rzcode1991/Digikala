@@ -8,8 +8,8 @@ object Constants {
     const val PERSIAN_LANG = "fa"
     const val DATASTORE_NAME = "digiKala_dataStore"
     const val TIMEOUT_SECONDS: Long = 60
-    const val BASE_URL_2 = "https://dig-za0p.onrender.com/api/"
-    const val BASE_URL = "https://truelearn-digikala.iran.liara.run/api/"
+    const val BASE_URL = "https://dig-za0p.onrender.com/api/"
+    const val BASE_URL_2 = "https://truelearn-digikala.iran.liara.run/api/"
     const val ZARIN_BASE_URL_SANDBOX = "https://sandbox.zarinpal.com/pg/"
     const val ZARIN_BASE_URL = "https://api.zarinpal.com/pg/"
     const val API_KEY = BuildConfig.X_API_KEY
@@ -19,6 +19,7 @@ object Constants {
     const val DATABASE_NAME = "digikala_database"
     const val ZARINPAL_MERCHANT_ID = BuildConfig.ZARIN_MERCHANT_ID
     const val ZARINPAL_PAYMENT_URL = "https://www.zarinpal.com/pg/StartPay/"
+    const val MY_WEBSITE = "https://www.rzcode.ir"
 
     var USER_LANGUAGE = "USER_LANGUAGE"
     var USER_PHONE = ""

@@ -35,7 +35,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.digikala.R
-import com.example.digikala.data.model.productDetails.Price
 import com.example.digikala.data.model.productDetails.ProductDetails
 import com.example.digikala.data.network.NetworkResult
 import com.example.digikala.navigation.Screen
@@ -68,9 +67,6 @@ fun ProductDetailsScreen(
     var isError by remember {
         mutableStateOf(false)
     }
-    var priceList by remember {
-        mutableStateOf<List<Price>?>(null)
-    }
 
     LaunchedEffect(true){
         getDataFromServer(
@@ -83,9 +79,6 @@ fun ProductDetailsScreen(
                     productDetails = productDetailsResult.data
                     productDetailsResult.data?.technicalFeatures?.let { jsonObject ->
                         jsonString = jsonObject.toString()
-                    }
-                    productDetailsResult.data?.priceList?.let {
-                        priceList = it
                     }
                     isLoading = false
                     isError = false
@@ -117,8 +110,7 @@ fun ProductDetailsScreen(
         MyProductsDetailsScreen(
             navController = navController,
             productDetails = productDetails,
-            jsonString = jsonString,
-            priceList = priceList
+            jsonString = jsonString
         )
     }
 
@@ -129,8 +121,7 @@ fun ProductDetailsScreen(
 private fun MyProductsDetailsScreen(
     navController: NavHostController,
     productDetails: ProductDetails?,
-    jsonString: String,
-    priceList: List<Price>?
+    jsonString: String
 ){
 
     if (productDetails != null){
@@ -147,7 +138,10 @@ private fun MyProductsDetailsScreen(
             ){
 
                 item {
-                    ProductDetailsTopSection(navController = navController, priceList = priceList)
+                    ProductDetailsTopSection(
+                        navController = navController,
+                        productDetails = productDetails
+                    )
                 }
                 item {
                     ProductDetailPager(productDetails = productDetails)
@@ -159,7 +153,10 @@ private fun MyProductsDetailsScreen(
                     ScoreAndCommentsSection(productDetails = productDetails)
                 }
                 item {
-                    ProductDetailAgreeCountSection(agreeCount = productDetails.agreeCount, agreePercent = productDetails.agreePercent)
+                    ProductDetailAgreeCountSection(
+                        agreeCount = productDetails.agreeCount,
+                        agreePercent = productDetails.agreePercent
+                    )
                 }
                 item {
                     Spacer(

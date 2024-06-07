@@ -1,5 +1,7 @@
 package com.example.digikala.ui.screens.productDetails
 
+import android.content.Context
+import android.content.Intent
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.background
@@ -31,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -38,6 +41,7 @@ import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import com.example.digikala.R
 import com.example.digikala.data.model.productDetails.Price
+import com.example.digikala.data.model.productDetails.ProductDetails
 import com.example.digikala.navigation.Screen
 import com.example.digikala.ui.components.BasketIconWithCounterBadge
 import com.example.digikala.ui.theme.bottomBarColor
@@ -45,13 +49,22 @@ import com.example.digikala.ui.theme.darkText
 import com.example.digikala.ui.theme.digikalaRed
 import com.example.digikala.ui.theme.semiDarkText
 import com.example.digikala.ui.theme.spacing
+import com.example.digikala.utils.Constants.MY_WEBSITE
 import com.google.gson.Gson
 
 @Composable
 fun ProductDetailsTopSection(
     navController: NavHostController,
-    priceList: List<Price>?
+    productDetails: ProductDetails?
 ) {
+
+    val context = LocalContext.current
+    var priceList by remember {
+        mutableStateOf<List<Price>?>(null)
+    }
+    if (productDetails != null){
+        priceList = productDetails.priceList
+    }
 
     Card(
         modifier = Modifier
@@ -192,7 +205,13 @@ fun ProductDetailsTopSection(
                         },
                         onClick = {
                             isMenuOpen = false
-                            // TODO: navigate
+                            if (productDetails != null){
+                                shareToSocialMedia(
+                                    context = context,
+                                    productName = productDetails.name,
+                                    productPrice = productDetails.price.toString()
+                                )
+                            }
                         },
                         leadingIcon = {
                             Icon(
@@ -212,5 +231,24 @@ fun ProductDetailsTopSection(
         }
 
     }
+
+}
+
+private fun shareToSocialMedia(
+    context: Context,
+    productName: String,
+    productPrice: String
+){
+
+    val shareIntent = Intent(Intent.ACTION_SEND)
+
+    shareIntent.type = "text/plain"
+
+    shareIntent.putExtra(
+        Intent.EXTRA_TEXT,
+        "$productName is available \n at price: $productPrice at: \n $MY_WEBSITE"
+    )
+
+    context.startActivity(Intent.createChooser(shareIntent, "share to..."))
 
 }
