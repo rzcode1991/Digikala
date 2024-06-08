@@ -31,10 +31,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import com.example.digikala.R
 import com.example.digikala.data.model.profile.MyOrdersIcons
 import com.example.digikala.data.model.profile.RowWithIconAndTextItem
+import com.example.digikala.navigation.Screen
 import com.example.digikala.ui.components.CenterBannerItem
 import com.example.digikala.ui.components.RoundedItem
 import com.example.digikala.ui.theme.darkText
@@ -45,7 +47,9 @@ import com.example.digikala.utils.Constants.USER_PHONE
 import com.example.digikala.utils.DigitHelper.engToFa
 
 @Composable
-fun Profile(){
+fun Profile(
+    navController: NavHostController
+){
 
     LazyColumn(
         modifier = Modifier
@@ -81,24 +85,29 @@ fun Profile(){
         val rowWithIconAndTextItems = listOf(
             RowWithIconAndTextItem(
                 titleId = R.string.digi_plus,
-                imageId = R.drawable.digi_plus_icon
+                imageId = R.drawable.digi_plus_icon,
+                route = ""
             ),
             RowWithIconAndTextItem(
                 titleId = R.string.fav_list,
-                imageId = R.drawable.digi_fav_icon
+                imageId = R.drawable.digi_fav_icon,
+                route = Screen.FavoriteScreen.route
             ),
             RowWithIconAndTextItem(
                 titleId = R.string.my_comments,
-                imageId = R.drawable.digi_comments_icon
+                imageId = R.drawable.digi_comments_icon,
+                route = ""
             ),
             RowWithIconAndTextItem(
                 titleId = R.string.addresses,
-                imageId = R.drawable.digi_adresses_icon
+                imageId = R.drawable.digi_adresses_icon,
+                route = ""
             ),
             RowWithIconAndTextItem(
                 titleId = R.string.profile_info,
                 imageId = R.drawable.digi_profile_icon,
-                lastItem = true
+                lastItem = true,
+                route = ""
             )
         )
 
@@ -106,7 +115,12 @@ fun Profile(){
             RowWithIconAndTextItemView(
                 lastItem = it.lastItem,
                 imagePainterId = it.imageId,
-                titleId = it.titleId
+                titleId = it.titleId,
+                onClick = {
+                    if (it.route.isNotEmpty()){
+                        navController.navigate(it.route)
+                    }
+                }
             )
         }
 
@@ -172,7 +186,7 @@ private fun ProfileUserInfoSection(){
     Spacer(modifier = Modifier.height(MaterialTheme.spacing.semiMedium))
 
     Text(
-        text = "رضا سلیمانی",
+        text = "رضا سلیمانی", // TODO
         style = MaterialTheme.typography.headlineLarge,
         fontWeight = FontWeight.Bold,
         color = MaterialTheme.colorScheme.darkText,

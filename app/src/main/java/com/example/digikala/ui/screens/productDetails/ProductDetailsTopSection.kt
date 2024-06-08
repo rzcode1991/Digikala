@@ -25,6 +25,7 @@ import androidx.compose.material3.IconToggleButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,9 +38,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import com.example.digikala.R
+import com.example.digikala.data.model.favorites.FavoriteItem
 import com.example.digikala.data.model.productDetails.Price
 import com.example.digikala.data.model.productDetails.ProductDetails
 import com.example.digikala.navigation.Screen
@@ -50,12 +53,15 @@ import com.example.digikala.ui.theme.digikalaRed
 import com.example.digikala.ui.theme.semiDarkText
 import com.example.digikala.ui.theme.spacing
 import com.example.digikala.utils.Constants.MY_WEBSITE
+import com.example.digikala.viewModel.FavoritesViewModel
 import com.google.gson.Gson
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun ProductDetailsTopSection(
     navController: NavHostController,
-    productDetails: ProductDetails?
+    productDetails: ProductDetails?,
+    viewModel: FavoritesViewModel = hiltViewModel()
 ) {
 
     val context = LocalContext.current
@@ -64,6 +70,17 @@ fun ProductDetailsTopSection(
     }
     if (productDetails != null){
         priceList = productDetails.priceList
+    }
+
+    var allFavoriteItems by remember {
+        mutableStateOf<List<FavoriteItem>>(emptyList())
+    }
+
+    LaunchedEffect(true){
+        viewModel.getAllFavorites()
+        viewModel.allFavoriteItems.collectLatest { favoriteItemsList ->
+            allFavoriteItems = favoriteItemsList
+        }
     }
 
     Card(
@@ -111,6 +128,18 @@ fun ProductDetailsTopSection(
                 var isFavorite by remember {
                     mutableStateOf(false)
                 }
+
+                val favoriteItem = FavoriteItem(
+                    itemId = productDetails?._id ?: "",
+                    discountPercent = productDetails?.discountPercent ?: 0,
+                    image = productDetails?.imageSlider?.get(0)?.image ?: "",
+                    name = productDetails?.name ?: "",
+                    price = productDetails?.price ?: 0,
+                    seller = productDetails?.seller ?: ""
+                )
+
+                isFavorite = allFavoriteItems.contains(favoriteItem)
+
                 val transition = updateTransition(targetState = isFavorite, label = "favorite_icon")
                 val tint by transition.animateColor(label = "favorite_tint") { favorite ->
                     if (favorite) {
@@ -123,7 +152,13 @@ fun ProductDetailsTopSection(
                 IconToggleButton(
                     checked = isFavorite,
                     onCheckedChange = {
-                        isFavorite = !isFavorite
+                        if (productDetails != null){
+                            if (isFavorite){
+                                viewModel.deleteFromFavorites(favoriteItem)
+                            }else{
+                                viewModel.addToFavorites(favoriteItem)
+                            }
+                        }
                     }
                 ) {
 

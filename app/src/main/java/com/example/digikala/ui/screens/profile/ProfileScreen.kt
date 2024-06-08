@@ -15,7 +15,7 @@ fun ProfileScreen(
 ){
 
     if (!dataStoreViewModel.getUserToken().isNullOrBlank() && USER_PHONE.isNotEmpty()){
-        Profile()
+        Profile(navController = navController)
     }else{
         when(viewModel.screenState){
             ProfileScreenState.LOGIN_SCREEN -> {
@@ -25,7 +25,7 @@ fun ProfileScreen(
                 RegisterScreen()
             }
             ProfileScreenState.PROFILE_SCREEN -> {
-                Profile()
+                Profile(navController = navController)
             }
         }
     }

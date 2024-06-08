@@ -16,6 +16,8 @@ object Constants {
     const val KEY = BuildConfig.KEY
     const val IV = BuildConfig.IV
     const val SHOPPING_CART_TABLE = "shopping_cart"
+    const val REF_ID_TABLE = "ref_ids"
+    const val FAVORITE_ITEM_TABLE = "favorite_item"
     const val DATABASE_NAME = "digikala_database"
     const val ZARINPAL_MERCHANT_ID = BuildConfig.ZARIN_MERCHANT_ID
     const val ZARINPAL_PAYMENT_URL = "https://www.zarinpal.com/pg/StartPay/"

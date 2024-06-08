@@ -16,6 +16,7 @@ sealed class Screen(val route: String) {
     data object NewCommentScreen: Screen("new_comment_screen")
     data object AllComments: Screen("all_comments_screen")
     data object PriceChart: Screen("price_chart_screen")
+    data object FavoriteScreen: Screen("favorite_screen")
 
     fun withArgs(vararg args: Any): String{
         return buildString {

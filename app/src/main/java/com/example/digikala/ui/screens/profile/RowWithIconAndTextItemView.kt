@@ -1,6 +1,8 @@
 package com.example.digikala.ui.screens.profile
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,6 +19,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -34,8 +37,9 @@ import com.example.digikala.ui.theme.spacing
 fun RowWithIconAndTextItemView(
     lastItem: Boolean,
     imagePainterId: Int,
-    titleId: Int
-){
+    titleId: Int,
+    onClick: () -> Unit
+) {
 
     Column(
         modifier = Modifier
@@ -53,6 +57,11 @@ fun RowWithIconAndTextItemView(
                 .fillMaxWidth()
                 .padding(
                     bottom = MaterialTheme.spacing.small2
+                )
+                .clickable(
+                    onClick = onClick,
+                    indication = null,
+                    interactionSource = remember { MutableInteractionSource() }
                 ),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
@@ -96,7 +105,7 @@ fun RowWithIconAndTextItemView(
 
         Spacer(modifier = Modifier.height(MaterialTheme.spacing.small2))
 
-        if (!lastItem){
+        if (!lastItem) {
             Divider(
                 modifier = Modifier
                     .fillMaxWidth()

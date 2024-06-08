@@ -12,6 +12,7 @@ import com.example.digikala.ui.screens.checkout.CheckoutScreen
 import com.example.digikala.ui.screens.checkout.ConfirmPurchaseScreen
 import com.example.digikala.ui.screens.comment.AllCommentsScreen
 import com.example.digikala.ui.screens.comment.NewCommentScreen
+import com.example.digikala.ui.screens.favorites.FavoriteItemsScreen
 import com.example.digikala.ui.screens.home.HomeScreen
 import com.example.digikala.ui.screens.profile.ProfileScreen
 import com.example.digikala.ui.screens.splash.SplashScreen
@@ -212,6 +213,13 @@ fun SetUpNavGraph(
             PriceChart(
                 navController = navController,
                 jsonString = jsonString
+            )
+        }
+        composable(
+            route = Screen.FavoriteScreen.route
+        ) {
+            FavoriteItemsScreen(
+                navController = navController
             )
         }
     }
