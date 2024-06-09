@@ -23,6 +23,7 @@ object DataBaseModule {
         context,
         DigikalaDatabase::class.java,
         DATABASE_NAME
-    ).fallbackToDestructiveMigration().build()
+    ).addMigrations(DigikalaDatabase.MIGRATION_2_3)
+    .build()
 
 }

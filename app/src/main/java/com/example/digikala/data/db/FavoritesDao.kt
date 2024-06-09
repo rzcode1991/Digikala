@@ -20,4 +20,10 @@ interface FavoritesDao {
     @Delete
     suspend fun deleteFromFavorites(favoriteItem: FavoriteItem)
 
+    @Query("delete from favorite_item")
+    suspend fun clearFavoriteList()
+
+    @Query("select exists(select * from favorite_item where itemId = :itemId)")
+    fun isItemInFavoriteList(itemId: String): Flow<Boolean>
+
 }

@@ -12,11 +12,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -35,7 +32,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -45,6 +41,7 @@ import com.example.digikala.data.model.basket.CartItem
 import com.example.digikala.data.model.basket.CartStatus
 import com.example.digikala.data.model.productDetails.ProductDetails
 import com.example.digikala.navigation.Screen
+import com.example.digikala.ui.components.DiscountIcon
 import com.example.digikala.ui.components.Loading3Dots
 import com.example.digikala.ui.theme.bottomBarColor
 import com.example.digikala.ui.theme.darkText
@@ -55,7 +52,6 @@ import com.example.digikala.ui.theme.searchBarBg
 import com.example.digikala.ui.theme.spacing
 import com.example.digikala.utils.Constants
 import com.example.digikala.utils.DigitHelper.applyDiscount
-import com.example.digikala.utils.DigitHelper.engToFa
 import com.example.digikala.utils.DigitHelper.engToFaAndSeparateByComma
 import com.example.digikala.viewModel.ProductDetailsViewModel
 
@@ -251,36 +247,6 @@ fun AddToCartBottomSection(
                 .alpha(0.6f),
             thickness = 1.dp,
             color = Color.LightGray
-        )
-
-    }
-
-}
-
-@Composable
-private fun DiscountIcon(
-    discountPercent: Int
-){
-
-    Card(
-        shape = CircleShape,
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.digikalaRed,
-            contentColor = Color.White
-        )
-    ) {
-
-        Text(
-            text = "${engToFa(discountPercent.toString())}%",
-            style = MaterialTheme.typography.headlineSmall,
-            fontWeight = FontWeight.SemiBold,
-            color = Color.White,
-            textAlign = TextAlign.Center,
-            modifier = Modifier
-                .padding(
-                    horizontal = MaterialTheme.spacing.semiSmall,
-                    vertical = 2.dp
-                )
         )
 
     }

@@ -195,6 +195,8 @@
     <string name="price_chart">Price chart</string>
     <string name="product_price_chart">Product price chart</string>
     <string name="product_price_chart_time">View the price changes of this product over time</string>
-
+    <string name="favorite_items">Favorite items</string>
+    <string name="delete_from_list">Delete from list</string>
+    <string name="see_item_and_buy">See item and buy</string>
 
 </resources>

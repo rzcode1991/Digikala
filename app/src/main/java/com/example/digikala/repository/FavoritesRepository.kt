@@ -2,6 +2,7 @@ package com.example.digikala.repository
 
 import com.example.digikala.data.db.FavoritesDao
 import com.example.digikala.data.model.favorites.FavoriteItem
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class FavoritesRepository @Inject constructor(
@@ -9,6 +10,7 @@ class FavoritesRepository @Inject constructor(
 ) {
 
     val allFavoriteItems = dao.getAllFavoriteItems()
+
     suspend fun addToFavorites(favoriteItem: FavoriteItem){
         dao.addToFavorites(favoriteItem)
     }
@@ -16,5 +18,14 @@ class FavoritesRepository @Inject constructor(
     suspend fun deleteFromFavorites(favoriteItem: FavoriteItem){
         dao.deleteFromFavorites(favoriteItem)
     }
+
+    suspend fun clearFavoriteList(){
+        dao.clearFavoriteList()
+    }
+
+    fun isItemInFavoriteList(itemId: String): Flow<Boolean>{
+        return dao.isItemInFavoriteList(itemId)
+    }
+
 
 }

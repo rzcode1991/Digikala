@@ -12,5 +12,6 @@ data class FavoriteItem(
     val image: String,
     val name: String,
     val price: Int,
-    val seller: String
+    val seller: String,
+    val star: Double
 )

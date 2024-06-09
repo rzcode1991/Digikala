@@ -65,22 +65,25 @@ fun ProductDetailsTopSection(
 ) {
 
     val context = LocalContext.current
+
     var priceList by remember {
         mutableStateOf<List<Price>?>(null)
     }
+    var isFavorite by remember {
+        mutableStateOf(false)
+    }
+
     if (productDetails != null){
+
         priceList = productDetails.priceList
-    }
 
-    var allFavoriteItems by remember {
-        mutableStateOf<List<FavoriteItem>>(emptyList())
-    }
-
-    LaunchedEffect(true){
-        viewModel.getAllFavorites()
-        viewModel.allFavoriteItems.collectLatest { favoriteItemsList ->
-            allFavoriteItems = favoriteItemsList
+        LaunchedEffect(true){
+            viewModel.isItemInFavoriteList(productDetails._id)
+            viewModel.isFavoriteItem.collectLatest {
+                isFavorite = it
+            }
         }
+
     }
 
     Card(
@@ -125,20 +128,15 @@ fun ProductDetailsTopSection(
                     BasketIconWithCounterBadge()
                 }
 
-                var isFavorite by remember {
-                    mutableStateOf(false)
-                }
-
                 val favoriteItem = FavoriteItem(
                     itemId = productDetails?._id ?: "",
                     discountPercent = productDetails?.discountPercent ?: 0,
                     image = productDetails?.imageSlider?.get(0)?.image ?: "",
                     name = productDetails?.name ?: "",
                     price = productDetails?.price ?: 0,
-                    seller = productDetails?.seller ?: ""
+                    seller = productDetails?.seller ?: "",
+                    star = productDetails?.star ?: 0.0
                 )
-
-                isFavorite = allFavoriteItems.contains(favoriteItem)
 
                 val transition = updateTransition(targetState = isFavorite, label = "favorite_icon")
                 val tint by transition.animateColor(label = "favorite_tint") { favorite ->

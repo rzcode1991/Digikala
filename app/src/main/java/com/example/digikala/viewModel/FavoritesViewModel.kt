@@ -18,6 +18,7 @@ class FavoritesViewModel @Inject constructor(
 
 
     val allFavoriteItems = MutableStateFlow<List<FavoriteItem>>(emptyList())
+    val isFavoriteItem = MutableStateFlow(false)
 
     fun getAllFavorites(){
         viewModelScope.launch(Dispatchers.IO) {
@@ -35,6 +36,20 @@ class FavoritesViewModel @Inject constructor(
     fun deleteFromFavorites(favoriteItem: FavoriteItem){
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteFromFavorites(favoriteItem)
+        }
+    }
+
+    fun isItemInFavoriteList(itemId: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.isItemInFavoriteList(itemId).collectLatest {
+                isFavoriteItem.emit(it)
+            }
+        }
+    }
+
+    fun clearFavoriteList(){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.clearFavoriteList()
         }
     }
 

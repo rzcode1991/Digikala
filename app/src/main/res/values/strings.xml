@@ -194,7 +194,9 @@
     <string name="price_chart">نمودار قیمت</string>
     <string name="product_price_chart">نمودار قیمت محصول در 6 ماه اخیر</string>
     <string name="product_price_chart_time">مشاهده تغییرات قیمت این محصول نسبت به زمان</string>
-
+    <string name="favorite_items">کالاهای مورد علاقه</string>
+    <string name="delete_from_list">حذف از لیست</string>
+    <string name="see_item_and_buy">مشاهده و خرید کالا</string>
 
 
 </resources>
