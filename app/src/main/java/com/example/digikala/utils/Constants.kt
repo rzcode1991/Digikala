@@ -19,9 +19,9 @@ object Constants {
     const val REF_ID_TABLE = "ref_ids"
     const val FAVORITE_ITEM_TABLE = "favorite_item"
     const val DATABASE_NAME = "digikala_database"
-    const val ZARINPAL_MERCHANT_ID = BuildConfig.ZARIN_MERCHANT_ID
+    const val ZARINPAL_MERCHANT_ID_old = BuildConfig.ZARIN_MERCHANT_ID
+    const val ZARINPAL_MERCHANT_ID = "ce7101df-cb08-41f8-a20b-b21995173d8f"
     const val ZARINPAL_PAYMENT_URL = "https://www.zarinpal.com/pg/StartPay/"
-    const val MY_WEBSITE = "https://www.rzcode.ir"
 
     var USER_LANGUAGE = "USER_LANGUAGE"
     var USER_PHONE = ""
@@ -39,5 +39,14 @@ object Constants {
     const val DIGI_PLUS_URL = "https://www.digikala.com/plus/landing/?promo_name=plus&promo_position=circle_badge"
     const val SHOPPING_URL = "https://www.digikala.com/landings/village-businesses/?promo_name=boomi-landing&promo_position=circle_badge"
     const val MORE_URL = "https://www.digikala.com/mehr/?promo_name=mehr&promo_position=circle_badge"
+
+    const val MY_WEBSITE = "https://www.rzcode.ir"
+
+    const val DIGI_FAQ = "https://www.digikala.com/faq"
+    const val DIGI_PRIVACY = "https://www.digikala.com/page/privacy"
+    const val DIGI_TERMS = "https://www.digikala.com/page/terms"
+    const val DIGI_BUG = "https://www.digikala.com/page/bug-report"
+    const val DIGI_SCORE = "https://www.cafebazaar.ir/app/com.digikala"
+
 
 }

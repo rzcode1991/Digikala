@@ -142,4 +142,8 @@ dependencies {
     // vico charts
     implementation("com.patrykandpatrick.vico:compose:1.13.0")
 
+    //icon
+    implementation ("androidx.compose.material:material-icons-extended:1.6.7")
+
+
 }

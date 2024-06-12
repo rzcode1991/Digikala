@@ -61,7 +61,7 @@ fun Profile(
     ){
 
         item {
-            ProfileTopBarSection()
+            ProfileTopBarSection(navController = navController)
         }
         item {
             ProfileUserInfoSection()
@@ -85,27 +85,62 @@ fun Profile(
         val rowWithIconAndTextItems = listOf(
             RowWithIconAndTextItem(
                 titleId = R.string.digi_plus,
-                imageId = R.drawable.digi_plus_icon,
+                image = {
+                    Image(
+                        painter = rememberAsyncImagePainter(model = R.drawable.digi_plus_icon),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .size(20.dp)
+                    )
+                },
                 route = ""
             ),
             RowWithIconAndTextItem(
                 titleId = R.string.fav_list,
-                imageId = R.drawable.digi_fav_icon,
+                image = {
+                    Image(
+                        painter = rememberAsyncImagePainter(model = R.drawable.digi_fav_icon),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .size(20.dp)
+                    )
+                },
                 route = Screen.FavoriteScreen.route
             ),
             RowWithIconAndTextItem(
                 titleId = R.string.my_comments,
-                imageId = R.drawable.digi_comments_icon,
+                image = {
+                    Image(
+                        painter = rememberAsyncImagePainter(model = R.drawable.digi_comments_icon),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .size(20.dp)
+                    )
+                },
                 route = ""
             ),
             RowWithIconAndTextItem(
                 titleId = R.string.addresses,
-                imageId = R.drawable.digi_adresses_icon,
+                image = {
+                    Image(
+                        painter = rememberAsyncImagePainter(model = R.drawable.digi_adresses_icon),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .size(20.dp)
+                    )
+                },
                 route = ""
             ),
             RowWithIconAndTextItem(
                 titleId = R.string.profile_info,
-                imageId = R.drawable.digi_profile_icon,
+                image = {
+                    Image(
+                        painter = rememberAsyncImagePainter(model = R.drawable.digi_profile_icon),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .size(20.dp)
+                    )
+                },
                 lastItem = true,
                 route = ""
             )
@@ -114,7 +149,7 @@ fun Profile(
         items(rowWithIconAndTextItems){
             RowWithIconAndTextItemView(
                 lastItem = it.lastItem,
-                imagePainterId = it.imageId,
+                myImage = it.image,
                 titleId = it.titleId,
                 onClick = {
                     if (it.route.isNotEmpty()){
@@ -137,7 +172,9 @@ fun Profile(
 }
 
 @Composable
-private fun ProfileTopBarSection(){
+private fun ProfileTopBarSection(
+    navController: NavHostController
+){
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -150,7 +187,9 @@ private fun ProfileTopBarSection(){
     ) {
 
         IconButton(
-            onClick = { /*TODO*/ }
+            onClick = {
+                navController.navigate(Screen.SettingScreen.route)
+            }
         ) {
 
             Icon(
@@ -164,7 +203,9 @@ private fun ProfileTopBarSection(){
         }
 
         IconButton(
-            onClick = { /*TODO*/ }
+            onClick = {
+                navController.navigate(Screen.Home.route)
+            }
         ) {
 
             Icon(

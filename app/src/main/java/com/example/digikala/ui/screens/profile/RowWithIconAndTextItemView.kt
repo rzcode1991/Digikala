@@ -1,6 +1,5 @@
 package com.example.digikala.ui.screens.profile
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -28,7 +27,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import coil.compose.rememberAsyncImagePainter
 import com.example.digikala.ui.theme.darkText
 import com.example.digikala.ui.theme.settingArrow
 import com.example.digikala.ui.theme.spacing
@@ -36,8 +34,10 @@ import com.example.digikala.ui.theme.spacing
 @Composable
 fun RowWithIconAndTextItemView(
     lastItem: Boolean,
-    imagePainterId: Int,
+    myImage: @Composable () -> Unit,
+    extraComposable: @Composable (() -> Unit)? = null,
     titleId: Int,
+    color: Color = MaterialTheme.colorScheme.darkText,
     onClick: () -> Unit
 ) {
 
@@ -73,33 +73,32 @@ fun RowWithIconAndTextItemView(
                 verticalAlignment = Alignment.CenterVertically
             ) {
 
-                Image(
-                    painter = rememberAsyncImagePainter(model = imagePainterId),
-                    contentDescription = "",
-                    modifier = Modifier
-                        .size(20.dp)
-                )
+                myImage()
 
                 Spacer(modifier = Modifier.width(MaterialTheme.spacing.medium))
 
                 Text(
                     text = stringResource(id = titleId),
                     style = MaterialTheme.typography.headlineMedium,
-                    color = MaterialTheme.colorScheme.darkText,
+                    color = color,
                     fontWeight = FontWeight.SemiBold,
                     textAlign = TextAlign.Center
                 )
 
             }
 
-            Icon(
-                Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                contentDescription = "",
-                modifier = Modifier
-                    .width(20.dp)
-                    .size(20.dp),
-                tint = MaterialTheme.colorScheme.settingArrow
-            )
+            if (extraComposable == null){
+                Icon(
+                    Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                    contentDescription = "",
+                    modifier = Modifier
+                        .width(20.dp)
+                        .size(20.dp),
+                    tint = MaterialTheme.colorScheme.settingArrow
+                )
+            }else{
+                extraComposable()
+            }
 
         }
 

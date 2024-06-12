@@ -198,5 +198,20 @@
     <string name="favorite_items">Favorite items</string>
     <string name="delete_from_list">Delete from list</string>
     <string name="see_item_and_buy">See item and buy</string>
+    <string name="settings">Setting</string>
+    <string name="repetitive_questions">Repetitive Question</string>
+    <string name="privacy">Privacy</string>
+    <string name="terms_of_use">Terms of use</string>
+    <string name="error_report">Error report</string>
+    <string name="rate_to_digikala">Rate to digikala</string>
+    <string name="send_information_to_improve_user_experience">Send information to improve UX</string>
+    <string name="report_error_by_shaking_the_phone">Report error by shaking the phone</string>
+    <string name="sign_out">Sign out</string>
+    <string name="changing_lang">Change Language</string>
+    <string name="persian">فارسی</string>
+    <string name="english">English</string>
+    <string name="version_app">App Version: %s</string>
+    <string name="rz_code">Developed by rzCode</string>
+
 
 </resources>

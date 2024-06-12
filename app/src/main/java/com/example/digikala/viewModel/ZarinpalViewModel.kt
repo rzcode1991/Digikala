@@ -16,6 +16,7 @@ import com.google.gson.JsonParser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -134,8 +135,7 @@ class ZarinpalViewModel @Inject constructor(
     @Composable
     fun launchZarinPalPurchaseBottomSheet() {
 
-        val context = LocalContext.current
-        val activity = context as Activity
+        val activity = LocalContext.current as Activity
 
         try {
             ZarinpalPurchase.purchase(

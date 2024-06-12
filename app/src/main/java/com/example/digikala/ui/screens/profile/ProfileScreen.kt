@@ -14,7 +14,7 @@ fun ProfileScreen(
     viewModel: ProfileViewModel = hiltViewModel()
 ){
 
-    if (!dataStoreViewModel.getUserToken().isNullOrBlank() && USER_PHONE.isNotEmpty()){
+    if (dataStoreViewModel.getUserToken().isNotBlank() && USER_PHONE.isNotEmpty()){
         Profile(navController = navController)
     }else{
         when(viewModel.screenState){

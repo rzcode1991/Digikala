@@ -21,6 +21,7 @@ import com.example.digikala.ui.screens.productDetails.PriceChart
 import com.example.digikala.ui.screens.productDetails.ProductDescriptionScreen
 import com.example.digikala.ui.screens.productDetails.ProductDetailsScreen
 import com.example.digikala.ui.screens.productDetails.ProductTechnicalFeatures
+import com.example.digikala.ui.screens.profile.settings.SettingsScreen
 
 @Composable
 fun SetUpNavGraph(
@@ -219,6 +220,13 @@ fun SetUpNavGraph(
             route = Screen.FavoriteScreen.route
         ) {
             FavoriteItemsScreen(
+                navController = navController
+            )
+        }
+        composable(
+            route = Screen.SettingScreen.route
+        ) {
+            SettingsScreen(
                 navController = navController
             )
         }

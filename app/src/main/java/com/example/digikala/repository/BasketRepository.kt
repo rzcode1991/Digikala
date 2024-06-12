@@ -38,6 +38,10 @@ class BasketRepository @Inject constructor(
         dao.deleteAllItems(CartStatus.CURRENT_CART)
     }
 
+    suspend fun clearAllCartItems(){
+        dao.clearAllCartItems()
+    }
+
     suspend fun updateCartItem(cart: CartItem){
         dao.updateCartItem(cart)
     }

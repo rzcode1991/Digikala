@@ -197,6 +197,21 @@
     <string name="favorite_items">کالاهای مورد علاقه</string>
     <string name="delete_from_list">حذف از لیست</string>
     <string name="see_item_and_buy">مشاهده و خرید کالا</string>
+    <string name="settings">تنظیمات</string>
+    <string name="repetitive_questions">پرسش‌های متداول</string>
+    <string name="privacy">حریم خصوصی</string>
+    <string name="terms_of_use">شرایط استفاده</string>
+    <string name="error_report">گزارش خطا</string>
+    <string name="rate_to_digikala">امتیاز به دیجی‌کالا</string>
+    <string name="send_information_to_improve_user_experience">ارسال اطلاعات برای بهبود تجربه کاربری</string>
+    <string name="report_error_by_shaking_the_phone">گزارش خطا با تکان دادن گوشی</string>
+    <string name="sign_out">خروج از حساب کاربری</string>
+    <string name="changing_lang">تغییر زبان</string>
+    <string name="persian">فارسی</string>
+    <string name="english">English</string>
+    <string name="version_app">App Version: %s</string>
+    <string name="rz_code">طراحی توسط rzCode</string>
+
 
 
 </resources>

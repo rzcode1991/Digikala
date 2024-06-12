@@ -8,6 +8,7 @@ import com.example.digikala.data.model.zarinpal.ZarinVerifyResponse
 import com.example.digikala.data.model.zarinpal.ZarinpalPaymentResponse
 import com.example.digikala.data.network.BaseApiResponse
 import com.example.digikala.data.network.ZarinpalApiInterface
+import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -28,9 +29,9 @@ class ZarinpalRepository @Inject constructor(
         dao.insertRefId(refId)
     }
 
-    /*suspend fun getRefIdByOrderId(orderId: String){
-        dao.getRefIdByOrderId(orderId)
-    }*/
+    fun getRefIdByOrderId(orderId: String): Flow<Int>? {
+        return dao.getRefIdByOrderId(orderId)
+    }
 
 
 }
