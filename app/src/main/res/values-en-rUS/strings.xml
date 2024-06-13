@@ -210,8 +210,13 @@
     <string name="changing_lang">Change Language</string>
     <string name="persian">فارسی</string>
     <string name="english">English</string>
-    <string name="version_app">App Version: %s</string>
-    <string name="rz_code">Developed by rzCode</string>
+    <string name="user_info">User info</string>
+    <string name="confirm_info">Confirm info</string>
+    <string name="enter_your_name">Enter your first name and your last name</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="save_info_err">Saving user info failed. Try again.</string>
+    <string name="add_user_info">Add user information</string>
 
 
 </resources>

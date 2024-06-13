@@ -46,6 +46,8 @@ import com.example.digikala.ui.theme.orange
 import com.example.digikala.ui.theme.roundedShape
 import com.example.digikala.ui.theme.semiDarkText
 import com.example.digikala.ui.theme.spacing
+import com.example.digikala.utils.Constants.PERSIAN_LANG
+import com.example.digikala.utils.Constants.USER_LANGUAGE
 import com.example.digikala.utils.DigitHelper.engToFa
 import com.example.digikala.viewModel.ProductDetailsViewModel
 
@@ -247,8 +249,19 @@ private fun CommentItem(
 
                 Spacer(modifier = Modifier.width(MaterialTheme.spacing.small))
 
+                var userName = comment.userName
+                if (userName.contains(" - ")){
+                    val firstName = userName.split(" - ")[0]
+                    val lastName = userName.split(" - ")[1]
+                    userName = if (USER_LANGUAGE == PERSIAN_LANG) {
+                        "$firstName $lastName"
+                    } else {
+                        "$lastName $firstName"
+                    }
+                }
+
                 Text(
-                    text = comment.userName,
+                    text = userName,
                     style = MaterialTheme.typography.labelSmall,
                     color = Color.Gray,
                     fontWeight = FontWeight.Medium

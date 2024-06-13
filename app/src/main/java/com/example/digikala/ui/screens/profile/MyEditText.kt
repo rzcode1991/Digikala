@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.digikala.ui.theme.cursorColor
 import com.example.digikala.ui.theme.darkCyan
@@ -23,7 +24,12 @@ fun MyEditText(
     value: String,
     onValueChane: (String) -> Unit,
     hint: String,
-    enabled: Boolean
+    enabled: Boolean,
+    startPadding: Dp = MaterialTheme.spacing.semiLarge,
+    endPadding: Dp = MaterialTheme.spacing.semiLarge,
+    topPadding: Dp = MaterialTheme.spacing.medium,
+    bottomPadding: Dp = MaterialTheme.spacing.semiLarge,
+    height: Dp = 92.dp
 ){
 
     TextField(
@@ -35,12 +41,12 @@ fun MyEditText(
         singleLine = true,
         modifier = Modifier
             .fillMaxWidth()
-            .height(92.dp)
+            .height(height)
             .padding(
-                start = MaterialTheme.spacing.semiLarge,
-                end = MaterialTheme.spacing.semiLarge,
-                top = MaterialTheme.spacing.medium,
-                bottom = MaterialTheme.spacing.semiLarge
+                start = startPadding,
+                end = endPadding,
+                top = topPadding,
+                bottom = bottomPadding
             ),
         textStyle = MaterialTheme.typography.headlineMedium,
         colors = TextFieldDefaults.colors(
@@ -51,12 +57,14 @@ fun MyEditText(
             cursorColor =  MaterialTheme.colorScheme.cursorColor
         ),
         placeholder = {
-            Text(
-                text = hint,
-                color = Color.Gray,
-                style = MaterialTheme.typography.headlineSmall,
-                fontWeight = FontWeight.Medium
-            )
+            if (hint.isNotEmpty()){
+                Text(
+                    text = hint,
+                    color = Color.Gray,
+                    style = MaterialTheme.typography.headlineSmall,
+                    fontWeight = FontWeight.Medium
+                )
+            }
         },
         shape = MaterialTheme.roundedShape.small
 

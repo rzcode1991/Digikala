@@ -4,13 +4,9 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.digikala.data.dataStore.DataStoreRepository
-import com.example.digikala.utils.Constants.PERSIAN_LANG
-import com.example.digikala.utils.Constants.USER_ID
-import com.example.digikala.utils.Constants.USER_PASSWORD
-import com.example.digikala.utils.Constants.USER_PHONE
-import com.example.digikala.utils.Constants.USER_TOKEN
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,6 +20,7 @@ class DataStoreViewModel @Inject constructor(
         const val USER_ID_KEY = "USER_ID_KEY"
         const val USER_TOKEN_KEY = "USER_TOKEN_KEY"
         const val USER_PASSWORD_KEY = "USER_PASSWORD_KEY"
+        const val USER_NAME_KEY = "USER_NAME_KEY"
     }
 
     fun saveUserLanguage(language: String){
@@ -32,12 +29,8 @@ class DataStoreViewModel @Inject constructor(
         }
     }
 
-    fun getUserLanguage(): String {
-        var userLanguage = PERSIAN_LANG
-        viewModelScope.launch {
-            userLanguage = repository.getString(USER_LANGUAGE_KEY) ?: PERSIAN_LANG
-        }
-        return userLanguage
+    fun getUserLanguage(): String? = runBlocking {
+        repository.getString(USER_LANGUAGE_KEY)
     }
 
     fun saveUserPhone(phone: String){
@@ -46,12 +39,8 @@ class DataStoreViewModel @Inject constructor(
         }
     }
 
-    fun getUserPhone(): String {
-        var userPhone = USER_PHONE
-        viewModelScope.launch {
-            userPhone = repository.getString(USER_PHONE_KEY) ?: USER_PHONE
-        }
-        return userPhone
+    fun getUserPhone(): String? = runBlocking {
+        repository.getString(USER_PHONE_KEY)
     }
 
     fun saveUserId(id: String){
@@ -60,12 +49,8 @@ class DataStoreViewModel @Inject constructor(
         }
     }
 
-    fun getUserId(): String {
-        var userId = USER_ID
-        viewModelScope.launch {
-            userId = repository.getString(USER_ID_KEY) ?: USER_ID
-        }
-        return userId
+    fun getUserId(): String? = runBlocking {
+        repository.getString(USER_ID_KEY)
     }
 
     fun saveUserToken(token: String){
@@ -74,12 +59,8 @@ class DataStoreViewModel @Inject constructor(
         }
     }
 
-    fun getUserToken(): String {
-        var userToken = USER_TOKEN
-        viewModelScope.launch {
-            userToken = repository.getString(USER_TOKEN_KEY) ?: USER_TOKEN
-        }
-        return userToken
+    fun getUserToken(): String? = runBlocking {
+        repository.getString(USER_TOKEN_KEY)
     }
 
     fun saveUserPassword(password: String){
@@ -88,12 +69,18 @@ class DataStoreViewModel @Inject constructor(
         }
     }
 
-    fun getUserPassword(): String {
-        var userPassWord = USER_PASSWORD
+    fun getUserPassword(): String? = runBlocking {
+        repository.getString(USER_PASSWORD_KEY)
+    }
+
+    fun saveUserName(userName: String){
         viewModelScope.launch {
-            userPassWord = repository.getString(USER_PASSWORD_KEY) ?: USER_PASSWORD
+            repository.putString(USER_NAME_KEY, userName)
         }
-        return userPassWord
+    }
+
+    fun getUserName(): String? = runBlocking {
+        repository.getString(USER_NAME_KEY)
     }
 
     fun clearDataStore(){
@@ -103,6 +90,7 @@ class DataStoreViewModel @Inject constructor(
                 saveUserPhone("")
                 saveUserId("USER_ID")
                 saveUserPassword("")
+                saveUserName("user_name")
             } catch (e: Exception) {
                 Log.e("my_tag", "clearDataStore error: ${e.message}")
             }

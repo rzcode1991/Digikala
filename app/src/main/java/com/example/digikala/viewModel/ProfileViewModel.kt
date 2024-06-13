@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.digikala.data.model.profile.LoginRequest
 import com.example.digikala.data.model.profile.LoginResponse
+import com.example.digikala.data.model.profile.userInfo.UserInfoRequest
 import com.example.digikala.data.network.NetworkResult
 import com.example.digikala.repository.ProfileRepository
 import com.example.digikala.ui.screens.profile.ProfileScreenState
@@ -31,6 +32,8 @@ class ProfileViewModel @Inject constructor(
 
     var loading by mutableStateOf(false)
 
+    val setUserNameResult = MutableStateFlow<NetworkResult<String>>(NetworkResult.Loading())
+
     suspend fun login(){
         viewModelScope.launch(Dispatchers.IO) {
             loading = true
@@ -49,6 +52,12 @@ class ProfileViewModel @Inject constructor(
                 password = password
             )
             loginResponseResult.emit(repository.logIn(loginRequest))
+        }
+    }
+
+    fun setUserName(userInfoRequest: UserInfoRequest){
+        viewModelScope.launch(Dispatchers.IO) {
+            setUserNameResult.emit(repository.setUserName(userInfoRequest))
         }
     }
 

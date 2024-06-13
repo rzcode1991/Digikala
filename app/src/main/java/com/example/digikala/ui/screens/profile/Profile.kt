@@ -1,6 +1,7 @@
 package com.example.digikala.ui.screens.profile
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,6 +23,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -31,6 +36,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import com.example.digikala.R
@@ -39,12 +45,16 @@ import com.example.digikala.data.model.profile.RowWithIconAndTextItem
 import com.example.digikala.navigation.Screen
 import com.example.digikala.ui.components.CenterBannerItem
 import com.example.digikala.ui.components.RoundedItem
+import com.example.digikala.ui.theme.darkCyan
 import com.example.digikala.ui.theme.darkText
 import com.example.digikala.ui.theme.selectedBottomBar
 import com.example.digikala.ui.theme.semiDarkText
 import com.example.digikala.ui.theme.spacing
+import com.example.digikala.utils.Constants.PERSIAN_LANG
+import com.example.digikala.utils.Constants.USER_LANGUAGE
 import com.example.digikala.utils.Constants.USER_PHONE
 import com.example.digikala.utils.DigitHelper.engToFa
+import com.example.digikala.viewModel.DataStoreViewModel
 
 @Composable
 fun Profile(
@@ -64,10 +74,10 @@ fun Profile(
             ProfileTopBarSection(navController = navController)
         }
         item {
-            ProfileUserInfoSection()
+            ProfileUserInfoSection(navController = navController)
         }
         item {
-            ProfileMiddleSection()
+            ProfileMiddleSection(navController)
         }
         item {
             MyOrdersSection()
@@ -142,7 +152,7 @@ fun Profile(
                     )
                 },
                 lastItem = true,
-                route = ""
+                route = Screen.UserInfo.route
             )
         )
 
@@ -222,16 +232,43 @@ private fun ProfileTopBarSection(
 }
 
 @Composable
-private fun ProfileUserInfoSection(){
+private fun ProfileUserInfoSection(
+    navController: NavHostController,
+    dataStore: DataStoreViewModel = hiltViewModel()
+){
 
     Spacer(modifier = Modifier.height(MaterialTheme.spacing.semiMedium))
 
+    var text by remember {
+        mutableStateOf("")
+    }
+    var color: Color = MaterialTheme.colorScheme.darkText
+    var modifier: Modifier = Modifier
+
+    val userName = dataStore.getUserName()
+    if (userName != "user_name" && userName != null){
+        val firstName = userName.split(" - ")[0]
+        val lastName = userName.split(" - ")[1]
+        text = if (USER_LANGUAGE == PERSIAN_LANG) {
+            "$firstName $lastName"
+        } else {
+            "$lastName $firstName"
+        }
+    }else{
+        text = stringResource(id = R.string.add_user_info)
+        color = MaterialTheme.colorScheme.darkCyan
+        modifier = Modifier.clickable {
+            navController.navigate(Screen.UserInfo.route)
+        }
+    }
+
     Text(
-        text = "رضا سلیمانی", // TODO
+        text = text,
         style = MaterialTheme.typography.headlineLarge,
         fontWeight = FontWeight.Bold,
-        color = MaterialTheme.colorScheme.darkText,
-        textAlign = TextAlign.Center
+        color = color,
+        textAlign = TextAlign.Center,
+        modifier = modifier
     )
 
     Spacer(modifier = Modifier.height(2.dp))
@@ -355,7 +392,9 @@ private fun ProfileUserInfoSection(){
 }
 
 @Composable
-private fun ProfileMiddleSection(){
+private fun ProfileMiddleSection(
+    navController: NavHostController
+){
 
     Divider(
         modifier = Modifier
@@ -379,7 +418,9 @@ private fun ProfileMiddleSection(){
         RoundedItem(
             title = stringResource(id = R.string.authentication),
             image = rememberAsyncImagePainter(model = R.drawable.digi_user),
-            onClick = { }
+            onClick = {
+                navController.navigate(Screen.UserInfo.route)
+            }
         )
 
         RoundedItem(

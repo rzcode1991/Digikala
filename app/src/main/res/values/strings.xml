@@ -209,8 +209,13 @@
     <string name="changing_lang">تغییر زبان</string>
     <string name="persian">فارسی</string>
     <string name="english">English</string>
-    <string name="version_app">App Version: %s</string>
-    <string name="rz_code">طراحی توسط rzCode</string>
+    <string name="user_info">اطلاعات حساب کاربری</string>
+    <string name="confirm_info">تایید اطلاعات</string>
+    <string name="enter_your_name">نام و نام خانوادگی خود را وارد نمایید</string>
+    <string name="first_name">نام</string>
+    <string name="last_name">نام خانوادگی</string>
+    <string name="save_info_err">ذخیره اطلاعات با خطا مواجه شد. دوباره تلاش کنید.</string>
+    <string name="add_user_info">اطلاعات کاربری را وارد کنید</string>
 
 
 

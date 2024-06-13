@@ -40,7 +40,8 @@ fun MyButton(
         shape = MaterialTheme.roundedShape.small,
         colors = ButtonDefaults.buttonColors(
             containerColor = MaterialTheme.colorScheme.digikalaRed
-        )
+        ),
+        enabled = !isLoading
         ) {
 
         if (isLoading){

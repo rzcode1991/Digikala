@@ -33,6 +33,8 @@ import com.example.digikala.ui.theme.orange
 import com.example.digikala.ui.theme.roundedShape
 import com.example.digikala.ui.theme.semiDarkText
 import com.example.digikala.ui.theme.spacing
+import com.example.digikala.utils.Constants.PERSIAN_LANG
+import com.example.digikala.utils.Constants.USER_LANGUAGE
 import com.example.digikala.utils.DigitHelper.engToFa
 import com.example.digikala.viewModel.ProductDetailsViewModel
 
@@ -40,11 +42,11 @@ import com.example.digikala.viewModel.ProductDetailsViewModel
 fun CommentItemView(
     comment: Comment,
     viewModel: ProductDetailsViewModel = hiltViewModel()
-){
+) {
 
-    val color = if (comment.star > 2.5){
+    val color = if (comment.star > 2.5) {
         MaterialTheme.colorScheme.darkGreen
-    }else{
+    } else {
         MaterialTheme.colorScheme.orange
     }
 
@@ -66,10 +68,10 @@ fun CommentItemView(
                 imageVector = Icons.Outlined.ThumbUp,
                 contentDescription = "",
                 tint = color,
-                modifier = if (comment.star > 2.5){
+                modifier = if (comment.star > 2.5) {
                     Modifier
                         .size(18.dp)
-                }else{
+                } else {
                     Modifier
                         .graphicsLayer(scaleY = -1f)
                         .size(18.dp)
@@ -79,9 +81,9 @@ fun CommentItemView(
             Spacer(modifier = Modifier.width(MaterialTheme.spacing.extraSmall))
 
             Text(
-                text = if (comment.star > 2.5){
+                text = if (comment.star > 2.5) {
                     stringResource(id = R.string.i_suggest)
-                }else{
+                } else {
                     stringResource(id = R.string.i_dont_suggest)
                 },
                 style = MaterialTheme.typography.labelSmall,
@@ -153,8 +155,19 @@ fun CommentItemView(
 
             Spacer(modifier = Modifier.width(MaterialTheme.spacing.small))
 
+            var userName = comment.userName
+            if (userName.contains(" - ")){
+                val firstName = userName.split(" - ")[0]
+                val lastName = userName.split(" - ")[1]
+                userName = if (USER_LANGUAGE == PERSIAN_LANG) {
+                    "$firstName $lastName"
+                } else {
+                    "$lastName $firstName"
+                }
+            }
+
             Text(
-                text = comment.userName,
+                text = userName,
                 style = MaterialTheme.typography.labelSmall,
                 color = Color.Gray,
                 fontWeight = FontWeight.Medium

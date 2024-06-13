@@ -11,7 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -27,12 +27,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.example.digikala.R
 import com.example.digikala.data.network.NetworkResult
 import com.example.digikala.ui.screens.profile.InputValidator.passwordValidator
 import com.example.digikala.ui.theme.darkText
 import com.example.digikala.ui.theme.selectedBottomBar
 import com.example.digikala.ui.theme.spacing
+import com.example.digikala.utils.Constants.USER_NAME
 import com.example.digikala.utils.Constants.USER_PHONE
 import com.example.digikala.utils.Constants.USER_TOKEN
 import com.example.digikala.viewModel.DataStoreViewModel
@@ -43,6 +45,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun RegisterScreen(
+    navController: NavHostController,
     viewModel: ProfileViewModel = hiltViewModel(),
     dataStore: DataStoreViewModel = hiltViewModel()
 ) {
@@ -64,9 +67,11 @@ fun RegisterScreen(
                             dataStore.saveUserId(loginResponse.id)
                             dataStore.saveUserPassword(viewModel.passwordInputRegister)
                             dataStore.saveUserPhone(loginResponse.phone)
-                            USER_PHONE = loginResponse.phone
+                            dataStore.saveUserName(loginResponse.name ?: USER_NAME)
                             dataStore.saveUserToken(loginResponse.token)
+                            USER_PHONE = loginResponse.phone
                             USER_TOKEN = loginResponse.token
+                            USER_NAME = loginResponse.name ?: USER_NAME
                         }
 
                         viewModel.screenState = ProfileScreenState.PROFILE_SCREEN
@@ -133,11 +138,13 @@ fun RegisterScreen(
                 }
 
                 IconButton(
-                    onClick = { /*TODO*/ }
+                    onClick = {
+                        navController.popBackStack()
+                    }
                 ) {
 
                     Icon(
-                        Icons.Default.Close,
+                        Icons.AutoMirrored.Filled.ArrowBack,
                         contentDescription = "",
                         tint = MaterialTheme.colorScheme.selectedBottomBar,
                         modifier = Modifier

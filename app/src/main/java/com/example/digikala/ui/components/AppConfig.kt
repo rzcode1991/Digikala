@@ -4,8 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.digikala.data.network.NetworkResult
+import com.example.digikala.utils.Constants.PERSIAN_LANG
 import com.example.digikala.utils.Constants.USER_ID
 import com.example.digikala.utils.Constants.USER_LANGUAGE
+import com.example.digikala.utils.Constants.USER_NAME
 import com.example.digikala.utils.Constants.USER_PASSWORD
 import com.example.digikala.utils.Constants.USER_PHONE
 import com.example.digikala.utils.Constants.USER_TOKEN
@@ -22,7 +24,7 @@ fun AppConfig(
 
     getDataStoreVariables(dataStoreViewModel)
 
-    if (USER_PHONE.isNotEmpty()){
+    if (!dataStoreViewModel.getUserPhone().isNullOrEmpty()){
         LaunchedEffect(true){
             profileViewModel.refreshToken(USER_PHONE, USER_PASSWORD)
         }
@@ -40,6 +42,7 @@ fun AppConfig(
                             dataStoreViewModel.saveUserPassword(USER_PASSWORD)
                             dataStoreViewModel.saveUserPhone(loginResponse.phone)
                             dataStoreViewModel.saveUserToken(loginResponse.token)
+                            dataStoreViewModel.saveUserName(loginResponse.name ?: USER_NAME)
 
                             getDataStoreVariables(dataStoreViewModel)
                         }
@@ -55,11 +58,12 @@ fun AppConfig(
 private fun getDataStoreVariables(
     dataStoreViewModel: DataStoreViewModel
 ){
-    USER_LANGUAGE = dataStoreViewModel.getUserLanguage()
+    USER_LANGUAGE = dataStoreViewModel.getUserLanguage() ?: PERSIAN_LANG
     dataStoreViewModel.saveUserLanguage(USER_LANGUAGE)
 
-    USER_PHONE = dataStoreViewModel.getUserPhone().orEmpty()
-    USER_ID = dataStoreViewModel.getUserId().orEmpty()
-    USER_TOKEN = dataStoreViewModel.getUserToken().orEmpty()
-    USER_PASSWORD = dataStoreViewModel.getUserPassword().orEmpty()
+    USER_PHONE = dataStoreViewModel.getUserPhone() ?: ""
+    USER_ID = dataStoreViewModel.getUserId() ?: "USER_ID"
+    USER_TOKEN = dataStoreViewModel.getUserToken() ?: ""
+    USER_PASSWORD = dataStoreViewModel.getUserPassword() ?: ""
+    USER_NAME = dataStoreViewModel.getUserName() ?: "user_name"
 }

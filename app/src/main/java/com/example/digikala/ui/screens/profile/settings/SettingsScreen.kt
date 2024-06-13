@@ -254,8 +254,7 @@ fun SettingsScreen(
                     dataStoreViewModel = dataStoreViewModel,
                     profileViewModel = profileViewModel,
                     basketViewModel = basketViewModel,
-                    favoritesViewModel = favoritesViewModel,
-                    activity = activity
+                    favoritesViewModel = favoritesViewModel
                 )
             }
         )
@@ -296,7 +295,7 @@ private fun ChangeLanguageSwitch(
                 }else{
                     PERSIAN_LANG
                 }
-                dataStoreViewModel.saveUserLanguage(language)
+                dataStoreViewModel.saveUserLanguage(language ?: PERSIAN_LANG)
                 activity.apply {
                     finish()
                     startActivity(Intent(activity, MainActivity::class.java))
@@ -332,8 +331,7 @@ private fun logOut(
     dataStoreViewModel: DataStoreViewModel,
     profileViewModel: ProfileViewModel,
     basketViewModel: BasketViewModel,
-    favoritesViewModel: FavoritesViewModel,
-    activity: Activity
+    favoritesViewModel: FavoritesViewModel
 ){
 
     dataStoreViewModel.clearDataStore()
@@ -351,9 +349,10 @@ private fun logOut(
 
     profileViewModel.screenState = ProfileScreenState.LOGIN_SCREEN
 
-    activity.apply {
-        finish()
-        startActivity(Intent(activity, MainActivity::class.java))
+    navController.navigate(Screen.Profile.route){
+        popUpTo(0){
+            inclusive = true
+        }
     }
 
 }
