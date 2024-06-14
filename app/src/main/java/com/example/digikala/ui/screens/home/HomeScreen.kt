@@ -90,31 +90,31 @@ private fun SwipeRefreshSection(
                 MainCategoriesSection(scope = refreshScope)
             }
             item {
-                CenterBannerSection(scope = refreshScope, bannerNumber = 1)
+                CenterBannerSection(navController = navController, scope = refreshScope, bannerNumber = 1)
             }
             item {
                 BestSellerProductsSection(scope = refreshScope, navController = navController)
             }
             item {
-                CenterBannerSection(scope = refreshScope, bannerNumber = 2)
+                CenterBannerSection(navController = navController, scope = refreshScope, bannerNumber = 2)
             }
             item {
                 MostVisitedProductsSection(scope = refreshScope, navController = navController)
             }
             item {
-                CenterBannerSection(scope = refreshScope, bannerNumber = 3)
+                CenterBannerSection(navController = navController, scope = refreshScope, bannerNumber = 3)
             }
             item {
                 MostFavoriteProductsSection(scope = refreshScope, navController = navController)
             }
             item {
-                CenterBannerSection(scope = refreshScope, bannerNumber = 4)
+                CenterBannerSection(navController = navController, scope = refreshScope, bannerNumber = 4)
             }
             item {
                 MostDiscountedProductsSection(scope = refreshScope, navController = navController)
             }
             item {
-                CenterBannerSection(scope = refreshScope, bannerNumber = 5)
+                CenterBannerSection(navController = navController, scope = refreshScope, bannerNumber = 5)
             }
 
         }

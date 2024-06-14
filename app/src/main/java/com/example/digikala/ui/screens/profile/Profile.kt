@@ -31,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -50,16 +51,23 @@ import com.example.digikala.ui.theme.darkText
 import com.example.digikala.ui.theme.selectedBottomBar
 import com.example.digikala.ui.theme.semiDarkText
 import com.example.digikala.ui.theme.spacing
+import com.example.digikala.utils.Constants
+import com.example.digikala.utils.Constants.DIGI_PLUS_URL
+import com.example.digikala.utils.Constants.DIGI_WALLET
+import com.example.digikala.utils.Constants.MY_WEBSITE
 import com.example.digikala.utils.Constants.PERSIAN_LANG
 import com.example.digikala.utils.Constants.USER_LANGUAGE
 import com.example.digikala.utils.Constants.USER_PHONE
 import com.example.digikala.utils.DigitHelper.engToFa
+import com.example.digikala.utils.LocaleUtils
 import com.example.digikala.viewModel.DataStoreViewModel
 
 @Composable
 fun Profile(
     navController: NavHostController
-){
+) {
+
+    LocaleUtils.setLocale(LocalContext.current, USER_LANGUAGE)
 
     LazyColumn(
         modifier = Modifier
@@ -68,7 +76,7 @@ fun Profile(
                 bottom = 80.dp
             ),
         horizontalAlignment = Alignment.CenterHorizontally
-    ){
+    ) {
 
         item {
             ProfileTopBarSection(navController = navController)
@@ -84,6 +92,7 @@ fun Profile(
         }
         item {
             CenterBannerItem(
+                navController = navController,
                 imageId = R.drawable.digiclub1,
                 height = 200
             )
@@ -103,7 +112,7 @@ fun Profile(
                             .size(20.dp)
                     )
                 },
-                route = ""
+                route = Screen.WebView.route + "?url=${DIGI_PLUS_URL}"
             ),
             RowWithIconAndTextItem(
                 titleId = R.string.fav_list,
@@ -156,13 +165,13 @@ fun Profile(
             )
         )
 
-        items(rowWithIconAndTextItems){
+        items(rowWithIconAndTextItems) {
             RowWithIconAndTextItemView(
                 lastItem = it.lastItem,
                 myImage = it.image,
                 titleId = it.titleId,
                 onClick = {
-                    if (it.route.isNotEmpty()){
+                    if (it.route.isNotEmpty()) {
                         navController.navigate(it.route)
                     }
                 }
@@ -171,6 +180,7 @@ fun Profile(
 
         item {
             CenterBannerItem(
+                navController = navController,
                 imageId = R.drawable.digiclub2,
                 height = 200
             )
@@ -184,7 +194,7 @@ fun Profile(
 @Composable
 private fun ProfileTopBarSection(
     navController: NavHostController
-){
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -235,7 +245,7 @@ private fun ProfileTopBarSection(
 private fun ProfileUserInfoSection(
     navController: NavHostController,
     dataStore: DataStoreViewModel = hiltViewModel()
-){
+) {
 
     Spacer(modifier = Modifier.height(MaterialTheme.spacing.semiMedium))
 
@@ -246,7 +256,7 @@ private fun ProfileUserInfoSection(
     var modifier: Modifier = Modifier
 
     val userName = dataStore.getUserName()
-    if (userName != "user_name" && userName != null){
+    if (userName != "user_name" && userName != null) {
         val firstName = userName.split(" - ")[0]
         val lastName = userName.split(" - ")[1]
         text = if (USER_LANGUAGE == PERSIAN_LANG) {
@@ -254,7 +264,7 @@ private fun ProfileUserInfoSection(
         } else {
             "$lastName $firstName"
         }
-    }else{
+    } else {
         text = stringResource(id = R.string.add_user_info)
         color = MaterialTheme.colorScheme.darkCyan
         modifier = Modifier.clickable {
@@ -359,7 +369,10 @@ private fun ProfileUserInfoSection(
 
         Column(
             modifier = Modifier
-                .weight(0.49f),
+                .weight(0.49f)
+                .clickable {
+                    navController.navigate(Screen.WebView.route + "?url=${DIGI_WALLET}")
+                },
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceBetween
         ) {
@@ -394,7 +407,7 @@ private fun ProfileUserInfoSection(
 @Composable
 private fun ProfileMiddleSection(
     navController: NavHostController
-){
+) {
 
     Divider(
         modifier = Modifier
@@ -426,13 +439,17 @@ private fun ProfileMiddleSection(
         RoundedItem(
             title = stringResource(id = R.string.digiclub),
             image = rememberAsyncImagePainter(model = R.drawable.digi_club),
-            onClick = { }
+            onClick = {
+                navController.navigate(Screen.WebView.route + "?url=${Constants.DIGI_CLUB}")
+            }
         )
 
         RoundedItem(
             title = stringResource(id = R.string.contact_us),
             image = rememberAsyncImagePainter(model = R.drawable.digi_contact_us),
-            onClick = { }
+            onClick = {
+                navController.navigate(Screen.WebView.route + "?url=${MY_WEBSITE}")
+            }
         )
 
     }
@@ -448,7 +465,7 @@ private fun ProfileMiddleSection(
 }
 
 @Composable
-private fun MyOrdersSection(){
+private fun MyOrdersSection() {
 
     Row(
         modifier = Modifier
@@ -499,9 +516,9 @@ private fun MyOrdersSection(){
             .fillMaxWidth()
             .padding(MaterialTheme.spacing.semiMedium),
         verticalAlignment = Alignment.CenterVertically
-    ){
+    ) {
 
-        items(myOrdersIconsList){
+        items(myOrdersIconsList) {
             Spacer(modifier = Modifier.width(MaterialTheme.spacing.medium))
             RoundedItemWithBadge(
                 title = it.name,
@@ -511,7 +528,7 @@ private fun MyOrdersSection(){
                 notifCount = it.notifCount
             )
             Spacer(modifier = Modifier.width(MaterialTheme.spacing.medium))
-            if (!it.lastInRow){
+            if (!it.lastInRow) {
                 Divider(
                     modifier = Modifier
                         .height(70.dp)

@@ -10,7 +10,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ModalBottomSheetLayout
+import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Text
+import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -18,6 +23,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,12 +41,16 @@ import com.example.digikala.ui.theme.spacing
 import com.example.digikala.utils.DigitHelper.engToFa
 import com.example.digikala.viewModel.FavoritesViewModel
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun FavoriteItemsScreen(
     navController: NavHostController,
     viewModel: FavoritesViewModel = hiltViewModel()
-){
+) {
+
+    val scope = rememberCoroutineScope()
 
     var allFavoriteItems by remember {
         mutableStateOf<List<FavoriteItem>>(emptyList())
@@ -50,7 +60,7 @@ fun FavoriteItemsScreen(
         mutableStateOf(false)
     }
 
-    LaunchedEffect(true){
+    LaunchedEffect(true) {
         viewModel.getAllFavorites()
         viewModel.allFavoriteItems.collectLatest { favoriteItemsList ->
             allFavoriteItems = favoriteItemsList
@@ -66,39 +76,81 @@ fun FavoriteItemsScreen(
         }
     ) { paddingValues ->
 
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(MaterialTheme.spacing.medium)
-                .padding(paddingValues)
-                .background(MaterialTheme.colorScheme.bottomBarColor)
-        ){
+        val modalBottomSheetState = rememberModalBottomSheetState(
+            initialValue = ModalBottomSheetValue.Hidden,
+            confirmValueChange = { it != ModalBottomSheetValue.HalfExpanded },
+            skipHalfExpanded = false
+        )
 
-            item {
-                TopSectionFavorites(allFavoriteItems.size)
-            }
-
-            itemsIndexed(allFavoriteItems){index, favoriteItem ->
-                FavoriteItemView(
-                    favoriteItem = favoriteItem,
-                    navController = navController,
-                    viewModel = viewModel
+        ModalBottomSheetLayout(
+            sheetState = modalBottomSheetState,
+            sheetShape = RoundedCornerShape(
+                topStart = MaterialTheme.spacing.semiMedium,
+                topEnd = MaterialTheme.spacing.semiMedium
+            ),
+            sheetContent = {
+                DeleteFavoriteBottomSheet(
+                    onDeleteClick = {
+                        viewModel.myFavoriteItem?.let { viewModel.deleteFromFavorites(it) }
+                        scope.launch {
+                            if (modalBottomSheetState.isVisible){
+                                modalBottomSheetState.hide()
+                            }
+                        }
+                    },
+                    onCancelClick = {
+                        scope.launch {
+                            if (modalBottomSheetState.isVisible){
+                                modalBottomSheetState.hide()
+                            }
+                        }
+                    }
                 )
-                isLastItem = allFavoriteItems.size == index + 1
-                if (!isLastItem){
-                    Spacer(
-                        modifier = Modifier
-                            .padding(
-                                vertical = MaterialTheme.spacing.medium
-                            )
-                            .fillMaxWidth()
-                            .height(1.dp)
-                            .background(Color.LightGray.copy(alpha = 0.6f))
-                    )
+            }
+        ) {
+
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(MaterialTheme.spacing.medium)
+                    .padding(paddingValues)
+                    .background(MaterialTheme.colorScheme.bottomBarColor)
+            ) {
+
+                item {
+                    TopSectionFavorites(allFavoriteItems.size)
                 }
+
+                itemsIndexed(allFavoriteItems) { index, favoriteItem ->
+                    FavoriteItemView(
+                        favoriteItem = favoriteItem,
+                        navController = navController,
+                        onDeleteItem = {
+                            viewModel.bottomSheetHandler(
+                                favoriteItem = favoriteItem,
+                                scope = scope,
+                                bottomSheetState = modalBottomSheetState
+                            )
+                        }
+                    )
+                    isLastItem = allFavoriteItems.size == index + 1
+                    if (!isLastItem) {
+                        Spacer(
+                            modifier = Modifier
+                                .padding(
+                                    vertical = MaterialTheme.spacing.medium
+                                )
+                                .fillMaxWidth()
+                                .height(1.dp)
+                                .background(Color.LightGray.copy(alpha = 0.6f))
+                        )
+                    }
+                }
+
             }
 
         }
+
 
     }
 
@@ -107,7 +159,7 @@ fun FavoriteItemsScreen(
 @Composable
 private fun TopSectionFavorites(
     totalFavoriteItems: Int
-){
+) {
 
     Row(
         modifier = Modifier

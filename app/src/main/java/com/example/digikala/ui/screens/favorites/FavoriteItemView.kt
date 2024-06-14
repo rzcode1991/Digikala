@@ -40,13 +40,12 @@ import com.example.digikala.ui.theme.darkText
 import com.example.digikala.ui.theme.golden
 import com.example.digikala.ui.theme.spacing
 import com.example.digikala.utils.DigitHelper
-import com.example.digikala.viewModel.FavoritesViewModel
 
 @Composable
 fun FavoriteItemView(
     favoriteItem: FavoriteItem,
     navController: NavHostController,
-    viewModel: FavoritesViewModel
+    onDeleteItem: () -> Unit
 ) {
 
     Column(
@@ -200,7 +199,7 @@ fun FavoriteItemView(
             Row(
                 modifier = Modifier
                     .clickable {
-                        viewModel.deleteFromFavorites(favoriteItem)
+                        onDeleteItem()
                     },
                 verticalAlignment = Alignment.CenterVertically
             ) {

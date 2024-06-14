@@ -216,6 +216,11 @@
     <string name="last_name">نام خانوادگی</string>
     <string name="save_info_err">ذخیره اطلاعات با خطا مواجه شد. دوباره تلاش کنید.</string>
     <string name="add_user_info">اطلاعات کاربری را وارد کنید</string>
+    <string name="app_version">نسخه برنامه</string>
+    <string name="designed_by">طراحی توسط: rzCode</string>
+    <string name="sure_to_delete">آیا از حذف کالا از لیست علاقه‌مندی‌ها اطمینان دارید؟</string>
+    <string name="delete_item">حذف کالا</string>
+    <string name="cancel">انصراف</string>
 
 
 

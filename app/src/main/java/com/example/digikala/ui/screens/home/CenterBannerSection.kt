@@ -9,6 +9,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.example.digikala.data.model.home.Slider
 import com.example.digikala.data.network.NetworkResult
 import com.example.digikala.ui.components.CenterBannerItem
@@ -20,6 +21,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun CenterBannerSection(
+    navController: NavHostController,
     scope: CoroutineScope,
     bannerNumber: Int,
     viewModel: HomeViewModel = hiltViewModel()
@@ -55,7 +57,10 @@ fun CenterBannerSection(
 
     if (centerBannersList.isNotEmpty() && !isLoading){
         val bannerItem = centerBannersList[bannerNumber - 1]
-        CenterBannerItem(bannerItem.image)
+        CenterBannerItem(
+            navController = navController,
+            imageUrl = bannerItem.image
+        )
     }else if (isError){
         NetworkErrorLoading(height = 170.dp) {
             scope.launch {
