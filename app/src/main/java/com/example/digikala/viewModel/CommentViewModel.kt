@@ -13,7 +13,8 @@ import androidx.paging.cachedIn
 import com.example.digikala.data.model.comment.NewComment
 import com.example.digikala.data.model.productDetails.Comment
 import com.example.digikala.data.network.NetworkResult
-import com.example.digikala.data.source.AllCommentsDataSource
+import com.example.digikala.data.source.ProductCommentsDataSource
+import com.example.digikala.data.source.UserCommentsDataSource
 import com.example.digikala.repository.CommentRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -84,13 +85,23 @@ class CommentViewModel @Inject constructor(
         switchState = newState
     }
 
-    var allCommentsList: Flow<PagingData<Comment>> = flow { emit(PagingData.empty()) }
+    var productCommentsList: Flow<PagingData<Comment>> = flow { emit(PagingData.empty()) }
 
-    fun getAllCommentsList(productId: String){
-        allCommentsList = Pager(
+    var userCommentsList: Flow<PagingData<Comment>> = flow { emit(PagingData.empty()) }
+
+    fun getProductCommentsList(productId: String){
+        productCommentsList = Pager(
             PagingConfig(pageSize = 5)
         ){
-            AllCommentsDataSource(repository, productId)
+            ProductCommentsDataSource(repository, productId)
+        }.flow.cachedIn(viewModelScope)
+    }
+
+    fun getUserCommentsList(userToken: String){
+        userCommentsList = Pager(
+            PagingConfig(pageSize = 5)
+        ){
+            UserCommentsDataSource(repository, userToken)
         }.flow.cachedIn(viewModelScope)
     }
 

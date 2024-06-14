@@ -1,6 +1,7 @@
 package com.example.digikala.ui.screens.comment
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -41,7 +42,8 @@ import com.example.digikala.viewModel.ProductDetailsViewModel
 @Composable
 fun CommentItemView(
     comment: Comment,
-    viewModel: ProductDetailsViewModel = hiltViewModel()
+    viewModel: ProductDetailsViewModel = hiltViewModel(),
+    onClick: (String) -> Unit
 ) {
 
     val color = if (comment.star > 2.5) {
@@ -53,6 +55,9 @@ fun CommentItemView(
     Column(
         modifier = Modifier
             .fillMaxWidth()
+            .clickable {
+                onClick(comment.productId)
+            }
     ) {
 
         Row(

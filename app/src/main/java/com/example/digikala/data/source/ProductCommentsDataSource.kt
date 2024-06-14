@@ -6,7 +6,7 @@ import androidx.paging.PagingState
 import com.example.digikala.data.model.productDetails.Comment
 import com.example.digikala.repository.CommentRepository
 
-class AllCommentsDataSource(
+class ProductCommentsDataSource(
     val repository: CommentRepository,
     val productId: String
 ): PagingSource<Int, Comment>() {

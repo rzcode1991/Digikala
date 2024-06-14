@@ -19,24 +19,25 @@ import androidx.navigation.NavHostController
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.digikala.R
+import com.example.digikala.navigation.Screen
 import com.example.digikala.ui.components.MyLoading
 import com.example.digikala.ui.components.TopSectionWithBackArrowAndText
 import com.example.digikala.ui.theme.bottomBarColor
 import com.example.digikala.ui.theme.spacing
+import com.example.digikala.utils.Constants.USER_TOKEN
 import com.example.digikala.viewModel.CommentViewModel
 
 @Composable
-fun AllCommentsScreen(
+fun UserAllCommentsScreen(
     navController: NavHostController,
-    productId: String,
-    commentsCount: String,
     viewModel: CommentViewModel = hiltViewModel()
 ){
 
     LaunchedEffect(true){
-        viewModel.getProductCommentsList(productId)
+        viewModel.getUserCommentsList(USER_TOKEN)
     }
-    val allComments = viewModel.productCommentsList.collectAsLazyPagingItems()
+
+    val allComments = viewModel.userCommentsList.collectAsLazyPagingItems()
 
     Scaffold(
         topBar = {
@@ -45,7 +46,7 @@ fun AllCommentsScreen(
                 title = stringResource(id = R.string.comments)
             )
         }
-    ) { paddingValues ->
+    ){ paddingValues ->
 
         LazyColumn(
             modifier = Modifier
@@ -58,14 +59,16 @@ fun AllCommentsScreen(
         ){
 
             item {
-                CommentsCountSection(commentsCount)
+                CommentsCountSection(allComments.itemCount.toString())
             }
 
             items(allComments.itemCount){itemIndex ->
                 allComments[itemIndex]?.let {
                     CommentItemView(
                         comment = it,
-                        onClick = {}
+                        onClick = { productId ->
+                            navController.navigate(Screen.ProductDetail.withArgs(productId))
+                        }
                     )
                 }
             }
@@ -94,6 +97,5 @@ fun AllCommentsScreen(
         }
 
     }
-
 
 }

@@ -37,7 +37,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import com.example.digikala.R
@@ -57,10 +56,10 @@ import com.example.digikala.utils.Constants.DIGI_WALLET
 import com.example.digikala.utils.Constants.MY_WEBSITE
 import com.example.digikala.utils.Constants.PERSIAN_LANG
 import com.example.digikala.utils.Constants.USER_LANGUAGE
+import com.example.digikala.utils.Constants.USER_NAME
 import com.example.digikala.utils.Constants.USER_PHONE
 import com.example.digikala.utils.DigitHelper.engToFa
 import com.example.digikala.utils.LocaleUtils
-import com.example.digikala.viewModel.DataStoreViewModel
 
 @Composable
 fun Profile(
@@ -136,7 +135,7 @@ fun Profile(
                             .size(20.dp)
                     )
                 },
-                route = ""
+                route = Screen.UserAllComments.route
             ),
             RowWithIconAndTextItem(
                 titleId = R.string.addresses,
@@ -243,8 +242,7 @@ private fun ProfileTopBarSection(
 
 @Composable
 private fun ProfileUserInfoSection(
-    navController: NavHostController,
-    dataStore: DataStoreViewModel = hiltViewModel()
+    navController: NavHostController
 ) {
 
     Spacer(modifier = Modifier.height(MaterialTheme.spacing.semiMedium))
@@ -255,8 +253,9 @@ private fun ProfileUserInfoSection(
     var color: Color = MaterialTheme.colorScheme.darkText
     var modifier: Modifier = Modifier
 
-    val userName = dataStore.getUserName()
-    if (userName != "user_name" && userName != null) {
+    /*val userName = dataStore.getUserName()*/
+    val userName = USER_NAME
+    if (userName != "user_name") {
         val firstName = userName.split(" - ")[0]
         val lastName = userName.split(" - ")[1]
         text = if (USER_LANGUAGE == PERSIAN_LANG) {

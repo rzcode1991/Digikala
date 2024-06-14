@@ -23,4 +23,11 @@ interface CommentApiInterface {
         @Query("pageNumber") pageNumber: String
     ): Response<ResponseResult<List<Comment>>>
 
+    @GET("v1/getUserComments")
+    suspend fun getUserComments(
+        @Query("token") token: String,
+        @Query("pageSize") pageSize: String,
+        @Query("pageNumber") pageNumber: String
+    ): Response<ResponseResult<List<Comment>>>
+
 }

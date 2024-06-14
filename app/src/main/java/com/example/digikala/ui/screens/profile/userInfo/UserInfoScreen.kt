@@ -30,6 +30,7 @@ import com.example.digikala.ui.screens.profile.MyButton
 import com.example.digikala.ui.screens.profile.MyEditText
 import com.example.digikala.ui.theme.darkText
 import com.example.digikala.ui.theme.spacing
+import com.example.digikala.utils.Constants.USER_NAME
 import com.example.digikala.utils.Constants.USER_TOKEN
 import com.example.digikala.viewModel.DataStoreViewModel
 import com.example.digikala.viewModel.ProfileViewModel
@@ -66,6 +67,7 @@ fun UserInfoScreen(
             when(userNameResult){
                 is NetworkResult.Success -> {
                     dataStore.saveUserName("$firstName - $lastName")
+                    USER_NAME = "$firstName - $lastName"
                     navController.popBackStack()
                     isLoading = false
                 }

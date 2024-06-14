@@ -27,4 +27,14 @@ class CommentRepository @Inject constructor(
         }
     }
 
+    suspend fun getUserComments(
+        userToken: String,
+        pageSize: String,
+        pageNumber: String
+    ): NetworkResult<List<Comment>> {
+        return safeApiCall {
+            api.getUserComments(userToken, pageSize, pageNumber)
+        }
+    }
+
 }
