@@ -18,17 +18,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.digikala.ui.components.MyLoading
-import com.example.digikala.viewModel.ZarinpalViewModel
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
 fun WebViewScreen(
     navController: NavHostController,
-    myUrl: String,
-    zarinViewModel: ZarinpalViewModel = hiltViewModel()
+    myUrl: String
 ) {
 
     val decodedUrl = remember { Uri.decode(myUrl) }
@@ -66,12 +63,11 @@ fun WebViewScreen(
                             val authority = uri.getQueryParameter("Authority")
                             val status = uri.getQueryParameter("Status")
                             if (authority != null) {
-                                zarinViewModel.emitAuthorityFromCallback(authority)
+                                //
                             }
                             if (status != null) {
-                                zarinViewModel.changeStatusFromCallback(status)
+                                //
                             }
-                            zarinViewModel.changeShouldUserGoToWebView()
                             navController.popBackStack()
                             return true
                         }

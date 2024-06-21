@@ -46,6 +46,7 @@ import com.example.digikala.utils.Constants.USER_NAME
 import com.example.digikala.utils.Constants.USER_PHONE
 import com.example.digikala.viewModel.BasketViewModel
 import com.example.digikala.viewModel.CheckoutViewModel
+import com.example.digikala.viewModel.DataStoreViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -55,7 +56,8 @@ import kotlinx.coroutines.launch
 fun CheckoutScreen(
     navController: NavHostController,
     basketViewModel: BasketViewModel = hiltViewModel(),
-    checkoutViewModel: CheckoutViewModel = hiltViewModel()
+    checkoutViewModel: CheckoutViewModel = hiltViewModel(),
+    dataStore: DataStoreViewModel = hiltViewModel()
 ){
 
     val context = LocalContext.current
@@ -100,6 +102,8 @@ fun CheckoutScreen(
                     orderId = newOrderResponseResult.data ?: ""
                     if (orderId.isNotEmpty()){
                         val orderPrice = (currentCartPriceDetail.totalFinalPrice + shippingCost.toLong()).toString()
+                        dataStore.saveOrderId(orderId)
+                        dataStore.saveOrderPrice(orderPrice)
                         navController.navigate(Screen.ConfirmPurchase.withArgs(orderId, orderPrice))
                     }
                     isButtonLoading = false

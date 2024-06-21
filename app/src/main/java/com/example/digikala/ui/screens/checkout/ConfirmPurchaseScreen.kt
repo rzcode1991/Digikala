@@ -1,7 +1,6 @@
 package com.example.digikala.ui.screens.checkout
 
-import android.net.Uri
-import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -18,14 +17,15 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -39,13 +39,15 @@ import com.example.digikala.data.model.zarinpal.VerifyRequest
 import com.example.digikala.navigation.Screen
 import com.example.digikala.ui.components.Loading3Dots
 import com.example.digikala.ui.theme.bottomBarColor
+import com.example.digikala.ui.theme.darkGreen
 import com.example.digikala.ui.theme.darkText
-import com.example.digikala.ui.theme.digikalaLightGreen
 import com.example.digikala.ui.theme.digikalaRed
 import com.example.digikala.ui.theme.roundedShape
 import com.example.digikala.ui.theme.semiDarkText
 import com.example.digikala.ui.theme.spacing
 import com.example.digikala.utils.Constants
+import com.example.digikala.utils.Constants.AUTHORITY_FROM_CALLBACK
+import com.example.digikala.utils.Constants.STATUS_FROM_CALLBACK
 import com.example.digikala.utils.Constants.USER_PHONE
 import com.example.digikala.utils.Constants.USER_TOKEN
 import com.example.digikala.utils.Constants.ZARINPAL_MERCHANT_ID
@@ -55,7 +57,6 @@ import com.example.digikala.utils.LocaleUtils
 import com.example.digikala.viewModel.BasketViewModel
 import com.example.digikala.viewModel.CheckoutViewModel
 import com.example.digikala.viewModel.ZarinpalViewModel
-import kotlinx.coroutines.launch
 
 @Composable
 fun ConfirmPurchaseScreen(
@@ -68,12 +69,11 @@ fun ConfirmPurchaseScreen(
 ) {
 
     LocaleUtils.setLocale(LocalContext.current, Constants.USER_LANGUAGE)
-
-    val scope = rememberCoroutineScope()
+    val context = LocalContext.current
 
     val paymentRequest = PaymentRequest(
         merchant_id = ZARINPAL_MERCHANT_ID,
-        amount = orderPrice.toInt(),
+        amount = orderPrice.toInt() * 10,
         callback_url = "myapp://purchase",
         description = "test description",
         metadata = mapOf(
@@ -82,53 +82,131 @@ fun ConfirmPurchaseScreen(
         )
     )
 
-    var paymentState by remember {
-        mutableStateOf(2)
+    var orderStateText by remember {
+        mutableStateOf("")
     }
-    var isLoading by remember {
-        mutableStateOf(false)
+    var orderStateTextColor by remember {
+        mutableStateOf(Color.Black)
     }
 
-    val shouldUserGoToWebView by zarinViewModel.shouldUserGoToWebView.collectAsState()
+    val authority by zarinViewModel.authority.collectAsState()
 
-    if (shouldUserGoToWebView) {
-        val authority by zarinViewModel.authority.collectAsState()
-        Log.e("my_tag", "authority is: $authority")
-        when {
-            authority.isNotEmpty() -> {
+    if (AUTHORITY_FROM_CALLBACK.isEmpty()){
+
+        STATUS_FROM_CALLBACK = ""
+        AUTHORITY_FROM_CALLBACK = ""
+        LaunchedEffect(true){
+            zarinViewModel.clearAuthority()
+            zarinViewModel.clearTransactionState()
+        }
+
+        orderStateText = stringResource(id = R.string.waiting_for_pay)
+        orderStateTextColor = MaterialTheme.colorScheme.darkText
+        when(authority){
+            "" -> {
+
+            }
+            else -> {
                 val url = "$ZARINPAL_PAYMENT_URL$authority"
-                navController.navigate(Screen.WebView.route + "?url=${Uri.encode(url)}")
-                zarinViewModel.changeShouldUserGoToWebView()
+                LaunchedEffect(true){
+                    zarinViewModel.onEvent(PaymentState.GoToPay(url, context))
+                }
             }
         }
-    }
+    }else{
+        zarinViewModel.isLoading = true
 
-    val refId by zarinViewModel.refId.collectAsState()
+        if (STATUS_FROM_CALLBACK == "OK"){
 
-    if (!shouldUserGoToWebView && zarinViewModel.statusFromCallback.value.isEmpty() && !isLoading) {
-        paymentState = 0
-    } else if (zarinViewModel.statusFromCallback.value == "OK") {
-        paymentState = 1
-        val verifyRequest = VerifyRequest(
-            merchant_id = ZARINPAL_MERCHANT_ID,
-            amount = orderPrice.toInt() * 10,
-            authority = zarinViewModel.authorityFromCallback.value
-        )
-        zarinViewModel.requestVerify(verifyRequest, orderId)
-        basketViewModel.deleteAllItems()
-        when{
-            refId != 0 -> {
-                checkoutViewModel.confirmPurchase(
-                    ConfirmPurchaseRequest(
-                        orderId = orderId,
-                        token = USER_TOKEN,
-                        transactionId = refId.toString()
-                    )
+            orderStateText = stringResource(id = R.string.waiting_for_pay)
+            orderStateTextColor = MaterialTheme.colorScheme.darkText
+
+            LaunchedEffect(true){
+
+                val verifyRequest = VerifyRequest(
+                    merchant_id = ZARINPAL_MERCHANT_ID,
+                    amount = orderPrice.toInt() * 10,
+                    authority = AUTHORITY_FROM_CALLBACK
                 )
+
+                zarinViewModel.onEvent(PaymentState.VerifyPayment(
+                    verifyRequest = verifyRequest,
+                    orderId = orderId
+                ))
+
             }
+
+            val transactionFinishOK by zarinViewModel.transactionFinishOK.collectAsState()
+
+            when{
+                transactionFinishOK -> {
+
+                    LaunchedEffect(true){
+
+                        zarinViewModel.clearAuthority()
+                        basketViewModel.deleteAllItems()
+                        Toast.makeText(
+                            context,
+                            context.getString(R.string.payment_success),
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                        val confirmPurchaseRequest = ConfirmPurchaseRequest(
+                            orderId = orderId,
+                            token = USER_TOKEN,
+                            transactionId = "Paid"
+                        )
+                        zarinViewModel.onEvent(PaymentState.PaymentOK(
+                            confirmPurchase = confirmPurchaseRequest,
+                            checkOutViewModel = checkoutViewModel
+                        ))
+                    }
+
+                    zarinViewModel.isLoading = false
+                    orderStateText = stringResource(id = R.string.paid)
+                    orderStateTextColor = MaterialTheme.colorScheme.darkGreen
+
+                    /*val confirmPurchaseResult by checkoutViewModel.confirmPurchaseResult.collectAsState()
+
+                    when(confirmPurchaseResult){
+                        is NetworkResult.Loading -> {
+
+                        }
+                        is NetworkResult.Success -> {
+
+                        }
+                        is NetworkResult.Error -> {
+                            STATUS_FROM_CALLBACK = ""
+                            AUTHORITY_FROM_CALLBACK = ""
+                            LaunchedEffect(true){
+                                zarinViewModel.clearAuthority()
+                                zarinViewModel.clearTransactionState()
+                            }
+
+                            zarinViewModel.isLoading = false
+                            Toast.makeText(
+                                context,
+                                context.getString(R.string.error_happened),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }*/
+                }
+            }
+
+        }else if (STATUS_FROM_CALLBACK == "NOK"){
+
+            orderStateText = stringResource(id = R.string.pay_failed)
+            orderStateTextColor = MaterialTheme.colorScheme.digikalaRed
+
+            LaunchedEffect(true){
+                zarinViewModel.clearAuthority()
+                zarinViewModel.clearTransactionState()
+            }
+
+            zarinViewModel.isLoading = false
         }
     }
-
 
     Column(
         modifier = Modifier
@@ -175,32 +253,8 @@ fun ConfirmPurchaseScreen(
             )
 
             Text(
-                text = when (paymentState) {
-                    0 -> {
-                        stringResource(id = R.string.pay_failed)
-                    }
-
-                    1 -> {
-                        stringResource(id = R.string.paid)
-                    }
-
-                    else -> {
-                        stringResource(id = R.string.waiting_for_pay)
-                    }
-                },
-                color = when (paymentState) {
-                    0 -> {
-                        MaterialTheme.colorScheme.digikalaRed
-                    }
-
-                    1 -> {
-                        MaterialTheme.colorScheme.digikalaLightGreen
-                    }
-
-                    else -> {
-                        MaterialTheme.colorScheme.semiDarkText
-                    }
-                },
+                text = orderStateText,
+                color = orderStateTextColor,
                 style = MaterialTheme.typography.headlineMedium
             )
 
@@ -231,49 +285,19 @@ fun ConfirmPurchaseScreen(
 
         Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
 
-        if (refId != 0) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-
-                Text(
-                    text = stringResource(id = R.string.ref_id),
-                    color = MaterialTheme.colorScheme.darkText,
-                    style = MaterialTheme.typography.headlineMedium
-                )
-
-                Text(
-                    text = refId.toString(),
-                    color = MaterialTheme.colorScheme.darkText,
-                    style = MaterialTheme.typography.headlineMedium
-                )
-
-            }
-
-            Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
-        }
-
-        if (paymentState == 2) {
+        if (AUTHORITY_FROM_CALLBACK.isEmpty()){
             Button(
                 onClick = {
-
-                    if (zarinViewModel.statusFromCallback.value.isEmpty()) {
-                        isLoading = true
-                        scope.launch {
-                            zarinViewModel.requestPayment(paymentRequest)
-                        }
-                    }
-
+                    zarinViewModel.isLoading = true
+                    zarinViewModel.onEvent(PaymentState.RequestPayment(paymentRequest))
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.digikalaRed
                 ),
-                shape = MaterialTheme.roundedShape.small
+                shape = MaterialTheme.roundedShape.small,
+                enabled = !zarinViewModel.isLoading
             ) {
-                if (isLoading) {
+                if (zarinViewModel.isLoading) {
                     MyLoadingButton()
                 } else {
                     Text(
@@ -291,27 +315,30 @@ fun ConfirmPurchaseScreen(
             }
 
             Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
-        } else if (paymentState == 1) {
+        }else{
             Button(
                 onClick = {
-
-                    if (refId != 0) {
-                        navController.navigate(Screen.Profile.route){
-                            popUpTo(Screen.Profile.route){
-                                inclusive = true
-                            }
+                    STATUS_FROM_CALLBACK = ""
+                    AUTHORITY_FROM_CALLBACK = ""
+                    zarinViewModel.clearAuthority()
+                    zarinViewModel.clearTransactionState()
+                    navController.navigate(Screen.Profile.route){
+                        popUpTo(0) {
+                            inclusive = true
                         }
                     }
-
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.digikalaRed
                 ),
-                shape = MaterialTheme.roundedShape.small
+                shape = MaterialTheme.roundedShape.small,
+                enabled = !zarinViewModel.isLoading
             ) {
-                if (refId != 0){
+                if (zarinViewModel.isLoading) {
+                    MyLoadingButton()
+                } else {
                     Text(
-                        text = stringResource(id = R.string.after_payment),
+                        text = stringResource(id = R.string.go_to_profile),
                         style = MaterialTheme.typography.headlineLarge,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.bottomBarColor,
@@ -321,8 +348,6 @@ fun ConfirmPurchaseScreen(
                                 vertical = MaterialTheme.spacing.extraSmall
                             )
                     )
-                }else{
-                    MyLoadingButton()
                 }
             }
 
@@ -331,8 +356,12 @@ fun ConfirmPurchaseScreen(
 
         Button(
             onClick = {
+                STATUS_FROM_CALLBACK = ""
+                AUTHORITY_FROM_CALLBACK = ""
+                zarinViewModel.clearAuthority()
+                zarinViewModel.clearTransactionState()
                 navController.navigate(Screen.Home.route) {
-                    popUpTo(Screen.Home.route) {
+                    popUpTo(0) {
                         inclusive = true
                     }
                 }
@@ -341,19 +370,24 @@ fun ConfirmPurchaseScreen(
                 containerColor = MaterialTheme.colorScheme.bottomBarColor
             ),
             border = BorderStroke(2.dp, MaterialTheme.colorScheme.digikalaRed),
-            shape = MaterialTheme.roundedShape.small
+            shape = MaterialTheme.roundedShape.small,
+            enabled = !zarinViewModel.isLoading
         ) {
-            Text(
-                text = stringResource(id = R.string.go_to_home_screen),
-                style = MaterialTheme.typography.headlineLarge,
-                color = MaterialTheme.colorScheme.digikalaRed,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier
-                    .padding(
-                        horizontal = MaterialTheme.spacing.small,
-                        vertical = MaterialTheme.spacing.extraSmall
-                    )
-            )
+            if (zarinViewModel.isLoading){
+                MyLoadingButton()
+            }else{
+                Text(
+                    text = stringResource(id = R.string.go_to_home_screen),
+                    style = MaterialTheme.typography.headlineLarge,
+                    color = MaterialTheme.colorScheme.digikalaRed,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier
+                        .padding(
+                            horizontal = MaterialTheme.spacing.small,
+                            vertical = MaterialTheme.spacing.extraSmall
+                        )
+                )
+            }
         }
 
     }
@@ -361,7 +395,7 @@ fun ConfirmPurchaseScreen(
 }
 
 @Composable
-private fun MyLoadingButton(){
+private fun MyLoadingButton() {
     Row(
         modifier = Modifier
             .width(120.dp)

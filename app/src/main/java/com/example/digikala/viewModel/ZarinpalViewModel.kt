@@ -1,8 +1,13 @@
 package com.example.digikala.viewModel
 
 import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.util.Log
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,13 +15,13 @@ import com.example.digikala.data.model.zarinpal.PaymentRequest
 import com.example.digikala.data.model.zarinpal.RefId
 import com.example.digikala.data.model.zarinpal.VerifyRequest
 import com.example.digikala.repository.ZarinpalRepository
+import com.example.digikala.ui.screens.checkout.PaymentState
 import com.example.digikala.utils.ZarinpalPurchase
 import com.google.gson.Gson
 import com.google.gson.JsonParser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -26,10 +31,30 @@ class ZarinpalViewModel @Inject constructor(
 ) : ViewModel() {
 
     val authority = MutableStateFlow("")
-    val authorityFromCallback = MutableStateFlow("")
-    val statusFromCallback = MutableStateFlow("")
-    val shouldUserGoToWebView = MutableStateFlow(true)
-    val refId = MutableStateFlow(0)
+    var isLoading by mutableStateOf(false)
+    val transactionFinishOK = MutableStateFlow(false)
+
+    fun onEvent(paymentState: PaymentState){
+        when(paymentState){
+            is PaymentState.RequestPayment -> {
+                requestPayment(paymentState.paymentRequest)
+            }
+            is PaymentState.GoToPay -> {
+                val context = paymentState.context
+                val url = paymentState.url
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                context.startActivity(intent)
+            }
+            is PaymentState.VerifyPayment -> {
+                if (!transactionFinishOK.value){
+                    requestVerify(paymentState.verifyRequest, paymentState.orderId)
+                }
+            }
+            is PaymentState.PaymentOK -> {
+                paymentState.checkOutViewModel.confirmPurchase(paymentState.confirmPurchase)
+            }
+        }
+    }
 
     private fun saveRefId(refId: RefId){
         viewModelScope.launch(Dispatchers.IO) {
@@ -37,25 +62,19 @@ class ZarinpalViewModel @Inject constructor(
         }
     }
 
-    fun changeShouldUserGoToWebView(){
+    fun clearAuthority(){
         viewModelScope.launch {
-            shouldUserGoToWebView.emit(false)
+            authority.emit("")
         }
     }
 
-    fun emitAuthorityFromCallback(newValue: String){
+    fun clearTransactionState(){
         viewModelScope.launch {
-            authorityFromCallback.emit(newValue)
+            transactionFinishOK.emit(false)
         }
     }
 
-    fun changeStatusFromCallback(newValue: String){
-        viewModelScope.launch {
-            statusFromCallback.emit(newValue)
-        }
-    }
-
-    fun requestPayment(request: PaymentRequest) {
+    private fun requestPayment(request: PaymentRequest) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response = repository.requestPayment(request)
@@ -101,7 +120,7 @@ class ZarinpalViewModel @Inject constructor(
         }
     }
 
-    fun requestVerify(request: VerifyRequest, orderId: String){
+    private fun requestVerify(request: VerifyRequest, orderId: String){
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response = repository.requestVerify(request)
@@ -111,9 +130,9 @@ class ZarinpalViewModel @Inject constructor(
                         if (verifyData != null) {
                             Log.e("my_tag", "verify data is: $verifyData")
                             if (verifyData.code == 100) {
-                                refId.emit(verifyData.refId)
-                                val refId = RefId(orderId, verifyData.refId)
-                                saveRefId(refId)
+                                transactionFinishOK.emit(true)
+                                val refIdAfterVerify = RefId(orderId, verifyData.refId)
+                                saveRefId(refIdAfterVerify)
                             }
                         } else {
                             Log.e("my_tag", "Unexpected verifyData body")

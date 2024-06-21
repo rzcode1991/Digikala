@@ -221,6 +221,9 @@
     <string name="sure_to_delete">آیا از حذف کالا از لیست علاقه‌مندی‌ها اطمینان دارید؟</string>
     <string name="delete_item">حذف کالا</string>
     <string name="cancel">انصراف</string>
+    <string name="error_happened">خطایی رخ داده است. لطفا با پشتیبانی تماس بگیرید</string>
+    <string name="payment_success">خرید شما با موفقیت انجام شد.</string>
+    <string name="go_to_profile">سفارش های من</string>
 
 
 

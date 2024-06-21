@@ -72,6 +72,9 @@ fun ProductDetailsTopSection(
     var isFavorite by remember {
         mutableStateOf(false)
     }
+    var isCloseActive by remember {
+        mutableStateOf(true)
+    }
 
     if (productDetails != null){
 
@@ -106,9 +109,13 @@ fun ProductDetailsTopSection(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
 
-            IconButton(onClick = {
-                navController.popBackStack()
-            }) {
+            IconButton(
+                onClick = {
+                    isCloseActive = false
+                    navController.popBackStack()
+                },
+                enabled = isCloseActive
+            ) {
                 Icon(
                     Icons.Default.Close,
                     contentDescription = "",

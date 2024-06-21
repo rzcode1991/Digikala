@@ -1,6 +1,7 @@
 package com.example.digikala
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -17,7 +18,9 @@ import com.example.digikala.navigation.SetUpNavGraph
 import com.example.digikala.ui.components.AppConfig
 import com.example.digikala.ui.components.SetStatusBarColor
 import com.example.digikala.ui.theme.DigikalaTheme
+import com.example.digikala.utils.Constants.AUTHORITY_FROM_CALLBACK
 import com.example.digikala.utils.Constants.PERSIAN_LANG
+import com.example.digikala.utils.Constants.STATUS_FROM_CALLBACK
 import com.example.digikala.utils.Constants.USER_LANGUAGE
 import com.example.digikala.utils.LocaleUtils
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,6 +33,9 @@ class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        handleIntent(intent)
+
         setContent {
             DigikalaTheme {
                 navController = rememberNavController()
@@ -69,6 +75,24 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        handleIntent(intent)
+    }
+
+    private fun handleIntent(intent: Intent?) {
+        intent?.data?.let { uri ->
+            val status = uri.getQueryParameter("Status").toString()
+            val authority = uri.getQueryParameter("Authority").toString()
+
+            STATUS_FROM_CALLBACK = status
+            AUTHORITY_FROM_CALLBACK = authority
+        }
+    }
+
+
 }
 
 

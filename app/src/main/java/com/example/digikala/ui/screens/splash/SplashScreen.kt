@@ -14,23 +14,38 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.digikala.R
 import com.example.digikala.navigation.Screen
 import com.example.digikala.ui.components.Loading3Dots
 import com.example.digikala.ui.theme.splashBg
+import com.example.digikala.utils.Constants.STATUS_FROM_CALLBACK
+import com.example.digikala.viewModel.DataStoreViewModel
 import kotlinx.coroutines.delay
 
 @Composable
 fun SplashScreen(
-    navController: NavHostController
+    navController: NavHostController,
+    dataStore: DataStoreViewModel = hiltViewModel()
 ){
+
     Splash()
     LaunchedEffect(true){
         delay(2500)
-        navController.navigate(Screen.Home.route){
-            popUpTo(Screen.Splash.route){
-                inclusive = true
+        if (STATUS_FROM_CALLBACK.isEmpty()){
+            navController.navigate(Screen.Home.route){
+                popUpTo(Screen.Splash.route){
+                    inclusive = true
+                }
+            }
+        }else{
+            val orderId = dataStore.getOrderId().toString()
+            val orderPrice = dataStore.getOrderPrice().toString()
+            navController.navigate(Screen.ConfirmPurchase.withArgs(orderId, orderPrice)){
+                popUpTo(Screen.Splash.route){
+                    inclusive = true
+                }
             }
         }
     }

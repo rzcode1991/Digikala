@@ -253,9 +253,8 @@ private fun ProfileUserInfoSection(
     var color: Color = MaterialTheme.colorScheme.darkText
     var modifier: Modifier = Modifier
 
-    /*val userName = dataStore.getUserName()*/
     val userName = USER_NAME
-    if (userName != "user_name") {
+    if (userName != "user_name" && userName.contains(" - ")) {
         val firstName = userName.split(" - ")[0]
         val lastName = userName.split(" - ")[1]
         text = if (USER_LANGUAGE == PERSIAN_LANG) {

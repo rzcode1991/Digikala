@@ -31,6 +31,10 @@ object Constants {
     var USER_ADDRESS = ""
     var USER_NAME = "user_name"
 
+    var AUTHORITY = ""
+    var STATUS_FROM_CALLBACK = ""
+    var AUTHORITY_FROM_CALLBACK = ""
+
     const val DIGI_JET_URL = "https://www.digikalajet.com/user/address"
     const val DIGI_STYLE_URL = "https://www.digistyle.com/sale-landing/?utm_source=digikala&utm_medium=circle_badge&utm_campaign=style&promo_name=style&promo_position=circle_badge"
     const val DIGI_PAY_URL = "https://www.digikala.com/my-digipay/?promo_name=my-digipay&promo_position=circle_badge"

@@ -21,6 +21,8 @@ class DataStoreViewModel @Inject constructor(
         const val USER_TOKEN_KEY = "USER_TOKEN_KEY"
         const val USER_PASSWORD_KEY = "USER_PASSWORD_KEY"
         const val USER_NAME_KEY = "USER_NAME_KEY"
+        const val ORDER_ID_KEY = "ORDER_ID_KEY"
+        const val ORDER_PRICE_KEY = "ORDER_PRICE_KEY"
     }
 
     fun saveUserLanguage(language: String){
@@ -83,6 +85,26 @@ class DataStoreViewModel @Inject constructor(
         repository.getString(USER_NAME_KEY)
     }
 
+    fun saveOrderId(orderId: String){
+        viewModelScope.launch {
+            repository.putString(ORDER_ID_KEY, orderId)
+        }
+    }
+
+    fun getOrderId(): String? = runBlocking {
+        repository.getString(ORDER_ID_KEY)
+    }
+
+    fun saveOrderPrice(orderPrice: String){
+        viewModelScope.launch {
+            repository.putString(ORDER_PRICE_KEY, orderPrice)
+        }
+    }
+
+    fun getOrderPrice(): String? = runBlocking {
+        repository.getString(ORDER_PRICE_KEY)
+    }
+
     fun clearDataStore(){
         viewModelScope.launch {
             try {
@@ -91,6 +113,8 @@ class DataStoreViewModel @Inject constructor(
                 saveUserId("USER_ID")
                 saveUserPassword("")
                 saveUserName("user_name")
+                saveOrderId("")
+                saveOrderPrice("")
             } catch (e: Exception) {
                 Log.e("my_tag", "clearDataStore error: ${e.message}")
             }
