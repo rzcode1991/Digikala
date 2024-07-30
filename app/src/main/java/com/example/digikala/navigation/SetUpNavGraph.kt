@@ -6,6 +6,8 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.example.digikala.ui.screens.address.AddNewAddressScreen
+import com.example.digikala.ui.screens.address.AddressScreen
 import com.example.digikala.ui.screens.basket.BasketScreen
 import com.example.digikala.ui.screens.category.CategoryScreen
 import com.example.digikala.ui.screens.checkout.CheckoutScreen
@@ -22,8 +24,10 @@ import com.example.digikala.ui.screens.productDetails.PriceChart
 import com.example.digikala.ui.screens.productDetails.ProductDescriptionScreen
 import com.example.digikala.ui.screens.productDetails.ProductDetailsScreen
 import com.example.digikala.ui.screens.productDetails.ProductTechnicalFeatures
+import com.example.digikala.ui.screens.profile.Orders
 import com.example.digikala.ui.screens.profile.settings.SettingsScreen
 import com.example.digikala.ui.screens.profile.userInfo.UserInfoScreen
+import com.example.digikala.ui.screens.search.SearchScreen
 
 @Composable
 fun SetUpNavGraph(
@@ -243,6 +247,44 @@ fun SetUpNavGraph(
             route = Screen.UserAllComments.route
         ) {
             UserAllCommentsScreen(
+                navController = navController
+            )
+        }
+        composable(
+            route = Screen.Orders.route + "/{clickSourceId}",
+            arguments = listOf(
+                navArgument("clickSourceId") {
+                    type = NavType.StringType
+                    defaultValue = ""
+                    nullable = true
+                }
+            )
+        ) { navBackStackEntry ->
+            navBackStackEntry.arguments!!.getString("clickSourceId")?.let { id ->
+                Orders(
+                    navController = navController,
+                    clickSourceId = id
+                )
+            }
+        }
+        composable(
+            route = Screen.Search.route
+        ) {
+            SearchScreen(
+                navController = navController
+            )
+        }
+        composable(
+            route = Screen.Address.route
+        ) {
+            AddressScreen(
+                navController = navController
+            )
+        }
+        composable(
+            route = Screen.AddNewAddress.route
+        ) {
+            AddNewAddressScreen(
                 navController = navController
             )
         }

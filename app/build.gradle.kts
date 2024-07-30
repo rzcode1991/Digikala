@@ -133,7 +133,7 @@ dependencies {
     implementation("com.zarinpal:payment-provider-ktx:0.5.3")
 
     //desugaring
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
 
     // paging
     implementation("androidx.paging:paging-runtime:3.3.0")

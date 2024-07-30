@@ -2,7 +2,6 @@ package com.example.digikala.repository
 
 import com.example.digikala.data.model.home.MainCategory
 import com.example.digikala.data.model.home.Slider
-import com.example.digikala.data.model.home.SpecialOfferItem
 import com.example.digikala.data.model.home.StoreProduct
 import com.example.digikala.data.network.BaseApiResponse
 import com.example.digikala.data.network.HomeApiInterface
@@ -18,12 +17,12 @@ class HomeRepository @Inject constructor(
             api.getSlider()
         }
 
-    suspend fun getSpecialOffers(): NetworkResult<List<SpecialOfferItem>> =
+    suspend fun getSpecialOffers(): NetworkResult<List<StoreProduct>> =
         safeApiCall {
             api.getSpecialOffers()
         }
 
-    suspend fun getSpecialSupermarketOffers(): NetworkResult<List<SpecialOfferItem>> =
+    suspend fun getSpecialSupermarketOffers(): NetworkResult<List<StoreProduct>> =
         safeApiCall {
             api.getSpecialSupermarketOffers()
         }

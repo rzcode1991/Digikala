@@ -225,5 +225,16 @@
     <string name="error_happened">Something went wrong, please contact support team.</string>
     <string name="payment_success">Your purchase was successful</string>
     <string name="go_to_profile">My orders</string>
+    <string name="search_in_digikala">Search in Digikala</string>
+    <string name="no_orders_here">No orders in this category.</string>
+    <string name="save_address">Save address</string>
+    <string name="address_added_successfully">Address added successfully</string>
+    <string name="address">Address</string>
+    <string name="name">Name</string>
+    <string name="phone">Phone</string>
+    <string name="postal_code">Postal code</string>
+    <string name="invalid_user_input">Invalid user input</string>
+    <string name="set_as_default_address">Set as default address</string>
+    <string name="invalid_day_and_date">Invalid day and date!</string>
 
 </resources>

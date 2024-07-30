@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import com.example.digikala.R
-import com.example.digikala.data.model.home.SpecialOfferItem
+import com.example.digikala.data.model.home.StoreProduct
 import com.example.digikala.navigation.Screen
 import com.example.digikala.ui.theme.darkCyan
 import com.example.digikala.ui.theme.darkText
@@ -48,7 +48,7 @@ import com.example.digikala.utils.DigitHelper.engToFaAndSeparateByComma
 
 @Composable
 fun AmazingItem(
-    item: SpecialOfferItem,
+    item: StoreProduct,
     navController: NavHostController
 ){
 

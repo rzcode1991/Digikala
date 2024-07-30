@@ -78,6 +78,7 @@ import com.example.digikala.utils.Constants.USER_PHONE
 import com.example.digikala.utils.Constants.USER_TOKEN
 import com.example.digikala.utils.LocaleUtils
 import com.example.digikala.viewModel.BasketViewModel
+import com.example.digikala.viewModel.CheckoutViewModel
 import com.example.digikala.viewModel.DataStoreViewModel
 import com.example.digikala.viewModel.FavoritesViewModel
 import com.example.digikala.viewModel.ProfileViewModel
@@ -88,8 +89,8 @@ fun SettingsScreen(
     dataStoreViewModel: DataStoreViewModel = hiltViewModel(),
     profileViewModel: ProfileViewModel = hiltViewModel(),
     basketViewModel: BasketViewModel = hiltViewModel(),
-    favoritesViewModel: FavoritesViewModel = hiltViewModel()
-
+    favoritesViewModel: FavoritesViewModel = hiltViewModel(),
+    checkoutViewModel: CheckoutViewModel = hiltViewModel()
 ) {
 
     LocaleUtils.setLocale(LocalContext.current, USER_LANGUAGE)
@@ -266,7 +267,8 @@ fun SettingsScreen(
                         dataStoreViewModel = dataStoreViewModel,
                         profileViewModel = profileViewModel,
                         basketViewModel = basketViewModel,
-                        favoritesViewModel = favoritesViewModel
+                        favoritesViewModel = favoritesViewModel,
+                        checkoutViewModel = checkoutViewModel
                     )
                 }
             )
@@ -354,7 +356,8 @@ private fun logOut(
     dataStoreViewModel: DataStoreViewModel,
     profileViewModel: ProfileViewModel,
     basketViewModel: BasketViewModel,
-    favoritesViewModel: FavoritesViewModel
+    favoritesViewModel: FavoritesViewModel,
+    checkoutViewModel: CheckoutViewModel
 ) {
 
     dataStoreViewModel.clearDataStore()
@@ -369,6 +372,8 @@ private fun logOut(
     basketViewModel.clearAllCartItems()
 
     favoritesViewModel.clearFavoriteList()
+
+    checkoutViewModel.clearAllOrders()
 
     profileViewModel.screenState = ProfileScreenState.LOGIN_SCREEN
 

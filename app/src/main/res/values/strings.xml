@@ -224,7 +224,17 @@
     <string name="error_happened">خطایی رخ داده است. لطفا با پشتیبانی تماس بگیرید</string>
     <string name="payment_success">خرید شما با موفقیت انجام شد.</string>
     <string name="go_to_profile">سفارش های من</string>
-
+    <string name="search_in_digikala">جستجو در دیجی‌کالا</string>
+    <string name="no_orders_here">سفارشی در این دسته‌بندی وجود ندارد.</string>
+    <string name="save_address">ذخیره آدرس</string>
+    <string name="address_added_successfully">آدرس با موفقیت ذخیره شد</string>
+    <string name="address">آدرس</string>
+    <string name="name">نام</string>
+    <string name="phone">تلفن</string>
+    <string name="postal_code">کد پستی</string>
+    <string name="invalid_user_input">اطلاعات وارد شده صحیح نیست</string>
+    <string name="set_as_default_address">انتخاب به عنوان آدرس پیش‌فرض</string>
+    <string name="invalid_day_and_date">روز و تاریخ نامشخص!</string>
 
 
 </resources>

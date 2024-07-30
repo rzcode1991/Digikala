@@ -34,6 +34,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.digikala.R
 import com.example.digikala.data.model.checkout.ConfirmPurchaseRequest
+import com.example.digikala.data.model.checkout.OrderStatus
 import com.example.digikala.data.model.zarinpal.PaymentRequest
 import com.example.digikala.data.model.zarinpal.VerifyRequest
 import com.example.digikala.navigation.Screen
@@ -45,9 +46,9 @@ import com.example.digikala.ui.theme.digikalaRed
 import com.example.digikala.ui.theme.roundedShape
 import com.example.digikala.ui.theme.semiDarkText
 import com.example.digikala.ui.theme.spacing
-import com.example.digikala.utils.Constants
 import com.example.digikala.utils.Constants.AUTHORITY_FROM_CALLBACK
 import com.example.digikala.utils.Constants.STATUS_FROM_CALLBACK
+import com.example.digikala.utils.Constants.USER_LANGUAGE
 import com.example.digikala.utils.Constants.USER_PHONE
 import com.example.digikala.utils.Constants.USER_TOKEN
 import com.example.digikala.utils.Constants.ZARINPAL_MERCHANT_ID
@@ -68,8 +69,8 @@ fun ConfirmPurchaseScreen(
     checkoutViewModel: CheckoutViewModel = hiltViewModel()
 ) {
 
-    LocaleUtils.setLocale(LocalContext.current, Constants.USER_LANGUAGE)
     val context = LocalContext.current
+    LocaleUtils.setLocale(context, USER_LANGUAGE)
 
     val paymentRequest = PaymentRequest(
         merchant_id = ZARINPAL_MERCHANT_ID,
@@ -90,6 +91,11 @@ fun ConfirmPurchaseScreen(
     }
 
     val authority by zarinViewModel.authority.collectAsState()
+
+    LaunchedEffect(Unit){
+        checkoutViewModel.getAllNotPaidYetOrders()
+    }
+    val allNotPaidYetOrders by checkoutViewModel.allNotPaidYetOrders.collectAsState()
 
     if (AUTHORITY_FROM_CALLBACK.isEmpty()){
 
@@ -141,10 +147,17 @@ fun ConfirmPurchaseScreen(
             when{
                 transactionFinishOK -> {
 
+                    allNotPaidYetOrders.forEach { order ->
+                        checkoutViewModel.changeOrderStatus(
+                            newStatus = OrderStatus.PROCESSING,
+                            orderId = order.orderId
+                        )
+                    }
+
                     LaunchedEffect(true){
 
                         zarinViewModel.clearAuthority()
-                        basketViewModel.deleteAllItems()
+                        basketViewModel.deleteAllCurrentCartItems()
                         Toast.makeText(
                             context,
                             context.getString(R.string.payment_success),
@@ -198,6 +211,13 @@ fun ConfirmPurchaseScreen(
 
             orderStateText = stringResource(id = R.string.pay_failed)
             orderStateTextColor = MaterialTheme.colorScheme.digikalaRed
+
+            allNotPaidYetOrders.forEach { order ->
+                checkoutViewModel.changeOrderStatus(
+                    newStatus = OrderStatus.WAITING_FOR_PAY,
+                    orderId = order.orderId
+                )
+            }
 
             LaunchedEffect(true){
                 zarinViewModel.clearAuthority()

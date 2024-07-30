@@ -69,7 +69,7 @@ private fun SwipeRefreshSection(
         ){
 
             item{
-                SearchBarSection()
+                SearchBarSection(navController = navController)
             }
             item{
                 TopPagerSection(scope = refreshScope)

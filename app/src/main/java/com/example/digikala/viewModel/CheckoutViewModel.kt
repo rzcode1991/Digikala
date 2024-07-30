@@ -12,7 +12,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.digikala.R
 import com.example.digikala.data.model.checkout.ConfirmPurchaseRequest
 import com.example.digikala.data.model.checkout.DayAndDate
+import com.example.digikala.data.model.checkout.Order
 import com.example.digikala.data.model.checkout.OrderRequest
+import com.example.digikala.data.model.checkout.OrderStatus
 import com.example.digikala.data.network.NetworkResult
 import com.example.digikala.repository.CheckoutRepository
 import com.example.digikala.ui.screens.checkout.CheckoutBottomSheetState
@@ -20,6 +22,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.util.Calendar
 import javax.inject.Inject
@@ -38,6 +41,12 @@ class CheckoutViewModel @Inject constructor(
 
     val confirmPurchaseResult = MutableStateFlow<NetworkResult<String>>(NetworkResult.Loading())
 
+    val allNotPaidYetOrders = MutableStateFlow<List<Order>>(emptyList())
+
+    val allWaitingForPayOrders = MutableStateFlow<List<Order>>(emptyList())
+
+    val allProcessingOrders = MutableStateFlow<List<Order>>(emptyList())
+
     suspend fun setNewOrder(orderRequest: OrderRequest){
         viewModelScope.launch(Dispatchers.IO) {
             newOrderResponseResult.emit(repository.setNewOrder(orderRequest))
@@ -47,6 +56,48 @@ class CheckoutViewModel @Inject constructor(
     fun confirmPurchase(confirmPurchase: ConfirmPurchaseRequest){
         viewModelScope.launch(Dispatchers.IO) {
             confirmPurchaseResult.emit(repository.confirmPurchase(confirmPurchase))
+        }
+    }
+
+    fun addNewOrder(order: Order){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.addNewOrder(order)
+        }
+    }
+
+    fun changeOrderStatus(newStatus: OrderStatus, orderId: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.changeOrderStatus(newStatus, orderId)
+        }
+    }
+
+    fun getAllNotPaidYetOrders(){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.allNotPaidYetOrders.collectLatest {
+                allNotPaidYetOrders.emit(it)
+            }
+        }
+    }
+
+    fun getAllWaitingForPayOrders(){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.allWaitingForPayOrders.collectLatest {
+                allWaitingForPayOrders.emit(it)
+            }
+        }
+    }
+
+    fun getAllProcessingOrders(){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.allProcessingOrders.collectLatest {
+                allProcessingOrders.emit(it)
+            }
+        }
+    }
+
+    fun clearAllOrders(){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.clearAllOrders()
         }
     }
 

@@ -23,6 +23,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,6 +39,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import com.example.digikala.R
@@ -51,15 +54,21 @@ import com.example.digikala.ui.theme.selectedBottomBar
 import com.example.digikala.ui.theme.semiDarkText
 import com.example.digikala.ui.theme.spacing
 import com.example.digikala.utils.Constants
+import com.example.digikala.utils.Constants.CANCELED_ORDER
+import com.example.digikala.utils.Constants.DELIVERED_ORDER
 import com.example.digikala.utils.Constants.DIGI_PLUS_URL
 import com.example.digikala.utils.Constants.DIGI_WALLET
 import com.example.digikala.utils.Constants.MY_WEBSITE
 import com.example.digikala.utils.Constants.PERSIAN_LANG
+import com.example.digikala.utils.Constants.PROCESSING_ORDER
+import com.example.digikala.utils.Constants.RETURNED_ORDER
 import com.example.digikala.utils.Constants.USER_LANGUAGE
 import com.example.digikala.utils.Constants.USER_NAME
 import com.example.digikala.utils.Constants.USER_PHONE
+import com.example.digikala.utils.Constants.WAIT_FOR_PAY_ORDER
 import com.example.digikala.utils.DigitHelper.engToFa
 import com.example.digikala.utils.LocaleUtils
+import com.example.digikala.viewModel.CheckoutViewModel
 
 @Composable
 fun Profile(
@@ -87,7 +96,7 @@ fun Profile(
             ProfileMiddleSection(navController)
         }
         item {
-            MyOrdersSection()
+            MyOrdersSection(navController = navController)
         }
         item {
             CenterBannerItem(
@@ -147,7 +156,7 @@ fun Profile(
                             .size(20.dp)
                     )
                 },
-                route = ""
+                route = Screen.Address.route
             ),
             RowWithIconAndTextItem(
                 titleId = R.string.profile_info,
@@ -463,7 +472,18 @@ private fun ProfileMiddleSection(
 }
 
 @Composable
-private fun MyOrdersSection() {
+private fun MyOrdersSection(
+    navController: NavHostController,
+    checkoutViewModel: CheckoutViewModel = hiltViewModel()
+) {
+
+    LaunchedEffect(Unit) {
+        checkoutViewModel.getAllWaitingForPayOrders()
+        checkoutViewModel.getAllProcessingOrders()
+    }
+
+    val allWaitingForPayOrders by checkoutViewModel.allWaitingForPayOrders.collectAsState()
+    val allProcessingOrders by checkoutViewModel.allProcessingOrders.collectAsState()
 
     Row(
         modifier = Modifier
@@ -488,23 +508,32 @@ private fun MyOrdersSection() {
     val myOrdersIconsList = listOf(
         MyOrdersIcons(
             name = stringResource(id = R.string.unpaid),
-            image = rememberAsyncImagePainter(model = R.drawable.digi_unpaid)
+            image = rememberAsyncImagePainter(model = R.drawable.digi_unpaid),
+            id = WAIT_FOR_PAY_ORDER,
+            hasNews = allWaitingForPayOrders.isNotEmpty(),
+            notifCount = allWaitingForPayOrders.size
         ),
         MyOrdersIcons(
             name = stringResource(id = R.string.processing),
-            image = rememberAsyncImagePainter(model = R.drawable.digi_processing)
+            image = rememberAsyncImagePainter(model = R.drawable.digi_processing),
+            id = PROCESSING_ORDER,
+            hasNews = allProcessingOrders.isNotEmpty(),
+            notifCount = allProcessingOrders.size
         ),
         MyOrdersIcons(
             name = stringResource(id = R.string.delivered),
-            image = rememberAsyncImagePainter(model = R.drawable.digi_delivered)
+            image = rememberAsyncImagePainter(model = R.drawable.digi_delivered),
+            id = DELIVERED_ORDER
         ),
         MyOrdersIcons(
             name = stringResource(id = R.string.canceled),
-            image = rememberAsyncImagePainter(model = R.drawable.digi_cancel)
+            image = rememberAsyncImagePainter(model = R.drawable.digi_cancel),
+            id = CANCELED_ORDER
         ),
         MyOrdersIcons(
             name = stringResource(id = R.string.returned),
             image = rememberAsyncImagePainter(model = R.drawable.digi_returned),
+            id = RETURNED_ORDER,
             lastInRow = true
         )
     )
@@ -521,7 +550,9 @@ private fun MyOrdersSection() {
             RoundedItemWithBadge(
                 title = it.name,
                 image = it.image,
-                onClick = { /*TODO*/ },
+                onClick = {
+                    navController.navigate(Screen.Orders.withArgs(it.id))
+                },
                 hasNews = it.hasNews,
                 notifCount = it.notifCount
             )

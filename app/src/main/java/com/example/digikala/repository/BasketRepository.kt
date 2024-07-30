@@ -24,7 +24,13 @@ class BasketRepository @Inject constructor(
     }
 
     val allCurrentCartItems = dao.getAllCartItems(CartStatus.CURRENT_CART)
+
     val allNextCartItems = dao.getAllCartItems(CartStatus.NEXT_CART)
+
+    val allWaitingForPayCartItems = dao.getAllCartItems(CartStatus.WAITING_FOR_PAY)
+
+    val allPaidCartItems = dao.getAllCartItems(CartStatus.PAID)
+
     val wholeCartItems = dao.getWholeCartItems()
 
     val totalCountForCurrentCartItems = dao.getTotalCountForCartItems(CartStatus.CURRENT_CART)
@@ -34,8 +40,8 @@ class BasketRepository @Inject constructor(
         dao.deleteCartItem(cart)
     }
 
-    suspend fun deleteAllItems(){
-        dao.deleteAllItems(CartStatus.CURRENT_CART)
+    suspend fun deleteAllCurrentCartItems(){
+        dao.deleteAllCurrentCartItems(CartStatus.CURRENT_CART)
     }
 
     suspend fun clearAllCartItems(){

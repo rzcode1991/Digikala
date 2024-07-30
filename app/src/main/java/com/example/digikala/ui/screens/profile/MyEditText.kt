@@ -29,7 +29,9 @@ fun MyEditText(
     endPadding: Dp = MaterialTheme.spacing.semiLarge,
     topPadding: Dp = MaterialTheme.spacing.medium,
     bottomPadding: Dp = MaterialTheme.spacing.semiLarge,
-    height: Dp = 92.dp
+    height: Dp = 92.dp,
+    isSingleLine: Boolean = true,
+    maxLines: Int = 1
 ){
 
     TextField(
@@ -38,7 +40,8 @@ fun MyEditText(
             onValueChane(newValue)
         },
         enabled = enabled,
-        singleLine = true,
+        singleLine = isSingleLine,
+        maxLines = maxLines,
         modifier = Modifier
             .fillMaxWidth()
             .height(height)

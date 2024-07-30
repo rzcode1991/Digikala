@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.digikala.data.model.home.MainCategory
 import com.example.digikala.data.model.home.Slider
-import com.example.digikala.data.model.home.SpecialOfferItem
 import com.example.digikala.data.model.home.StoreProduct
 import com.example.digikala.data.network.NetworkResult
 import com.example.digikala.repository.HomeRepository
@@ -16,11 +15,11 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val repository: HomeRepository
-): ViewModel() {
+) : ViewModel() {
 
     val slider = MutableStateFlow<NetworkResult<List<Slider>>>(NetworkResult.Loading())
-    val specialOffers = MutableStateFlow<NetworkResult<List<SpecialOfferItem>>>(NetworkResult.Loading())
-    val specialSupermarketOffers = MutableStateFlow<NetworkResult<List<SpecialOfferItem>>>(NetworkResult.Loading())
+    val specialOffers = MutableStateFlow<NetworkResult<List<StoreProduct>>>(NetworkResult.Loading())
+    val specialSupermarketOffers = MutableStateFlow<NetworkResult<List<StoreProduct>>>(NetworkResult.Loading())
     val proposalCards = MutableStateFlow<NetworkResult<List<Slider>>>(NetworkResult.Loading())
     val mainCategories = MutableStateFlow<NetworkResult<List<MainCategory>>>(NetworkResult.Loading())
     val centerBanners = MutableStateFlow<NetworkResult<List<Slider>>>(NetworkResult.Loading())
@@ -29,7 +28,7 @@ class HomeViewModel @Inject constructor(
     val mostFavoriteProducts = MutableStateFlow<NetworkResult<List<StoreProduct>>>(NetworkResult.Loading())
     val mostDiscountedProducts = MutableStateFlow<NetworkResult<List<StoreProduct>>>(NetworkResult.Loading())
 
-    suspend fun getAllDataFromServer(){
+    suspend fun getAllDataFromServer() {
         viewModelScope.launch {
 
             // fire and forget

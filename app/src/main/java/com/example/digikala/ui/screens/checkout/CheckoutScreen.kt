@@ -33,7 +33,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.digikala.R
 import com.example.digikala.data.model.basket.CartItem
+import com.example.digikala.data.model.checkout.Order
 import com.example.digikala.data.model.checkout.OrderRequest
+import com.example.digikala.data.model.checkout.OrderStatus
 import com.example.digikala.data.network.NetworkResult
 import com.example.digikala.navigation.Screen
 import com.example.digikala.ui.components.DigiClubScoreSection
@@ -104,6 +106,14 @@ fun CheckoutScreen(
                         val orderPrice = (currentCartPriceDetail.totalFinalPrice + shippingCost.toLong()).toString()
                         dataStore.saveOrderId(orderId)
                         dataStore.saveOrderPrice(orderPrice)
+                        val order = Order(
+                            orderId = orderId,
+                            items = allCurrentCartItems,
+                            totalPrice = currentCartPriceDetail.totalFinalPrice + shippingCost.toLong(),
+                            orderDate = checkoutViewModel.selectedDay?.toJson() ?: "",
+                            orderStatus = OrderStatus.NOT_PAID_YET
+                        )
+                        checkoutViewModel.addNewOrder(order)
                         navController.navigate(Screen.ConfirmPurchase.withArgs(orderId, orderPrice))
                     }
                     isButtonLoading = false
@@ -166,7 +176,7 @@ fun CheckoutScreen(
                                 CheckoutTopSection(navController)
                             }
                             item {
-                                CheckoutAddressSection()
+                                CheckoutAddressSection(navController)
                             }
                             item {
                                 CheckoutSendingTimeSection(

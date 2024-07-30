@@ -21,12 +21,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.digikala.R
-import com.example.digikala.data.model.home.SpecialOfferItem
+import com.example.digikala.data.model.home.StoreProduct
 import com.example.digikala.data.network.NetworkResult
 import com.example.digikala.ui.components.MyLoading
 import com.example.digikala.ui.components.NetworkErrorLoading
 import com.example.digikala.ui.theme.digikalaLightGreen
-import com.example.digikala.ui.theme.digikalaLightRed
 import com.example.digikala.utils.Constants
 import com.example.digikala.viewModel.HomeViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -40,7 +39,7 @@ fun SpecialSupermarketOffersSection(
 ){
 
     var specialSuperMarketList by remember {
-        mutableStateOf<List<SpecialOfferItem>>(emptyList())
+        mutableStateOf<List<StoreProduct>>(emptyList())
     }
     var isLoading by remember {
         mutableStateOf(false)

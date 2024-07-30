@@ -20,6 +20,10 @@ sealed class Screen(val route: String) {
     data object SettingScreen: Screen("setting_screen")
     data object UserInfo: Screen("user_info_screen")
     data object UserAllComments: Screen("user_all_comments_screen")
+    data object Orders: Screen("orders_screen")
+    data object Search: Screen("search_screen")
+    data object Address: Screen("address_screen")
+    data object AddNewAddress: Screen("add_new_address_screen")
 
     fun withArgs(vararg args: Any): String{
         return buildString {

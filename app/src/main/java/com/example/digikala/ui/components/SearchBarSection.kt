@@ -2,6 +2,7 @@ package com.example.digikala.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -27,7 +28,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.example.digikala.R
+import com.example.digikala.navigation.Screen
 import com.example.digikala.ui.theme.LocalShape
 import com.example.digikala.ui.theme.LocalSpacing
 import com.example.digikala.ui.theme.searchBarBg
@@ -36,16 +39,21 @@ import com.example.digikala.utils.Constants.PERSIAN_LANG
 import com.example.digikala.utils.Constants.USER_LANGUAGE
 
 @Composable
-fun SearchBarSection(){
+fun SearchBarSection(
+    navController: NavHostController
+) {
 
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(65.dp),
+            .height(65.dp)
+            .clickable {
+                navController.navigate(Screen.Search.route)
+            },
         colors = CardDefaults.cardColors(
-            containerColor = if (isSystemInDarkTheme()){
+            containerColor = if (isSystemInDarkTheme()) {
                 Color.Black
-            }else{
+            } else {
                 Color.White
             }
         )
@@ -69,7 +77,7 @@ fun SearchBarSection(){
 
 
 @Composable
-private fun SearchBarElements(){
+private fun SearchBarElements() {
 
     Row(
         modifier = Modifier
@@ -78,7 +86,7 @@ private fun SearchBarElements(){
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start
     ) {
-        
+
         Icon(
             painter = painterResource(id = R.drawable.search),
             contentDescription = "",
@@ -96,23 +104,23 @@ private fun SearchBarElements(){
             modifier = Modifier
                 .padding(end = 5.dp)
         )
-        
+
         Image(
             painter = DigiKalaLogoByLang(),
             contentDescription = "",
             modifier = Modifier.width(80.dp)
         )
-        
+
     }
 
 }
 
 
 @Composable
-private fun DigiKalaLogoByLang(): Painter{
-    return if (USER_LANGUAGE == PERSIAN_LANG){
+private fun DigiKalaLogoByLang(): Painter {
+    return if (USER_LANGUAGE == PERSIAN_LANG) {
         painterResource(id = R.drawable.digi_red_persian)
-    }else{
+    } else {
         painterResource(id = R.drawable.digi_red_english)
     }
 }

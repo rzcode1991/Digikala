@@ -26,7 +26,7 @@ interface CartDao {
     suspend fun deleteCartItem(cart: CartItem)
 
     @Query("delete from shopping_cart where cartStatus=:status")
-    suspend fun deleteAllItems(status: CartStatus)
+    suspend fun deleteAllCurrentCartItems(status: CartStatus)
 
     @Query("delete from shopping_cart")
     suspend fun clearAllCartItems()

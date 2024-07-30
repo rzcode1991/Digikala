@@ -18,10 +18,16 @@ object Constants {
     const val SHOPPING_CART_TABLE = "shopping_cart"
     const val REF_ID_TABLE = "ref_ids"
     const val FAVORITE_ITEM_TABLE = "favorite_item"
+    const val ORDER_TABLE = "order_item_table"
     const val DATABASE_NAME = "digikala_database"
     const val ZARINPAL_MERCHANT_ID_old = BuildConfig.ZARIN_MERCHANT_ID
     const val ZARINPAL_MERCHANT_ID = "ce7101df-cb08-41f8-a20b-b21995173d8f"
     const val ZARINPAL_PAYMENT_URL = "https://www.zarinpal.com/pg/StartPay/"
+    const val WAIT_FOR_PAY_ORDER = "waitForPay"
+    const val PROCESSING_ORDER = "processing"
+    const val DELIVERED_ORDER = "delivered"
+    const val CANCELED_ORDER = "canceled"
+    const val RETURNED_ORDER = "returned"
 
     var USER_LANGUAGE = "USER_LANGUAGE"
     var USER_PHONE = ""

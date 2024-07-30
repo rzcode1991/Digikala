@@ -116,9 +116,9 @@ class BasketViewModel @Inject constructor(
         }
     }
 
-    fun deleteAllItems(){
+    fun deleteAllCurrentCartItems(){
         viewModelScope.launch(Dispatchers.IO) {
-            repository.deleteAllItems()
+            repository.deleteAllCurrentCartItems()
         }
     }
 

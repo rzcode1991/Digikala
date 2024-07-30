@@ -70,7 +70,7 @@ private fun SwipeRefreshSection(
         ){
 
             item {
-                SearchBarSection()
+                SearchBarSection(navController = navController)
             }
             item {
                 SubCategorySection(scope = refreshScope)

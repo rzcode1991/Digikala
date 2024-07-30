@@ -23,6 +23,7 @@ class DataStoreViewModel @Inject constructor(
         const val USER_NAME_KEY = "USER_NAME_KEY"
         const val ORDER_ID_KEY = "ORDER_ID_KEY"
         const val ORDER_PRICE_KEY = "ORDER_PRICE_KEY"
+        const val SELECTED_ADDRESS_INDEX_KEY = "SELECTED_ADDRESS_INDEX_KEY"
     }
 
     fun saveUserLanguage(language: String){
@@ -105,6 +106,16 @@ class DataStoreViewModel @Inject constructor(
         repository.getString(ORDER_PRICE_KEY)
     }
 
+    fun saveSelectedAddressIndex(index: Int){
+        viewModelScope.launch {
+            repository.putInt(SELECTED_ADDRESS_INDEX_KEY, index)
+        }
+    }
+
+    fun getSelectedAddressIndex(): Int? = runBlocking {
+        repository.getInt(SELECTED_ADDRESS_INDEX_KEY)
+    }
+
     fun clearDataStore(){
         viewModelScope.launch {
             try {
@@ -115,6 +126,7 @@ class DataStoreViewModel @Inject constructor(
                 saveUserName("user_name")
                 saveOrderId("")
                 saveOrderPrice("")
+                saveSelectedAddressIndex(0)
             } catch (e: Exception) {
                 Log.e("my_tag", "clearDataStore error: ${e.message}")
             }

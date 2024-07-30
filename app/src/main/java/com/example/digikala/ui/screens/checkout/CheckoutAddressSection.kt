@@ -18,6 +18,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -30,10 +31,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import com.example.digikala.R
-import com.example.digikala.data.model.basket.Address
+import com.example.digikala.data.model.address.Address
 import com.example.digikala.data.network.NetworkResult
+import com.example.digikala.navigation.Screen
 import com.example.digikala.ui.components.MyLoading
 import com.example.digikala.ui.theme.darkCyan
 import com.example.digikala.ui.theme.darkText
@@ -41,12 +44,14 @@ import com.example.digikala.ui.theme.searchBarBg
 import com.example.digikala.ui.theme.semiDarkText
 import com.example.digikala.ui.theme.spacing
 import com.example.digikala.utils.Constants.USER_ADDRESS
-import com.example.digikala.utils.Constants.USER_NAME
 import com.example.digikala.viewModel.AddressViewModel
+import com.example.digikala.viewModel.DataStoreViewModel
 
 @Composable
 fun CheckoutAddressSection(
-    viewModel: AddressViewModel = hiltViewModel()
+    navController: NavHostController,
+    addressViewModel: AddressViewModel = hiltViewModel(),
+    dataStoreViewModel: DataStoreViewModel = hiltViewModel()
 ){
 
     var userAddressList by remember {
@@ -56,20 +61,29 @@ fun CheckoutAddressSection(
         mutableStateOf(false)
     }
 
+    var selectedAddressIndex by remember {
+        mutableStateOf(0)
+    }
+
+    selectedAddressIndex = dataStoreViewModel.getSelectedAddressIndex() ?: 0
+
     var address = stringResource(id = R.string.no_address)
     var addressName = ""
     var addEditAddressTxt = stringResource(id = R.string.add_address)
 
-    val userAddressResult by viewModel.userAddressList.collectAsState()
+    LaunchedEffect(Unit){
+        addressViewModel.getUserAddressList()
+    }
+
+    val userAddressResult by addressViewModel.userAddressList.collectAsState()
     when(userAddressResult){
         is NetworkResult.Success -> {
             userAddressList = userAddressResult.data ?: emptyList()
             if (userAddressList.isNotEmpty()){
 
-                address = userAddressList[0].address
+                address = userAddressList[selectedAddressIndex].address
                 USER_ADDRESS = address
-                addressName = userAddressList[0].name
-                USER_NAME = addressName
+                addressName = userAddressList[selectedAddressIndex].name
                 addEditAddressTxt = stringResource(id = R.string.edit_address)
 
             }
@@ -155,7 +169,7 @@ fun CheckoutAddressSection(
                     end = MaterialTheme.spacing.medium
                 )
                 .clickable {
-                    // TODO
+                    navController.navigate(Screen.Address.route)
                 },
             horizontalArrangement = Arrangement.End,
             verticalAlignment = Alignment.CenterVertically

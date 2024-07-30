@@ -2,7 +2,8 @@ package com.example.digikala.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.digikala.data.model.basket.Address
+import com.example.digikala.data.model.address.AddAddressRequest
+import com.example.digikala.data.model.address.Address
 import com.example.digikala.data.network.NetworkResult
 import com.example.digikala.repository.AddressRepository
 import com.example.digikala.utils.Constants.USER_TOKEN
@@ -18,15 +19,19 @@ class AddressViewModel @Inject constructor(
 ): ViewModel() {
 
     val userAddressList = MutableStateFlow<NetworkResult<List<Address>>>(NetworkResult.Loading())
+    val addAddressResult = MutableStateFlow<NetworkResult<String>>(NetworkResult.Loading())
 
-    init {
-        getUserAddressList(USER_TOKEN)
+    fun getUserAddressList(){
+        viewModelScope.launch(Dispatchers.IO) {
+            userAddressList.emit(repository.getUserAddressList(USER_TOKEN))
+        }
     }
 
-    private fun getUserAddressList(token: String){
+    fun saveUserAddress(addressRequest: AddAddressRequest){
         viewModelScope.launch(Dispatchers.IO) {
-            userAddressList.emit(repository.getUserAddressList(token))
+            addAddressResult.emit(repository.saveUserAddress(addressRequest))
         }
+
     }
 
 }
